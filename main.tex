@@ -4,8 +4,10 @@
 \usepackage[english, french]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{fancyhdr}
+\usepackage[title,toc,titletoc,page]{appendix}
+\renewcommand{\appendixtocname}{Annexes}
+\renewcommand{\appendixpagename}{Annexes}
 \pagestyle{fancy}
-
 \pagestyle{headings}
 
 \title{Dossier de Projet}
@@ -39,7 +41,18 @@
 \end{titlepage}
 \tableofcontents
 \newpage
-\input{remerciements}
 \input{project-summary}
 \input{liste-des-competences}
+\input{introduction}
+\input{environnements-humain-technique}
+\input{cahier}
+\input{specifications-fonctionnelles}
+\input{specifications-techniques}
+\input{realisations}
+\input{jeu-essai}
+\input{veille-vulnerabilites-securite}
+\input{recherche}
+\input{conclusion}
+\input{remerciements}
+\input{annexes}
 \end{document}

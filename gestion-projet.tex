@@ -1,4 +1,39 @@
-\section{Gestion de projet}\label{sec:gestion-projet}
+\chapter{Gestion de projet}\label{ch:gestion-projet}
+
+Pendant mon alternance, j'ai très vite compris que pour l'entreprise, il est important de maintenir son esprit innovant, de constamment générer davantage de valeur, et d'être à l'écoute tout en s'ajustant selon les exigences de sa clientèle. La politique d'innovation de l'entreprise repose sur les recommandations émanant à la fois de ses clients et de ses collaborateurs. Un comité dédié à l'innovation se rassemble hebdomadairement pour examiner les suggestions les plus récentes. Chaque concept est traité, trié et priorisé. Il s'agit d'un processus en plusieurs étapes qui implique également d'autres comités, comme l'illustre la Figure~\ref{fig:committees} et la Table~\ref{tblr:character-committees}. Par la suite, l'ensemble de ces propositions est transmis au département Recherche et Développement en vue de la création de nouvelles fonctionnalités. Tous les quatre mois, de nouvelles options viennent enrichir l'ensemble des services, désignées sous le terme ``Editions''.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{img/committees}
+    \caption{La participation des différents comités au processus de traitement des idées d'innovation.}
+    \label{fig:committees}
+\end{figure}
+
+Une édition représente le fruit de quatre mois de travail de développement, cependant, son élaboration ne s'arrête pas là. Elle englobe la mise en place et la planification des activités de communication (marketing), la formation des équipes support et commerce, la rédaction de manuels et de tutoriels destinés aux clients, ainsi que la préparation des prochaines éditions à venir.
+
+\begin{longtblr}[
+    caption={Les caractéristiques des différents comités.},
+    label={tblr:character-committees}
+    ]{
+    hlines,vlines,
+    rowspec={Q[m,font=\footnotesize\bfseries,gray9]*{7}{Q[m,font=\footnotesize]}}
+    }
+    {Nom du        \\ comité}       & {Récur-\\rence}   & Objectif          & Entrées & Sorties \\
+    {Comité        \\ d'innovation} & {Hebdo-\\madaire} & {Première analyse                     \\ des idées exprimées                     \\ puis étude de l'intérêt \\ de chaque idée.} & {Liste des \\ idées} & {Idées clarifiées, \\ note par niveau \\ d'intérêt} \\
+    {Comité        \\ d'innovation \\ avancé} & Mensuel & {Clarifier les \\ spécifications \\ fonctionnelles des \\ idées exprimées au \\ cours des comités \\ d'innovations.} & {Ordre du jour \\ des idées, déjà \\ analysées} & {Réponses aux \\ questions \\ à l'ordre du \\ jour, ajoutées \\ aux backlog} \\
+    {Comité        \\ fonctionnel \\ exceptionnel} & {Excep-\\tionnel} & {Le PO sollicite une \\ partie prenante \\ identifiée, qui devrait \\ lui permettre de \\ lever un certain \\ nombre de questions \\ autour d'une \\ fonctionnalité.} & {Fonctionnalités, \\ déjà analysées \\ et comportant \\ toujours \\ des questions} & {Les réponses \\ sont ajoutées \\ aux \\ fonctionnalités} \\
+    {Comité        \\ tech} & {En fonction \\ des items \\ en attente \\ de chiffrage \\ dans le \\ backlog. \\ Au moins \\ hebdo-\\madaire.} & {Une présentation \\ des items, validés \\ fonctionnellement, \\ pour faire ressortir \\ un macro-chiffrage, \\ réalisé par l'équipe \\ d'expert.} & {Fonctionnalités \\ prêtes du \\ backlog \\ produit} & {Macro-chiffrage \\ ou questions \\ fonctionnelles} \\
+    {Comité        \\ pilotage} & {Bimestriel} & {Donner une vision \\ claire de l'avancement \\ du travail réalisé \\ pour les services \\ concernés.} & {Indicateur clé \\ de performance \\ à partager} & {Adaptations \\ à mettre en \\ œuvre} \\
+    {Comité        \\ d'édition} & {Bimestriel} & {Établir une \\ constitution \\ d'édition à partir \\ des idées prêtes. \\ En déduire un \\ objectif d'édition \\ permettant de \\ fédérer autour \\ d'une réalisation.} & {Fonctionnalités \\ prêtes, analyse du \\ temps disponible \\ faite à partir \\ des paramètres \\ vélocité / nombre \\ de demandes \\ courantes / dette \\ technique \dots
+    } & {Liste des \\ composants \\ d'édition, \\ objectif \\ d'édition} \\
+    {Comité        \\ présentation \\ technique /\\ Kickoff \\ Edition} & {En début \\ d'édition} & {Une présentation des \\ items embarqués dans \\ l'édition, ainsi qu'un \\ focus sur l'objectif \\ d'édition.} & {L'objectif, \\ le contenu \\ d'édition} & {Le retour \\ de l'équipe \\ sur le contenu \\ et l'objectif}
+\end{longtblr}
 
 \input{agile}
 \input{jira}
+
+\input{versioning-git-gitlab}
+
+\input{ci-cd}
+
+\input{cycle-de-vie}

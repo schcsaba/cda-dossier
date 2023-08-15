@@ -14,4 +14,5 @@ RUN tlmgr install babel-french && \
     tlmgr install ninecolors && \
     tlmgr install hyphen-english && \
     tlmgr install hyphen-french  && \
-    tlmgr install hyphen-hungarian
+    tlmgr install hyphen-hungarian && \
+    tlmgr install wrapfig

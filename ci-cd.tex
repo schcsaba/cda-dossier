@@ -5,3 +5,39 @@ L'équipe Infrastructure/DevOps utilise TeamCity qui est une plateforme d'intég
 Une caractéristique clé de TeamCity est sa capacité à détecter automatiquement les changements dans le code source et à déclencher des builds et des tests en conséquence. Cela permet aux équipes de détecter rapidement les problèmes et de s'assurer que le code reste stable et fonctionnel à chaque étape du développement.
 
 En outre, TeamCity offre des fonctionnalités avancées telles que la gestion des agents de construction, la parallélisation des tâches, la gestion des paramètres de build et des rapports détaillés sur les résultats des tests. Cette plateforme aide les équipes à maintenir un processus de développement fluide et à garantir la qualité du code grâce à l'automatisation et à la surveillance continue.
+
+Comme l'indique la Table~\ref{tblr:environments} (page~\pageref{tblr:environments}), le déploiement des branches \mintinline{console}{develop} et \mintinline{console}{release} dans les environnements recette-develop et recette-releases est automatique. Lors d'un commit ou d'un merge dans la branche \mintinline{console}{develop} ou \mintinline{console}{release}, TeamCity intercepte l'événement et lance automatiquement les actions ci-dessous :
+
+\begin{itemize}
+    \item Compilation du code
+    \item Exécution des tests unitaires
+    \item Création des fichiers de publication
+    \item Création du package de publication
+    \item Upload de la mise à jour sur Lambda
+    \item Création d'une version et déploiement sur l'environnement correspondant
+\end{itemize}
+
+Ces actions s'enchaînent sauf en cas d'erreur dans l'une d'elle. Dans ce cas, la build est en échec et les actions s'interrompent.
+
+Pour la branche \mintinline{console}{master} et l'environnement de production, le processus de déploiement est lancé manuellement par l'équipe DevOps.
+
+Pendant mon alternance, je n'ai pas eu accès au portail TeamCity, parce qu'il était géré et utilisé par l'équipe DevOps. En plus, je travaillais principalement sur un tout nouveau projet dont le déploiement n'était pas encore intégré dans TeamCity. Je ne l'ai donc pas vu de l'intérieur. Cependant, j'ai vu les résultats de son fonctionnement lorsque j'ai travaillé parfois sur d'autres projets (ex. Portail, API, Gestion de Parc, Cores) qui ont été déployés par TeamCity. Lorsque je travaillais sur des bogues ou des fonctionnalités et que ma branche était fusionnée dans la branche \mintinline{console}{release} ou \mintinline{console}{develop}, je voyais le message dans Slack (qui est la plateforme de communication utilisée par les équipes R\&D) que le déploiement avait commencé et plus tard un autre message sur le succès ou l'échec du déploiement. Après un déploiement réussi, bien sûr, j'ai vu aussi que les modifications que j'ai faites ont été appliquées dans l'environnement recette-releases ou recette-develop.
+
+\subsection{Le déploiement des paquets de projet Cores}
+
+Le déploiement des paquets PHP dans le projet Cores est bien sûr différent du déploiement des autres projets. La procédure est la suivante :
+
+\begin{enumerate}
+    \item \textbf{Le développeur met à jour le paquet dans GitLab} : Un développeur apporte des modifications et des mises à jour au code du paquet, éventuellement en corrigeant des bogues ou en ajoutant de nouvelles fonctionnalités. Il enregistre ces modifications dans le dépôt GitLab.
+    \item \textbf{Augmentation de la version du paquet Composer} : Dans le fichier \mintinline{console}{composer.json} du paquet, le développeur incrémente le numéro de version du paquet. Il s'agit d'une étape importante pour que Composer reconnaisse qu'une mise à jour a eu lieu.
+    \item \textbf{Notifier Satis} : Déclencher le processus de mise à jour pour Satis en exécutant le script créé à cet effet.
+    \item \textbf{Processus de mise à jour de Satis} : Le déclenchement du processus de mise à jour de Satis implique l'exécution d'une commande qui régénère les métadonnées statiques de Composer pour le dépôt Satis. Cette commande récupère les dernières informations du dépôt GitLab et met à jour les métadonnées en conséquence.
+    \item \textbf{Paquet mis à jour dans le dépôt Satis} : Le paquet mis à jour avec sa nouvelle version est maintenant inclus dans le dépôt Satis. Cela signifie que le paquet mis à jour est maintenant disponible pour l'installation via Composer à partir du dépôt privé Satis.
+    \item \textbf{Composer Update} : Les développeurs travaillant sur des projets qui dépendent de ce paquet mis à jour peuvent maintenant utiliser Composer pour mettre à jour leurs dépendances. Lorsqu'ils lancent composer update ou composer require, Composer vérifie le dépôt Satis, trouve la nouvelle version du paquetage mis à jour, le télécharge et l'installe dans leur projet.
+\end{enumerate}
+
+Comme nous pouvons le constater, ce processus n'est pas encore automatisé à l'exception du fichier script pour notifier Satis. Dans ce processus manuel, il est de la responsabilité du développeur ou de l'équipe DevOps de notifier le Satis et de déclencher la mise à jour.
+
+\subsection{Le déploiement du projet Pipeline documentaire}
+
+Comme je l'ai mentionné précédemment, étant un nouveau projet, le déploiement du projet Pipeline documentaire n'est pas encore intégré dans TeamCity, il est fait de manière semi-automatique par l'équipe DevOps. Il peut être qualifié de semi-automatique car le projet fonctionne dans des conteneurs Docker\footnote{Docker est une plateforme de virtualisation légère et portable qui permet de créer, déployer et exécuter des applications dans des conteneurs. Les conteneurs sont des environnements isolés qui regroupent tous les éléments nécessaires à l'exécution d'une application, tels que le code, les bibliothèques et les dépendances. Cela garantit une cohérence entre les environnements de développement, de test et de production, simplifiant ainsi le processus de déploiement.} pendant le développement ainsi qu'en production, il a donc un \mintinline{console}{Dockerfile},\footnote{Un \mintinline{console}{Dockerfile} est un fichier texte qui contient les instructions pour construire une image Docker. Une image Docker est un modèle d'environnement qui contient tous les composants nécessaires pour exécuter une application. Le \mintinline{console}{Dockerfile} décrit les étapes pour installer les dépendances, copier les fichiers de l'application et configurer l'environnement. Une fois le \mintinline{console}{Dockerfile} créé, il peut être utilisé pour générer une image Docker prête à être exécutée dans un conteneur.} un fichier \mintinline{console}{docker-compose.yaml}\footnote{Le fichier \mintinline{console}{docker-compose.yaml} est un autre élément clé dans l'écosystème Docker. Il permet de définir et de gérer plusieurs conteneurs interconnectés en tant qu'application unique. Ce fichier décrit les services, les images, les ports exposés et les liens entre les conteneurs, facilitant ainsi le déploiement et la gestion d'applications complexes à plusieurs composants.} et l'équipe DevOps a créé un fichier de script d'installation aussi.

@@ -1,0 +1,25 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{FROM}\PYG{+w}{ }\PYG{l+s}{php:8.1\PYGZhy{}fpm\PYGZhy{}alpine}
+
+\PYG{k}{WORKDIR}\PYG{+w}{ }\PYG{l+s}{/var/www/apps/pipelinedoc\PYGZhy{}source/}
+\PYG{k}{RUN}\PYG{+w}{ }mkdir\PYG{+w}{ }/var/log/supervisor
+\PYG{k}{RUN}\PYG{+w}{ }docker\PYGZhy{}php\PYGZhy{}ext\PYGZhy{}install\PYG{+w}{ }pdo\PYG{+w}{ }pdo\PYGZus{}mysql
+\PYG{k}{RUN}\PYG{+w}{ }apk\PYG{+w}{ }add\PYG{+w}{ }\PYGZhy{}\PYGZhy{}update\PYG{+w}{ }supervisor\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }rm\PYG{+w}{  }\PYGZhy{}rf\PYG{+w}{ }/tmp/*\PYG{+w}{ }/var/cache/apk/*
+
+\PYG{k}{COPY}\PYG{+w}{ }\PYGZhy{}\PYGZhy{}from\PYG{o}{=}composer:2.4.4\PYG{+w}{ }/usr/bin/composer\PYG{+w}{ }/usr/local/bin/composer
+
+\PYG{k}{USER}\PYG{+w}{ }\PYG{l+s}{root}
+\PYG{k}{COPY}\PYG{+w}{ }./apps/pipelinedoc\PYGZhy{}source\PYG{+w}{ }.
+
+\PYG{k}{ADD}\PYG{+w}{ }supervisord.conf\PYG{+w}{ }/etc/
+
+\PYG{k}{RUN}\PYG{+w}{ }composer\PYG{+w}{ }install
+\PYG{k}{RUN}\PYG{+w}{ }chown\PYG{+w}{ }www\PYGZhy{}data:www\PYGZhy{}data\PYG{+w}{ }\PYGZhy{}R\PYG{+w}{ }storage/
+\PYG{k}{RUN}\PYG{+w}{ }php\PYG{+w}{ }artisan\PYG{+w}{ }config:cache
+
+\PYG{k}{EXPOSE}\PYG{+w}{ }\PYG{l+s}{9000}
+\PYG{k}{EXPOSE}\PYG{+w}{ }\PYG{l+s}{9001}
+
+\PYG{k}{ENTRYPOINT}\PYG{+w}{ }\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}supervisord\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}\PYGZhy{}nodaemon\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}\PYGZhy{}configuration\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}/etc/supervisord.conf\PYGZdq{}}\PYG{p}{]}
+\PYG{k}{RUN}\PYG{+w}{ }php\PYG{+w}{ }artisan\PYG{+w}{ }config:cache
+\end{Verbatim}

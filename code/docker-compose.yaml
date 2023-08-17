@@ -1,0 +1,65 @@
+version: "3.6"
+services:
+  pipelinedoc:
+    build:
+      context: .
+      dockerfile: app.dockerfile
+    container_name: pipelinedoc
+    volumes:
+      - pipeline-doc:/var/www/apps/
+      - .env:/var/www/apps/pipelinedoc-source/.env
+      - ./queue-listen.conf:/etc/supervisor/conf.d/queue-listen.conf
+      - ./php-fpm.conf:/etc/supervisor/conf.d/php-fpm.conf
+      - ./supervisord.conf:/etc/supervisord.conf
+    networks:
+      - app-network
+    ports:
+      - "9001:9001"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.3'
+          memory: 800M
+        reservations:
+          cpus: '0.0005'
+          memory: 100M
+
+  webserver:
+    image: nginx:stable-alpine
+    container_name: webserver
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - app-network
+    volumes:
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+      - pipeline-doc:/var/www/apps/
+      - /etc/letsencrypt/live/corp.suivideflotte.net/:/etc/nginx/certs
+    depends_on:
+      - pipelinedoc
+      - database
+
+  database:
+    image: mariadb:10
+    container_name: database
+    volumes:
+     - dbdata:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: appdb
+      MYSQL_ROOT_PASSWORD: 123456
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  dbdata:
+  pipeline-doc:
+    driver: local

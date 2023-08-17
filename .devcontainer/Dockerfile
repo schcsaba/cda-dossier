@@ -15,4 +15,9 @@ RUN tlmgr install babel-french && \
     tlmgr install hyphen-english && \
     tlmgr install hyphen-french  && \
     tlmgr install hyphen-hungarian && \
-    tlmgr install wrapfig
+    tlmgr install wrapfig && \
+    tlmgr install listings && \
+    tlmgr install newfloat && \
+    tlmgr install cprotect && \
+    tlmgr install bigfoot && \
+    tlmgr install caption

@@ -1,0 +1,67 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n+nt}{version}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}3.6\PYGZdq{}}
+\PYG{n+nt}{services}\PYG{p}{:}
+\PYG{+w}{  }\PYG{n+nt}{pipelinedoc}\PYG{p}{:}
+\PYG{+w}{    }\PYG{n+nt}{build}\PYG{p}{:}
+\PYG{+w}{      }\PYG{n+nt}{context}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{.}
+\PYG{+w}{      }\PYG{n+nt}{dockerfile}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{app.dockerfile}
+\PYG{+w}{    }\PYG{n+nt}{container\PYGZus{}name}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{pipelinedoc}
+\PYG{+w}{    }\PYG{n+nt}{volumes}\PYG{p}{:}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{pipeline\PYGZhy{}doc:/var/www/apps/}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{.env:/var/www/apps/pipelinedoc\PYGZhy{}source/.env}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{./queue\PYGZhy{}listen.conf:/etc/supervisor/conf.d/queue\PYGZhy{}listen.conf}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{./php\PYGZhy{}fpm.conf:/etc/supervisor/conf.d/php\PYGZhy{}fpm.conf}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{./supervisord.conf:/etc/supervisord.conf}
+\PYG{+w}{    }\PYG{n+nt}{networks}\PYG{p}{:}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{app\PYGZhy{}network}
+\PYG{+w}{    }\PYG{n+nt}{ports}\PYG{p}{:}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}9001:9001\PYGZdq{}}
+\PYG{+w}{    }\PYG{n+nt}{deploy}\PYG{p}{:}
+\PYG{+w}{      }\PYG{n+nt}{resources}\PYG{p}{:}
+\PYG{+w}{        }\PYG{n+nt}{limits}\PYG{p}{:}
+\PYG{+w}{          }\PYG{n+nt}{cpus}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}0.3\PYGZsq{}}
+\PYG{+w}{          }\PYG{n+nt}{memory}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{800M}
+\PYG{+w}{        }\PYG{n+nt}{reservations}\PYG{p}{:}
+\PYG{+w}{          }\PYG{n+nt}{cpus}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}0.0005\PYGZsq{}}
+\PYG{+w}{          }\PYG{n+nt}{memory}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{100M}
+
+\PYG{+w}{  }\PYG{n+nt}{webserver}\PYG{p}{:}
+\PYG{+w}{    }\PYG{n+nt}{image}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{nginx:stable\PYGZhy{}alpine}
+\PYG{+w}{    }\PYG{n+nt}{container\PYGZus{}name}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{webserver}
+\PYG{+w}{    }\PYG{n+nt}{ports}\PYG{p}{:}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}80:80\PYGZdq{}}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}443:443\PYGZdq{}}
+\PYG{+w}{    }\PYG{n+nt}{networks}\PYG{p}{:}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{app\PYGZhy{}network}
+\PYG{+w}{    }\PYG{n+nt}{volumes}\PYG{p}{:}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{./nginx/conf.d/:/etc/nginx/conf.d/}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{pipeline\PYGZhy{}doc:/var/www/apps/}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{/etc/letsencrypt/live/corp.suivideflotte.net/:/etc/nginx/certs}
+\PYG{+w}{    }\PYG{n+nt}{depends\PYGZus{}on}\PYG{p}{:}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{pipelinedoc}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{database}
+
+\PYG{+w}{  }\PYG{n+nt}{database}\PYG{p}{:}
+\PYG{+w}{    }\PYG{n+nt}{image}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{mariadb:10}
+\PYG{+w}{    }\PYG{n+nt}{container\PYGZus{}name}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{database}
+\PYG{+w}{    }\PYG{n+nt}{volumes}\PYG{p}{:}
+\PYG{+w}{     }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{dbdata:/var/lib/mysql}
+\PYG{+w}{    }\PYG{n+nt}{ports}\PYG{p}{:}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}3306:3306\PYGZdq{}}
+\PYG{+w}{    }\PYG{n+nt}{environment}\PYG{p}{:}
+\PYG{+w}{      }\PYG{n+nt}{MYSQL\PYGZus{}DATABASE}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{appdb}
+\PYG{+w}{      }\PYG{n+nt}{MYSQL\PYGZus{}ROOT\PYGZus{}PASSWORD}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{123456}
+\PYG{+w}{      }\PYG{n+nt}{SERVICE\PYGZus{}TAGS}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{dev}
+\PYG{+w}{      }\PYG{n+nt}{SERVICE\PYGZus{}NAME}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{mysql}
+\PYG{+w}{    }\PYG{n+nt}{networks}\PYG{p}{:}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{app\PYGZhy{}network}
+
+\PYG{n+nt}{networks}\PYG{p}{:}
+\PYG{+w}{  }\PYG{n+nt}{app\PYGZhy{}network}\PYG{p}{:}
+\PYG{+w}{    }\PYG{n+nt}{driver}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{bridge}
+
+\PYG{n+nt}{volumes}\PYG{p}{:}
+\PYG{+w}{  }\PYG{n+nt}{dbdata}\PYG{p}{:}
+\PYG{+w}{  }\PYG{n+nt}{pipeline\PYGZhy{}doc}\PYG{p}{:}
+\PYG{+w}{    }\PYG{n+nt}{driver}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{local}
+\end{Verbatim}

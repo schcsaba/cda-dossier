@@ -1,0 +1,25 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{l+lScalar+lScalarPlain}{FROM php:8.1\PYGZhy{}fpm\PYGZhy{}alpine}
+
+\PYG{l+lScalar+lScalarPlain}{WORKDIR /var/www/apps/pipelinedoc\PYGZhy{}source/}
+\PYG{l+lScalar+lScalarPlain}{RUN mkdir /var/log/supervisor}
+\PYG{l+lScalar+lScalarPlain}{RUN docker\PYGZhy{}php\PYGZhy{}ext\PYGZhy{}install pdo pdo\PYGZus{}mysql}
+\PYG{l+lScalar+lScalarPlain}{RUN apk add \PYGZhy{}\PYGZhy{}update supervisor \PYGZam{}\PYGZam{} rm  \PYGZhy{}rf /tmp/* /var/cache/apk/*}
+
+\PYG{l+lScalar+lScalarPlain}{COPY \PYGZhy{}\PYGZhy{}from=composer:2.4.4 /usr/bin/composer /usr/local/bin/composer}
+
+\PYG{l+lScalar+lScalarPlain}{USER root}
+\PYG{l+lScalar+lScalarPlain}{COPY ./apps/pipelinedoc\PYGZhy{}source .}
+
+\PYG{l+lScalar+lScalarPlain}{ADD supervisord.conf /etc/}
+
+\PYG{l+lScalar+lScalarPlain}{RUN composer install}
+\PYG{l+lScalar+lScalarPlain}{RUN chown www\PYGZhy{}data:www\PYGZhy{}data \PYGZhy{}R storage/}
+\PYG{l+lScalar+lScalarPlain}{RUN php artisan config:cache}
+
+\PYG{l+lScalar+lScalarPlain}{EXPOSE 9000}
+\PYG{l+lScalar+lScalarPlain}{EXPOSE 9001}
+
+\PYG{l+lScalar+lScalarPlain}{ENTRYPOINT [\PYGZdq{}supervisord\PYGZdq{}, \PYGZdq{}\PYGZhy{}\PYGZhy{}nodaemon\PYGZdq{}, \PYGZdq{}\PYGZhy{}\PYGZhy{}configuration\PYGZdq{}, \PYGZdq{}/etc/supervisord.conf\PYGZdq{}]}
+\PYG{l+lScalar+lScalarPlain}{RUN php artisan config:cache}
+\end{Verbatim}

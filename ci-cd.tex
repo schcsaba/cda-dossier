@@ -6,7 +6,7 @@ Une caractéristique clé de TeamCity est sa capacité à détecter automatiquem
 
 En outre, TeamCity offre des fonctionnalités avancées telles que la gestion des agents de construction, la parallélisation des tâches, la gestion des paramètres de build et des rapports détaillés sur les résultats des tests. Cette plateforme aide les équipes à maintenir un processus de développement fluide et à garantir la qualité du code grâce à l'automatisation et à la surveillance continue.
 
-Comme l'indique la Table~\ref{tblr:environments} (page~\pageref{tblr:environments}), le déploiement des branches \mintinline{console}{develop} et \mintinline{console}{release} dans les environnements recette-develop et recette-releases est automatique. Lors d'un commit ou d'un merge dans la branche \mintinline{console}{develop} ou \mintinline{console}{release}, TeamCity intercepte l'événement et lance automatiquement les actions ci-dessous :
+Comme l'indique la Table~\ref{tblr:environments} (page~\pageref{tblr:environments}), le déploiement des branches \Verb|develop| et \Verb|release| dans les environnements recette-develop et recette-releases est automatique. Lors d'un commit ou d'un merge dans la branche \Verb|develop| ou \Verb|release|, TeamCity intercepte l'événement et lance automatiquement les actions ci-dessous :
 
 \begin{itemize}
     \item Compilation du code
@@ -19,25 +19,141 @@ Comme l'indique la Table~\ref{tblr:environments} (page~\pageref{tblr:environment
 
 Ces actions s'enchaînent sauf en cas d'erreur dans l'une d'elle. Dans ce cas, la build est en échec et les actions s'interrompent.
 
-Pour la branche \mintinline{console}{master} et l'environnement de production, le processus de déploiement est lancé manuellement par l'équipe DevOps.
+Pour la branche \Verb|master| et l'environnement de production, le processus de déploiement est lancé manuellement par l'équipe DevOps.
 
-Pendant mon alternance, je n'ai pas eu accès au portail TeamCity, parce qu'il était géré et utilisé par l'équipe DevOps. En plus, je travaillais principalement sur un tout nouveau projet dont le déploiement n'était pas encore intégré dans TeamCity. Je ne l'ai donc pas vu de l'intérieur. Cependant, j'ai vu les résultats de son fonctionnement lorsque j'ai travaillé parfois sur d'autres projets (ex. Portail, API, Gestion de Parc, Cores) qui ont été déployés par TeamCity. Lorsque je travaillais sur des bogues ou des fonctionnalités et que ma branche était fusionnée dans la branche \mintinline{console}{release} ou \mintinline{console}{develop}, je voyais le message dans Slack (qui est la plateforme de communication utilisée par les équipes R\&D) que le déploiement avait commencé et plus tard un autre message sur le succès ou l'échec du déploiement. Après un déploiement réussi, bien sûr, j'ai vu aussi que les modifications que j'ai faites ont été appliquées dans l'environnement recette-releases ou recette-develop.
+Pendant mon alternance, je n'ai pas eu accès au portail TeamCity, parce qu'il était géré et utilisé par l'équipe DevOps. En plus, je travaillais principalement sur un tout nouveau projet dont le déploiement n'était pas encore intégré dans TeamCity. Je ne l'ai donc pas vu de l'intérieur. Cependant, j'ai vu les résultats de son fonctionnement lorsque j'ai travaillé parfois sur d'autres projets (ex. Portail, API, Gestion de Parc, Cores) qui ont été déployés par TeamCity. Lorsque je travaillais sur des bogues ou des fonctionnalités et que ma branche était fusionnée dans la branche \Verb|release| ou \Verb|develop|, je voyais le message dans Slack (qui est la plateforme de communication utilisée par les équipes R\&D) que le déploiement avait commencé et plus tard un autre message sur le succès ou l'échec du déploiement. Après un déploiement réussi, bien sûr, j'ai vu aussi que les modifications que j'ai faites ont été appliquées dans l'environnement recette-releases ou recette-develop.
 
 \subsection{Le déploiement des paquets de projet Cores}
 
 Le déploiement des paquets PHP dans le projet Cores est bien sûr différent du déploiement des autres projets. La procédure est la suivante :
 
 \begin{enumerate}
-    \item \textbf{Le développeur met à jour le paquet dans GitLab} : Un développeur apporte des modifications et des mises à jour au code du paquet, éventuellement en corrigeant des bogues ou en ajoutant de nouvelles fonctionnalités. Il enregistre ces modifications dans le dépôt GitLab.
-    \item \textbf{Augmentation de la version du paquet Composer} : Dans le fichier \mintinline{console}{composer.json} du paquet, le développeur incrémente le numéro de version du paquet. Il s'agit d'une étape importante pour que Composer reconnaisse qu'une mise à jour a eu lieu.
-    \item \textbf{Notifier Satis} : Déclencher le processus de mise à jour pour Satis en exécutant le script créé à cet effet.
-    \item \textbf{Processus de mise à jour de Satis} : Le déclenchement du processus de mise à jour de Satis implique l'exécution d'une commande qui régénère les métadonnées statiques de Composer pour le dépôt Satis. Cette commande récupère les dernières informations du dépôt GitLab et met à jour les métadonnées en conséquence.
-    \item \textbf{Paquet mis à jour dans le dépôt Satis} : Le paquet mis à jour avec sa nouvelle version est maintenant inclus dans le dépôt Satis. Cela signifie que le paquet mis à jour est maintenant disponible pour l'installation via Composer à partir du dépôt privé Satis.
-    \item \textbf{Composer Update} : Les développeurs travaillant sur des projets qui dépendent de ce paquet mis à jour peuvent maintenant utiliser Composer pour mettre à jour leurs dépendances. Lorsqu'ils lancent composer update ou composer require, Composer vérifie le dépôt Satis, trouve la nouvelle version du paquetage mis à jour, le télécharge et l'installe dans leur projet.
+    \item \textbf{Le développeur met à jour le paquet dans GitLab :} Un développeur apporte des modifications et des mises à jour au code du paquet, éventuellement en corrigeant des bogues ou en ajoutant de nouvelles fonctionnalités. Il enregistre ces modifications dans le dépôt GitLab.
+    \item \textbf{Augmentation de la version du paquet Composer :} Dans le fichier \Verb|composer.json| du paquet, le développeur incrémente le numéro de version du paquet. Il s'agit d'une étape importante pour que Composer reconnaisse qu'une mise à jour a eu lieu.
+    \item \textbf{Notifier Satis :} Déclencher le processus de mise à jour pour Satis en exécutant le script créé à cet effet.
+    \item \textbf{Processus de mise à jour de Satis :} Le déclenchement du processus de mise à jour de Satis implique l'exécution d'une commande qui régénère les métadonnées statiques de Composer pour le dépôt Satis. Cette commande récupère les dernières informations du dépôt GitLab et met à jour les métadonnées en conséquence.
+    \item \textbf{Paquet mis à jour dans le dépôt Satis :} Le paquet mis à jour avec sa nouvelle version est maintenant inclus dans le dépôt Satis. Cela signifie que le paquet mis à jour est maintenant disponible pour l'installation via Composer à partir du dépôt privé Satis.
+    \item \textbf{Composer Update :} Les développeurs travaillant sur des projets qui dépendent de ce paquet mis à jour peuvent maintenant utiliser Composer pour mettre à jour leurs dépendances. Lorsqu'ils lancent composer update ou composer require, Composer vérifie le dépôt Satis, trouve la nouvelle version du paquetage mis à jour, le télécharge et l'installe dans leur projet.
 \end{enumerate}
 
 Comme nous pouvons le constater, ce processus n'est pas encore automatisé à l'exception du fichier script pour notifier Satis. Dans ce processus manuel, il est de la responsabilité du développeur ou de l'équipe DevOps de notifier le Satis et de déclencher la mise à jour.
 
 \subsection{Le déploiement du projet Pipeline documentaire}
 
-Comme je l'ai mentionné précédemment, étant un nouveau projet, le déploiement du projet Pipeline documentaire n'est pas encore intégré dans TeamCity, il est fait de manière semi-automatique par l'équipe DevOps. Il peut être qualifié de semi-automatique car le projet fonctionne dans des conteneurs Docker\footnote{Docker est une plateforme de virtualisation légère et portable qui permet de créer, déployer et exécuter des applications dans des conteneurs. Les conteneurs sont des environnements isolés qui regroupent tous les éléments nécessaires à l'exécution d'une application, tels que le code, les bibliothèques et les dépendances. Cela garantit une cohérence entre les environnements de développement, de test et de production, simplifiant ainsi le processus de déploiement.} pendant le développement ainsi qu'en production, il a donc un \mintinline{console}{Dockerfile},\footnote{Un \mintinline{console}{Dockerfile} est un fichier texte qui contient les instructions pour construire une image Docker. Une image Docker est un modèle d'environnement qui contient tous les composants nécessaires pour exécuter une application. Le \mintinline{console}{Dockerfile} décrit les étapes pour installer les dépendances, copier les fichiers de l'application et configurer l'environnement. Une fois le \mintinline{console}{Dockerfile} créé, il peut être utilisé pour générer une image Docker prête à être exécutée dans un conteneur.} un fichier \mintinline{console}{docker-compose.yaml}\footnote{Le fichier \mintinline{console}{docker-compose.yaml} est un autre élément clé dans l'écosystème Docker. Il permet de définir et de gérer plusieurs conteneurs interconnectés en tant qu'application unique. Ce fichier décrit les services, les images, les ports exposés et les liens entre les conteneurs, facilitant ainsi le déploiement et la gestion d'applications complexes à plusieurs composants.} et l'équipe DevOps a créé un fichier de script d'installation aussi.
+Comme je l'ai mentionné précédemment, étant un nouveau projet, le déploiement du projet Pipeline documentaire n'est pas encore intégré dans TeamCity, il est fait de manière semi-automatique par l'équipe DevOps. Il peut être qualifié de semi-automatique car le projet fonctionne dans des conteneurs Docker\footnote{Docker est une plateforme de virtualisation légère et portable qui permet de créer, déployer et exécuter des applications dans des conteneurs. Les conteneurs sont des environnements isolés qui regroupent tous les éléments nécessaires à l'exécution d'une application, tels que le code, les bibliothèques et les dépendances. Cela garantit une cohérence entre les environnements de développement, de test et de production, simplifiant ainsi le processus de déploiement.} pendant le développement ainsi qu'en production, il a donc un \Verb|Dockerfile|,\cprotect\footnote{Un \Verb|Dockerfile| est un fichier texte qui contient les instructions pour construire une image Docker. Une image Docker est un modèle d'environnement qui contient tous les composants nécessaires pour exécuter une application. Le \Verb|Dockerfile| décrit les étapes pour installer les dépendances, copier les fichiers de l'application et configurer l'environnement. Une fois le \Verb|Dockerfile| créé, il peut être utilisé pour générer une image Docker prête à être exécutée dans un conteneur.} un fichier \Verb|docker-compose.yaml|\cprotect\footnote{Le fichier \Verb|docker-compose.yaml| est un autre élément clé dans l'écosystème Docker. Il permet de définir et de gérer plusieurs conteneurs interconnectés en tant qu'application unique. Ce fichier décrit les services, les images, les ports exposés et les liens entre les conteneurs, facilitant ainsi le déploiement et la gestion d'applications complexes à plusieurs composants.} et l'équipe DevOps a créé un fichier de script d'installation aussi. Je décrirai brièvement ces fichiers et à travers eux le processus de déploiement.
+
+Le fichier de script se présente comme suit (Code source~\ref{code:bash-installation-script}).
+
+\begin{code}
+    \caption{Le script bash pour installer le projet de Pipeline documentaire en production.}
+    \inputminted{bash}{code/cicd.sh}
+    \label{code:bash-installation-script}
+\end{code}
+
+Comme on peut le voir, ce code est un script Bash conçu pour faciliter la gestion de l'application utilisant Docker. Les principales étapes du script sont les suivantes :
+
+\begin{enumerate}
+    \item \textbf{Préparation des variables et chemins :} Les variables telles que \Verb|DOCKER_VOLUME_PATH|, \Verb|APP_PATH|, \Verb|VOLUME_NAME|, et \Verb|CODE_PATH| sont utilisées pour stocker les chemins vers les emplacements pertinents sur le système de fichiers. Par exemple, \Verb|DOCKER_VOLUME_PATH| indique le répertoire des volumes Docker et \Verb|APP_PATH| pointe vers le répertoire de l'application.
+    \item \textbf{Sauvegarde du volume actuel :} Avant toute modification, le script renomme le volume Docker en y ajoutant la marque "rollback" et la date actuelle. Cela crée une sauvegarde du volume actuel, ce qui peut s'avérer utile en cas de problèmes.
+    \item \textbf{Mise à jour du code source :} Le script se déplace dans le répertoire du code source de l'application et effectue une opération \Verb|git pull| pour mettre à jour le code à partir le dépôt GitLab. Cela permet de s'assurer que l'application utilise la dernière version du code source.
+    \item \textbf{Arrêt des conteneurs existants :} Les conteneurs définis dans le fichier de composition Docker sont arrêtés à l'aide de la commande \Verb|docker-compose| \Verb|down|. Cela permet de libérer les ressources et de préparer l'environnement pour les mises à jour et les changements.
+    \item \textbf{Suppression du volume précédent :} Le volume Docker qui avait été renommé en début de script est supprimé à l'aide de \Verb|docker volume rm|. Cela permet de nettoyer l'espace en supprimant le volume précédent.
+    \item \textbf{Construction et lancement des conteneurs :} Enfin, le script utilise \Verb|docker-compose up| pour construire et lancer les conteneurs Docker, en utilisant les instructions du fichier de composition Docker. Les conteneurs sont exécutés en arrière-plan (\Verb|-d|) et les images sont reconstruites au besoin (\Verb|--build|).
+\end{enumerate}
+
+En résumé, le script facilite le processus de mise à jour de l'application en effectuant des étapes clés telles que la sauvegarde des volumes, la mise à jour du code source, l'arrêt et la suppression des conteneurs, puis la construction et le lancement de nouveaux conteneurs avec la version mise à jour de l'application.
+
+Le fichier suivant utilisé dans le processus de déploiement est le fichier \Verb|docker-compose.yaml| (Code source~\ref{code:docker-compose-prod}).
+
+\begin{code}
+    \caption{Le fichier \Verb{docker-compose.yaml} du projet Pipeline documentaire utilisé en production.}
+    \inputminted{yaml}{code/docker-compose.yaml}
+    \label{code:docker-compose-prod}
+\end{code}
+
+Ce fichier \Verb|docker-compose.yaml| définit la configuration de déploiement de plusieurs services qui font partie de l'application Pipeline documentaire en utilisant Docker Compose.
+
+Le fichier utilise la version 3.6 de Docker Compose et configure trois services principaux : \Verb|pipelinedoc|, \Verb|webserver| et \Verb|database|. Chaque service est configuré avec ses propres caractéristiques.
+
+\begin{enumerate}
+    \item \cprotect\textbf{Service \Verb|pipelinedoc| :}
+          \begin{itemize}
+              \item Construit une image à partir d'un Dockerfile \Verb|app.dockerfile|.
+              \item Utilise le nom de conteneur \Verb|pipelinedoc|.
+              \item Montre des volumes pour partager des données avec le conteneur :
+                    \begin{itemize}
+                        \item \Verb|pipeline-doc| : Volume partagé avec le chemin \Verb|/var/www/apps/| dans le conteneur.
+                        \item \Verb|.env| : Fichier de variables d'environnement Laravel partagé à l'emplacement \Verb|/var/www/apps/pipelinedoc-source/.env|.
+                        \item Divers fichiers de configuration pour Supervisor\footnote{Supervisor est un système de gestion de processus pour les systèmes Unix-like. Il permet de contrôler et de surveiller les processus en arrière-plan, de gérer leur redémarrage en cas d'échec et de faciliter la gestion des tâches automatisées. Supervisor assure ainsi la stabilité et la disponibilité des applications en s'occupant de leur exécution continue.} et Supervisord.
+                    \end{itemize}
+              \item Utilise un réseau nommé \Verb|app-network|.
+              \item Expose le port 9001 de Supervisor.
+              \item Définit des limites de ressources pour le déploiement.
+          \end{itemize}
+    \item \cprotect\textbf{Service \Verb|webserver| :}
+          \begin{itemize}
+              \item Utilise l'image Nginx Alpine.
+              \item Utilise le nom de conteneur \Verb|webserver|.
+              \item Expose les ports 80 et 443. L'application Pipeline documentaire est disponible sur ces ports. Actuellement, les requêtes arrivant au port 80 (\Verb|http|) sont redirigées vers le port 443 (\Verb|https|), ce qui rend la communication plus sécurisée. Ceci est configuré dans le fichier de configuration de Nginx.
+              \item Montre des volumes pour partager des données avec le conteneur :
+                    \begin{itemize}
+                        \item Configuration Nginx à partir de \Verb|./nginx/conf.d/|. Le fichier est disponible dans les Annexes (Code source~\ref{code:nginx-conf-prod}, page~\pageref{code:nginx-conf-prod}).
+                        \item \Verb|pipeline-doc| : Volume partagé avec le chemin \Verb|/var/www/apps/| dans le conteneur.
+                        \item Certificats SSL depuis \Verb[breakanywhere]|/etc/letsencrypt/live/corp.suivideflotte.net/|.
+                    \end{itemize}
+              \item Dépend des services \Verb|pipelinedoc| et \Verb|database|.
+              \item Utilise le réseau \Verb|app-network|.
+          \end{itemize}
+    \item \cprotect\textbf{Service \Verb|database| :}
+          \begin{itemize}
+              \item Utilise l'image MariaDB version 10.
+              \item Utilise le nom de conteneur \Verb|database|.
+              \item Montre un volume nommé \Verb|dbdata| pour stocker les données MySQL.
+              \item Expose le port 3306.
+              \item Configure des variables d'environnement pour le service MariaDB.\footnote{Le mot de passe indiqué ici n'est bien sûr pas le vrai mot de passe.}
+              \item Utilise le réseau \Verb|app-network|.
+          \end{itemize}
+\end{enumerate}
+
+En outre, ce fichier configure le réseau \Verb|app-network| en tant que réseau de pontage et définit deux volumes nommés \Verb|dbdata| et \Verb|pipeline-doc|, utilisant respectivement le pilote de volume local. Ce fichier \Verb|docker-compose.yaml| permet de gérer l'infrastructure nécessaire pour exécuter l'application Pipeline documentaire composée de ces trois services : \Verb|pipelinedoc|, \Verb|webserver| et \Verb|database|.
+
+Le dernier fichier que je présente ici est le fichier \Verb|app.dockerfile| Dockerfile utilisé dans le service \Verb|pipelinedoc| (Code source~\ref{code:dockerfile-prod}).
+
+\begin{code}
+    \caption{Le fichier \Verb{app.dockerfile} du projet Pipeline documentaire utilisé en production.}
+    \inputminted{dockerfile}{code/app.dockerfile}
+    \label{code:dockerfile-prod}
+\end{code}
+
+Ce Dockerfile est destiné à construire une image Docker pour l'application utilisant PHP 8.1 avec FPM (FastCGI Process Manager) sur Alpine Linux.
+
+\begin{enumerate}
+    \item \textbf{Base de l'image et répertoire de travail} : L'image est basée sur \Verb{php:8.1-fpm-alpine} et le répertoire de travail est défini comme \Verb{/var/www/apps/pipelinedoc-source/}.
+    \item \textbf{Installation des dépendances et configuration :}
+          \begin{itemize}
+              \item Crée un répertoire \Verb|/var/log/supervisor| pour les journaux de Supervisor.
+              \item Installe les extensions PHP nécessaires (\Verb|pdo| et \Verb|pdo_mysql|).
+              \item Ajoute le gestionnaire de processus \Verb|supervisor| et nettoie les fichiers temporaires.
+          \end{itemize}
+    \item \textbf{Installation et configuration de Xdebug :}
+          \begin{itemize}
+              \item Installe les dépendances nécessaires pour compiler des extensions PHP.
+              \item Installe Xdebug version 3.2.0 et l'active.
+              \item Configure les paramètres Xdebug dans le fichier \Verb|xdebug.ini|.
+          \end{itemize}
+    \item \textbf{Utilisateur et copie du code source :}
+          \begin{itemize}
+              \item Change l'utilisateur courant en \Verb|root|.
+              \item Copie le contenu du répertoire \Verb|./apps/pipelinedoc-source| (dans le répertoire local) dans le répertoire de travail de l'image.
+          \end{itemize}
+    \item \textbf{Installation des dépendances PHP :}
+          \begin{itemize}
+              \item Exécute \Verb|composer install| pour installer les dépendances PHP de l'application.
+              \item Modifie les permissions des fichiers/dossiers dans le répertoire \Verb|storage/| pour qu'ils appartiennent à l'utilisateur \Verb|www-data|.
+              \item Exécute \Verb|php artisan config:cache| pour mettre en cache les configurations Laravel.
+          \end{itemize}
+    \item \textbf{Exposition des ports :} Expose les ports 9000 et 9001, qui sont utilisés par PHP et Supervisor respectivement.
+    \item \textbf{Point d'entrée :} Définit \Verb|supervisord| comme point d'entrée avec certains arguments pour démarrer les processus gérés par Supervisor et laisser l'application en cours d'exécution.
+\end{enumerate}
+
+En résumé, ce Dockerfile construit une image Docker pour l'application Pipeline documentaire basée sur Laravel. Il installe les dépendances, configure Xdebug pour le débogage, copie le code source de l'application, installe les dépendances PHP et configure les fichiers nécessaires, puis expose les ports requis et définit l'entrée pour démarrer les processus gérés par Supervisor.

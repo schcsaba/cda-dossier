@@ -4,21 +4,45 @@
 \usepackage[magyar,english,french]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{fancyhdr}
-\usepackage{titlesec}
-\usepackage{minted}
-\usemintedstyle{vs}
-\usepackage{wrapfig}
 \usepackage{url}
+\usepackage{titlesec}
+\usepackage[chapter,newfloat]{minted}
+\setminted{
+    bgcolor=bgcolor,
+    fontsize=\footnotesize,
+    linenos,
+    breakanywhere,
+    breaklines
+}
+\usemintedstyle{vs}
+\fvinlineset{
+    breaklines,
+    breakafter=./-_
+}
+\usepackage{caption}
+\newenvironment{code}{\captionsetup{type=listing}}{}
+\usepackage{wrapfig}
 \usepackage{graphicx}
 \usepackage{rotating}
+\usepackage{cprotect}
 \usepackage{tabularray}
 \DefTblrTemplate{contfoot-text}{default}{Suite à la page suivante}
 \DefTblrTemplate{conthead-text}{default}{(Continué)}
 \usepackage[dvipsnames]{xcolor}
 \usepackage{color}
+\usepackage[colorlinks = true,
+    linktoc=all,
+    linkcolor = black,
+    urlcolor  = black,
+    citecolor = blue,
+    anchorcolor = blue]{hyperref}
 \usepackage[title,toc,titletoc,page]{appendix}
+\usepackage{listings}
 \renewcommand{\appendixtocname}{Annexes}
 \renewcommand{\appendixpagename}{Annexes}
+\SetupFloatingEnvironment{listing}{listname=Liste des codes sources}
+\SetupFloatingEnvironment{listing}{name=Code source}
+\definecolor{bgcolor}{rgb}{0.95,0.95,0.92}
 \pagestyle{fancy}
 \pagestyle{headings}
 
@@ -57,13 +81,17 @@
 
     \begin{minipage}{\textwidth}
         \centering
-        $\vcenter{\hbox{\includegraphics[width=0.4\textwidth]{img/cefim}}}$
+        \(\vcenter{\hbox{\includegraphics[width=0.4\textwidth]{img/cefim}}}\)
         \hspace*{0.1\textwidth}
-        $\vcenter{\hbox{\includegraphics[width=0.4\textwidth]{img/sdf-logo}}}$
+        \(\vcenter{\hbox{\includegraphics[width=0.4\textwidth]{img/sdf-logo}}}\)
     \end{minipage}
 \end{titlepage}
 \tableofcontents
 \newpage
+\addcontentsline{toc}{chapter}{Liste des sources codes}
+\listoflistings
+\listoffigures
+\listoftables
 \input{liste-des-competences}
 \input{project-summary}
 \input{introduction}

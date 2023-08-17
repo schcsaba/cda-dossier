@@ -1,0 +1,36 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{server}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kn}{server\PYGZus{}name}\PYG{+w}{ }\PYG{l+s}{pp\PYGZhy{}pipelinedoc.corp.suivideflotte.net}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kn}{listen}\PYG{+w}{              }\PYG{l+m+mi}{80}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kn}{return}\PYG{+w}{      }\PYG{l+m+mi}{301}\PYG{+w}{ }\PYG{l+s}{https://pp\PYGZhy{}pipelinedoc.corp.suivideflotte.net}\PYG{n+nv}{\PYGZdl{}request\PYGZus{}uri}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\PYG{k}{server}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kn}{server\PYGZus{}name}\PYG{+w}{ }\PYG{l+s}{pp\PYGZhy{}pipelinedoc.corp.suivideflotte.net}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kn}{listen}\PYG{+w}{              }\PYG{l+m+mi}{443}\PYG{+w}{ }\PYG{l+s}{ssl}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kn}{ssl\PYGZus{}certificate}\PYG{+w}{ }\PYG{l+s}{/etc/nginx/certs/fullchain.pem}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kn}{ssl\PYGZus{}certificate\PYGZus{}key}\PYG{+w}{ }\PYG{l+s}{/etc/nginx/certs/privkey.pem}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kn}{ssl\PYGZus{}protocols}\PYG{+w}{       }\PYG{l+s}{TLSv1}\PYG{+w}{ }\PYG{l+s}{TLSv1.1}\PYG{+w}{ }\PYG{l+s}{TLSv1.2}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kn}{ssl\PYGZus{}ciphers}\PYG{+w}{         }\PYG{l+s}{HIGH:!aNULL:!MD5}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kn}{index}\PYG{+w}{ }\PYG{l+s}{index.php}\PYG{+w}{ }\PYG{l+s}{index.html}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kn}{error\PYGZus{}log}\PYG{+w}{  }\PYG{l+s}{/var/log/nginx/app\PYGZhy{}error.log}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kn}{access\PYGZus{}log}\PYG{+w}{ }\PYG{l+s}{/var/log/nginx/app\PYGZhy{}access.log}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kn}{if}\PYG{+w}{ }\PYG{l+s}{(}\PYG{n+nv}{\PYGZdl{}host}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}www.pp\PYGZhy{}pipelinedoc.corp.suivideflotte.net\PYGZsq{}}\PYG{+w}{ }\PYG{l+s}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{       }\PYG{k+kn}{rewrite}\PYG{+w}{  }\PYG{l+s}{\PYGZca{}/(.*)}\PYGZdl{}\PYG{+w}{  }\PYG{l+s}{https://pp\PYGZhy{}pipelinedoc.corp.suivideflotte.net/}\PYG{n+nv}{\PYGZdl{}1}\PYG{+w}{  }\PYG{l+s}{permanent}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k+kn}{root}\PYG{+w}{ }\PYG{l+s}{/var/www/apps/pipelinedoc\PYGZhy{}source/public}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kn}{client\PYGZus{}max\PYGZus{}body\PYGZus{}size}\PYG{+w}{ }\PYG{l+m+mi}{25m}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kn}{location}\PYG{+w}{ }\PYG{p}{\PYGZti{}}\PYG{+w}{ }\PYG{l+s+sr}{\PYGZbs{}.php\PYGZdl{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k+kn}{try\PYGZus{}files}\PYG{+w}{ }\PYG{n+nv}{\PYGZdl{}uri}\PYG{+w}{ }\PYG{p}{=}\PYG{l+m+mi}{404}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k+kn}{fastcgi\PYGZus{}split\PYGZus{}path\PYGZus{}info}\PYG{+w}{ }\PYG{l+s}{\PYGZca{}(.+\PYGZbs{}.php)(/.+)}\PYGZdl{}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k+kn}{fastcgi\PYGZus{}pass}\PYG{+w}{ }\PYG{n}{pipelinedoc}\PYG{p}{:}\PYG{l+m+mi}{9000}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k+kn}{fastcgi\PYGZus{}index}\PYG{+w}{ }\PYG{l+s}{index.php}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k+kn}{include}\PYG{+w}{ }\PYG{l+s}{fastcgi\PYGZus{}params}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k+kn}{fastcgi\PYGZus{}param}\PYG{+w}{ }\PYG{l+s}{SCRIPT\PYGZus{}FILENAME}\PYG{+w}{ }\PYG{n+nv}{\PYGZdl{}document\PYGZus{}root\PYGZdl{}fastcgi\PYGZus{}script\PYGZus{}name}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k+kn}{fastcgi\PYGZus{}param}\PYG{+w}{ }\PYG{l+s}{PATH\PYGZus{}INFO}\PYG{+w}{ }\PYG{n+nv}{\PYGZdl{}fastcgi\PYGZus{}path\PYGZus{}info}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k+kn}{location}\PYG{+w}{ }\PYG{l+s}{/}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k+kn}{try\PYGZus{}files}\PYG{+w}{ }\PYG{n+nv}{\PYGZdl{}uri}\PYG{+w}{ }\PYG{n+nv}{\PYGZdl{}uri/}\PYG{+w}{ }\PYG{l+s}{/index.php?}\PYG{n+nv}{\PYGZdl{}query\PYGZus{}string}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k+kn}{gzip\PYGZus{}static}\PYG{+w}{ }\PYG{n+no}{on}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

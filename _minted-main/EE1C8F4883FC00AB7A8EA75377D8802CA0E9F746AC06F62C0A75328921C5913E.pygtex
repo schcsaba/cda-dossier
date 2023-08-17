@@ -1,0 +1,23 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{}/bin/bash}
+
+\PYG{n+nv}{DOCKER\PYGZus{}VOLUME\PYGZus{}PATH}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}/var/lib/docker/volumes/\PYGZdq{}}
+\PYG{n+nv}{APP\PYGZus{}PATH}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}/var/www/apps/pipeline\PYGZhy{}doc/pipelinedoc\PYGZhy{}docker\PYGZdq{}}
+\PYG{n+nv}{DATE}\PYG{o}{=}\PYG{k}{\PYGZdl{}(}\PYG{+w}{ }date\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}+\PYGZpc{}F\PYGZus{}\PYGZpc{}H\PYGZhy{}\PYGZpc{}M\PYGZhy{}\PYGZpc{}S\PYGZsq{}}\PYG{+w}{ }\PYG{k}{)}
+\PYG{n+nv}{VOLUME\PYGZus{}NAME}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}pipelinedoc\PYGZhy{}docker\PYGZus{}pipeline\PYGZhy{}doc\PYGZdq{}}
+\PYG{n+nv}{CODE\PYGZus{}PATH}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}/apps/pipelinedoc\PYGZhy{}source\PYGZdq{}}
+
+\PYG{c+c1}{\PYGZsh{} Rename volume}
+mv\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{DOCKER\PYGZus{}VOLUME\PYGZus{}PATH}\PYG{l+s+si}{\PYGZcb{}\PYGZdl{}\PYGZob{}}\PYG{n+nv}{VOLUME\PYGZus{}NAME}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{+w}{ }\PYG{l+s+se}{\PYGZbs{}}
+\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{DOCKER\PYGZus{}VOLUME\PYGZus{}PATH}\PYG{l+s+si}{\PYGZcb{}\PYGZdl{}\PYGZob{}}\PYG{n+nv}{VOLUME\PYGZus{}NAME}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.rollback.}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{DATE}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}
+
+\PYG{c+c1}{\PYGZsh{} Update app code}
+\PYG{n+nb}{cd}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{APP\PYGZus{}PATH}\PYG{l+s+si}{\PYGZcb{}\PYGZdl{}\PYGZob{}}\PYG{n+nv}{CODE\PYGZus{}PATH}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}
+git\PYG{+w}{ }pull
+
+\PYG{c+c1}{\PYGZsh{} Restart containers}
+\PYG{n+nb}{cd}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{APP\PYGZus{}PATH}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{/\PYGZdq{}}
+docker\PYGZhy{}compose\PYG{+w}{ }down
+docker\PYG{+w}{ }volume\PYG{+w}{ }rm\PYG{+w}{ }\PYGZhy{}f\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{VOLUME\PYGZus{}NAME}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}
+docker\PYGZhy{}compose\PYG{+w}{ }up\PYG{+w}{ }\PYGZhy{}d\PYG{+w}{ }\PYGZhy{}\PYGZhy{}build
+\end{Verbatim}

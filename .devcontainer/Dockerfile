@@ -20,4 +20,5 @@ RUN tlmgr install babel-french && \
     tlmgr install newfloat && \
     tlmgr install cprotect && \
     tlmgr install bigfoot && \
-    tlmgr install caption
+    tlmgr install caption && \
+    tlmgr install tocbibind

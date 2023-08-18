@@ -21,4 +21,5 @@ RUN tlmgr install babel-french && \
     tlmgr install cprotect && \
     tlmgr install bigfoot && \
     tlmgr install caption && \
-    tlmgr install tocbibind
+    tlmgr install tocbibind && \
+    tlmgr install csquotes

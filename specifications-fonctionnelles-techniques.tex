@@ -1,4 +1,4 @@
-\chapter{Les spécifications fonctionnelles et techniques}\label{ch:specifications-fonctionnelles-techniques}
+\chapter[Spécifications fonctionnelles et techniques]{Les spécifications fonctionnelles et techniques}\label{ch:specifications-fonctionnelles-techniques}
 
 J'ai travaillé sur le projet Pipeline documentaire sous la direction de ma tutrice au sein de l'équipe de développement de SuiviDeFlotte. Avant de commencer, étant donné la complexité du projet, nous avons tenu plusieurs réunions avec le propriétaire du produit. Celui-ci nous a expliqué en détail ses idées concernant le projet, et bien sûr, nous avons également partagé nos réflexions.
 
@@ -10,7 +10,7 @@ L'utilisation de conteneurs Docker pour le développement n'était pas encore un
 
 Au cours de ces réunions, de plus en plus de détails ont été précisés et nous étions prêts à entamer le projet. Néanmoins, il restait encore un travail de conception à accomplir pour définir en détail l'implémentation de ce projet dans ces cadres.
 
-Le plan de mise en œuvre du projet dans le système de contrôleurs, de commandes et d'événements de Laravel est présenté dans le diagramme d'activités de la Figure~\ref{fig:import-activity-diagram}.
+Le plan de mise en œuvre du projet dans le système de contrôleurs, de commandes et d'événements de Laravel est présenté dans le diagramme d'activités de la Figure~\ref{fig:import-activity-diagram}. Comme le montre le diagramme, la réalisation du projet dans Laravel nécessite un élément qui n'est présent qu'implicitement dans le schéma architectural, à savoir l'écouteur d'événements entre les déclencheurs et la file d'attente.
 
 \begin{sidewaysfigure}
     \centering
@@ -19,16 +19,18 @@ Le plan de mise en œuvre du projet dans le système de contrôleurs, de command
     \label{fig:import-activity-diagram}
 \end{sidewaysfigure}
 
+Le diagramme de classes permet d'obtenir une vue plus détaillée du fonctionnement du projet (Figure~\ref{fig:class-diagram}). Le même processus que celui illustré dans le diagramme architectural et le diagramme d'activité peut être suivi ici aussi, en commençant par les déclencheurs (la classe abstraite \emph{\Verb|UploadTrigger|} et ses classes enfants). Au début du processus d'importation, ces classes instancient un modèle \Verb|Upload|, l'enregistrent dans la base de données et lancent l'événement \Verb|NextStepEvent|. L'écouteur d'événements (classe \Verb|StepEventSubscriber|) écoute cet événement et instancie l'une des classes enfants de la classe abstraite \emph{\Verb|Step|} (maillon) en fonction de la configuration du type de fichier importé qui lui est fournie par la classe \Verb|UploadType|. Le maillon instancie un modèle \Verb|UploadStep|, l'enregistre dans la base de données, exécute sa propre tâche et lance à nouveau un \Verb|NextStepEvent| ou, en cas d'erreur, il lance le \Verb|StepErrorEvent|. Puis le cycle recommence avec l'écouteur d'événements, qui consulte le fichier de configuration à l'aide de la classe \Verb|UploadType| pour trouver le maillon suivant, s'il y en a un. Dans certains cas, par exemple lorsqu'un fichier fait l'objet d'une reconnaissance optique de caractères (OCR), les résultats sont enregistrés dans la base de données à l'aide du modèle \Verb|UploadResult|. C'est la tâche du maillon \Verb|PersistResult|. Le modèle physique des données, qui comprend les tables de base de données correspondantes des modèles \Verb|Upload|, \Verb|UploadStep| et \Verb|UploadResult|, est illustré à la Figure~\ref{fig:pmd}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{img/sdf_db}
+    \caption{Modèle physique des données du Pipeline documentaire.}
+    \label{fig:pmd}
+\end{figure}
+
 \begin{sidewaysfigure}
     \centering
     \includegraphics[width=\textwidth]{img/class-diagram-2}
     \caption{Diagramme des classes principales du Pipeline documentaire.}
     \label{fig:class-diagram}
 \end{sidewaysfigure}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{img/sdf_db}
-    \caption{Modèle physique des données du Pipeline documentaire.}
-    \label{fig:mpd}
-\end{figure}

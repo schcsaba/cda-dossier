@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n+nv}{\PYGZdl{}table}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{ulid}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}id\PYGZsq{}}\PYG{p}{)}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{primary}\PYG{p}{()}
+\end{Verbatim}

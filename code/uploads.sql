@@ -1,0 +1,1 @@
+create table `uploads` (`id` char(26) not null primary key, `parameters` json not null, `client_app` int not null, `upload_type` varchar(100) not null, `status` int default 0 comment '0 : received | 1 : started | 2 : pending | 3 : completed | 4 : aborted', `created_at` timestamp null, `updated_at` timestamp null, `deleted_at` timestamp null);

@@ -1,0 +1,39 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZlt{}?php}
+
+\PYG{k}{use} \PYG{n+nx}{Illuminate\PYGZbs{}Database\PYGZbs{}Migrations\PYGZbs{}Migration}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{Illuminate\PYGZbs{}Database\PYGZbs{}Schema\PYGZbs{}Blueprint}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{Illuminate\PYGZbs{}Support\PYGZbs{}Facades\PYGZbs{}Schema}\PYG{p}{;}
+
+\PYG{k}{return} \PYG{k}{new} \PYG{k}{class} \PYG{k}{extends} \PYG{n+nx}{Migration}
+\PYG{p}{\PYGZob{}}
+    \PYG{l+s+sd}{/**}
+\PYG{l+s+sd}{     * Run the migrations.}
+\PYG{l+s+sd}{     *}
+\PYG{l+s+sd}{     * @return void}
+\PYG{l+s+sd}{     */}
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{up}\PYG{p}{()}
+    \PYG{p}{\PYGZob{}}
+        \PYG{n+nx}{Schema}\PYG{o}{::}\PYG{n+na}{create}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}uploads\PYGZsq{}}\PYG{p}{,} \PYG{k}{function} \PYG{p}{(}\PYG{n+nx}{Blueprint} \PYG{n+nv}{\PYGZdl{}table}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+            \PYG{n+nv}{\PYGZdl{}table}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{ulid}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}id\PYGZsq{}}\PYG{p}{)}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{primary}\PYG{p}{();}
+            \PYG{c+c1}{//\PYGZdl{}table\PYGZhy{}\PYGZgt{}json(\PYGZsq{}message\PYGZsq{})\PYGZhy{}\PYGZgt{}nullable();}
+            \PYG{n+nv}{\PYGZdl{}table}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{json}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}}\PYG{p}{);}
+            \PYG{n+nv}{\PYGZdl{}table}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{integer}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}client\PYGZus{}app\PYGZsq{}}\PYG{p}{);}
+            \PYG{n+nv}{\PYGZdl{}table}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{string}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}upload\PYGZus{}type\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{100}\PYG{p}{);}
+            \PYG{n+nv}{\PYGZdl{}table}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{integer}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}status\PYGZsq{}}\PYG{p}{)}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{default}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{comment}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}0 : received | 1 : started | 2 : pending | 3 : completed | 4 : aborted\PYGZsq{}}\PYG{p}{);}
+            \PYG{n+nv}{\PYGZdl{}table}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{timestamps}\PYG{p}{();}
+            \PYG{n+nv}{\PYGZdl{}table}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{softDeletesTz}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}column} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}deleted\PYGZus{}at\PYGZsq{}}\PYG{p}{,} \PYG{n+nv}{\PYGZdl{}precision} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{);}
+        \PYG{p}{\PYGZcb{});}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{l+s+sd}{/**}
+\PYG{l+s+sd}{     * Reverse the migrations.}
+\PYG{l+s+sd}{     *}
+\PYG{l+s+sd}{     * @return void}
+\PYG{l+s+sd}{     */}
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{down}\PYG{p}{()}
+    \PYG{p}{\PYGZob{}}
+        \PYG{n+nx}{Schema}\PYG{o}{::}\PYG{n+na}{dropIfExists}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}uploads\PYGZsq{}}\PYG{p}{);}
+    \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+\end{Verbatim}

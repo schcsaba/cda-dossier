@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n+nv}{\PYGZdl{}table}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{foreignUlid}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}upload\PYGZus{}id\PYGZsq{}}\PYG{p}{)}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{constrained}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}uploads\PYGZsq{}}\PYG{p}{);}
+\end{Verbatim}

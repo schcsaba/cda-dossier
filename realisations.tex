@@ -1,10 +1,16 @@
 \chapter{Réalisations}\label{ch:realisations}
 
-\section{Pipeline Documentaire}
+Après avoir exploré en détail la conception et la structure de l'API Pipeline documentaire, je me tourne maintenant vers sa réalisation concrète. Ce chapitre mettra en lumière la mise en œuvre pratique du projet, en alignant chaque étape avec les concepts élaborés précédemment. Des exemples de code viendront illustrer la manière dont les idées abstraites se traduisent en fonctionnalités fonctionnelles.
+
+La réalisation de ce chapitre se décompose en deux sections principales. La première section se concentrera sur la démonstration des fonctionnalités clés du Pipeline documentaire. Plutôt que d'expliquer chaque aspect du projet en détail, ce segment mettra en avant les fonctionnalités principales de l'API. En utilisant des extraits de code pertinents, je suivrai l'évolution des composants essentiels, en mettant en évidence leur rôle dans l'importation et le traitement de fichiers.
+
+La seconde section se focalisera sur une mission frontend spécifique qui illustre l'intégration pratique de l'API nouvellement créée. Plus précisément, j'explorerai comment la page d'importation des fichiers de transactions de carburant dans le projet Gestion de parc (Figure~\ref{fig:architecture}, page~\pageref{fig:architecture}) a été modifiée. Plutôt que d'utiliser l'ancienne API, cette page a été adaptée pour tirer parti de la puissance du nouveau Pipeline documentaire. Des exemples de code détaillés montreront comment ces modifications ont été apportées.
+
+En réunissant la théorie et la pratique, ce chapitre offre un aperçu complet de la réalisation du projet, en montrant comment les concepts élaborés ont été traduits en un système fonctionnel.
+
+\input{pipeline-documentaire}
 
 \begin{enumerate}
-    \item installation
-    \item migrations, SQL
     \item modèles
     \item POST
           \begin{enumerate}
@@ -17,6 +23,7 @@
               \item UploadType
               \item Step, 1-2 exemples
           \end{enumerate}
+    \item Testing
 \end{enumerate}
 
 \section{Mission frontend}

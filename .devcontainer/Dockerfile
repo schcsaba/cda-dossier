@@ -4,6 +4,7 @@ RUN apt-get update
 RUN apt-get install -y python3 python3-venv python3-pip
 RUN python3 -m pip install --upgrade pip setuptools wheel
 RUN pip install Pygments
+RUN pip install pygments-csv-lexer
 
 RUN tlmgr install babel-french && \
     tlmgr install appendix && \

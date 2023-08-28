@@ -1,0 +1,21 @@
+\subsection{Modèles}
+
+Les modèles dans Laravel sont des représentations essentielles des tables de la base de données au sein de l'application. Ils agissent comme des intermédiaires entre les données stockées dans la base de données et la logique métier de l'application. Chaque modèle est associé à une table spécifique dans la base de données et permet d'effectuer des opérations courantes, telles que la création, la lecture, la mise à jour et la suppression (CRUD), sur les données de cette table. Les modèles fournissent également des mécanismes pour définir des relations entre les tables, comme les relations un-à-un, un-à-plusieurs et plusieurs-à-plusieurs. Grâce aux modèles, les développeurs peuvent interagir avec la base de données de manière conviviale et orientée objet, sans avoir à écrire directement des requêtes SQL complexes. En encapsulant la logique de manipulation des données, les modèles contribuent à la clarté, à la maintenabilité et à la robustesse du code de l'application Laravel.
+
+Les modèles sont créés dans Laravel en utilisant l'outil de ligne de commande Artisan. Pour générer un modèle, on exécute la commande \Verb|php artisan make:model NomDuModele|. Cette commande génère automatiquement une classe modèle dans le répertoire \Verb|app/Models| du projet. Cette classe étend la classe de base \Verb|Illuminate\Database\Eloquent\Model|, ce qui permet au modèle d'hériter de fonctionnalités essentielles offertes par Eloquent, le moteur de requête ORM de Laravel. Une fois le modèle créé, on peut définir les propriétés, les relations avec d'autres modèles et les méthodes spécifiques nécessaires pour interagir avec la base de données et manipuler les données associées à la table correspondante.
+
+Comme démontré dans la sous-section précédente, nous avons créé trois tables dans la base de données à l'aide des migrations. Par conséquent, nous avons ensuite mis en place trois modèles correspondant à ces tables : \Verb|Upload|, \Verb|UploadStep| et \Verb|UploadResult|. À titre d'exemple, le code source du modèle \Verb|Upload| sera détaillé ici (Code source~\ref{code:uploads-model}).
+
+\begin{code}
+    \caption{Une version simplifiée du modèle \Verb{Upload}.}
+    \inputminted{php}{code/Upload.php}
+    \label{code:uploads-model}
+\end{code}
+
+La classe \Verb|Upload| est située dans l'espace de noms \Verb|App\Models|. Elle utilise la fonctionnalité \Verb|HasUlids| pour gérer les ULIDs (Universally Unique Lexicographically Sortable Identifier) pour l'identifiant primaire de la table. Les propriétés \Verb|$fillable| définissent les champs de la table qui peuvent être mass-assignés et \Verb|$hidden| détermine les champs qui ne seront pas inclus lors de la conversion en tableau ou en JSON.
+
+Le modèle utilise la fonction de casting \Verb|$casts| pour traiter le champ \Verb|parameters| comme un tableau JSON. De plus, il définit deux relations \Verb|HasMany| : \Verb|steps()| pour représenter une relation un-à-plusieurs avec le modèle \Verb|UploadStep| et \Verb|results()| pour une relation similaire avec le modèle \Verb|UploadResult|. Ces relations permettent d'accéder facilement aux étapes et aux résultats associés à un objet \Verb|Upload|.
+
+En outre, le modèle possède une méthode \Verb|setStatus()| qui permet de définir l'état de téléchargement des documents. Cette méthode utilise la classe \Verb|UploadStatus| pour traduire le code d'état en une valeur compréhensible et met à jour la base de données avec la nouvelle valeur.
+
+En somme, le modèle \Verb|Upload| facilite la manipulation des données de la table associée, en fournissant des méthodes pour gérer les relations et les opérations spécifiques, tout en maintenant une cohérence entre la logique de l'application et les données stockées.

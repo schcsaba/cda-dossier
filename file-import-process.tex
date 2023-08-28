@@ -1,0 +1,50 @@
+\subsection{Le processus d'importation d'un fichier}
+
+Dans cette sous-section, nous suivrons le destin d'un fichier pendant son importation, depuis son arrivée à l'API dans le corps d'une requête POST, jusqu'à l'enregistrement de ses données dans la table appropriée de la base de données adéquate. Nous utiliserons à titre d'exemple un fichier LCCC (La Compagnie des Cartes Carburant SAS) qui est un type de fichier de transactions de carburant au format \Verb|csv| (Figure~\ref{fig:lccc}).
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{img/lccc-csv}
+    \caption{Exemple d'un fichier LCCC.}
+    \label{fig:lccc}
+\end{figure}
+
+Pour l'API, il est possible d'envoyer des fichiers dans le corps d'une requête POST au format encodé en base64, en tant que partie d'un objet JSON bien défini, comme démontré dans le Code source~\ref{code:lccc-payload}. Cette charge utile est validée avant d'être acceptée par l'API, plus précisément l'application Laravel utilise la méthode \Verb|rules()| de la classe \Verb|UploadStoreRequest| créée par nous pour la valider (Code source~\ref{code:upload-store-request}).
+
+Cette classe se trouve dans le dossier \Verb|app/Http/Requests|. Elle étend la classe \Verb|FormRequest| de Laravel, permettant ainsi de définir les règles de validation pour la requête de stockage (store request) d'import de fichiers.
+
+La méthode \Verb|rules()| définit les règles de validation pour les différentes parties de la requête. Les règles sont définies sous forme d'un tableau associatif. Parmi les règles définies :
+
+\begin{itemize}
+    \item Le champ \Verb|client_app| doit être présent, être un nombre entier et être une des valeurs autorisées spécifiées dans la configuration du projet (\Verb|allowed_client_app|).
+    \item Le champ \Verb|parameters| doit être un tableau avec au moins deux éléments.
+    \item Les éléments spécifiques du champ \Verb|parameters| (\Verb|client_id| et \Verb|user_id|) doivent être présents, être des nombres entiers et être obligatoires.
+    \item Le champ \Verb|files| doit être un tableau avec au moins un élément.\footnote{Pour l'instant, l'API n'est pas en mesure de gérer plus d'un fichier. Si plusieurs fichiers sont présents dans la charge utile, ils ne sont pas pris en compte.}
+    \item Les éléments spécifiques du champ \Verb|files| (\Verb|content|) doivent être présents, commencer par \Verb|data:text/plain;base64,| et avoir une longueur minimale de 27 caractères.
+\end{itemize}
+
+En somme, la classe \Verb|UploadStoreRequest| sert de mécanisme de validation pour les requêtes POST envoyées à l'API, en s'assurant que les données fournies sont conformes aux règles spécifiées, contribuant ainsi à la sécurité et à la cohérence des données entrantes.
+
+La charge utile doit être envoyée à la route appropriée définie dans le fichier \Verb|routes/api.php| (Code source~\ref{code:file-import-route}).
+
+\begin{code}
+    \caption{La charge utile (payload) à envoyer contenant le fichier encodé au format base64 et certaines métadonnées associées.}
+    \inputminted[samepage]{json}{code/lccc-payload.json}
+    \label{code:lccc-payload}
+\end{code}
+
+\begin{code}
+    \caption{La définition de la route d'importation de fichiers dans le fichier \Verb{routes/api.php}.}
+    \inputminted[firstline=47,lastline=47]{php}{code/api.php}
+    \label{code:file-import-route}
+\end{code}
+
+Cette route est définie pour une requête POST vers l'URL \Verb|/command/uploads/{category}/{type}|. Lorsqu'une requête POST est effectuée vers cette URL, elle sera traitée par la méthode \Verb|upload| du contrôleur \Verb|UploadController|. Cette méthode prendra en charge le traitement de la requête et la gestion de l'importation des fichiers correspondant à la catégorie et au type spécifiés dans l'URL. Cette définition de route établit une correspondance entre une URL POST spécifique et la méthode du contrôleur qui gère le traitement de la requête et les opérations nécessaires. Cela permet de créer une API RESTful qui répond aux requêtes POST adressées à cette URL particulière.
+
+\begin{code}
+    \caption{La classe \Verb{UploadStoreRequest}.}
+    \inputminted{php}{code/UploadStoreRequest.php}
+    \label{code:upload-store-request}
+\end{code}
+
+\input{controller}

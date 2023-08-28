@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+    \PYG{n+nx}{Route}\PYG{o}{::}\PYG{n+na}{post}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}/command/uploads/\PYGZob{}category\PYGZcb{}/\PYGZob{}type\PYGZcb{}\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nx}{UploadController}\PYG{o}{::}\PYG{n+na}{class}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}upload\PYGZsq{}}\PYG{p}{]);}
+\end{Verbatim}

@@ -1,0 +1,51 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZlt{}?php}
+
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}Http\PYGZbs{}Controllers\PYGZbs{}UploadController}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}Http\PYGZbs{}Controllers\PYGZbs{}UploadStepController}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{Illuminate\PYGZbs{}Support\PYGZbs{}Facades\PYGZbs{}Artisan}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{Illuminate\PYGZbs{}Support\PYGZbs{}Facades\PYGZbs{}Route}\PYG{p}{;}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{|\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{c+cm}{| API Routes}
+\PYG{c+cm}{|\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{c+cm}{|}
+\PYG{c+cm}{| Here is where you can register API routes for your application. These}
+\PYG{c+cm}{| routes are loaded by the RouteServiceProvider within a group which}
+\PYG{c+cm}{| is assigned the \PYGZdq{}api\PYGZdq{} middleware group. Enjoy building your API!}
+\PYG{c+cm}{|}
+\PYG{c+cm}{*/}
+
+\PYG{c+cm}{/*Route::middleware(\PYGZsq{}auth:sanctum\PYGZsq{})\PYGZhy{}\PYGZgt{}get(\PYGZsq{}/user\PYGZsq{}, function (Request \PYGZdl{}request) \PYGZob{}}
+\PYG{c+cm}{    return \PYGZdl{}request\PYGZhy{}\PYGZgt{}user();}
+\PYG{c+cm}{\PYGZcb{});*/}
+
+\PYG{c+cm}{/* ex. localhost:80/api/uploads?include=upload\PYGZus{}step\PYGZam{}filter[client\PYGZus{}app]=25\PYGZam{}filter[status]=3\PYGZam{}filter[start\PYGZus{}date]=2023\PYGZhy{}01\PYGZhy{}25\PYGZam{}filter[end\PYGZus{}date]=2023\PYGZhy{}01\PYGZhy{}28\PYGZam{}filter[client\PYGZus{}id]=1\PYGZam{}filter[user\PYGZus{}id]=10831\PYGZam{}filter[id]=01gqq238mchk4b4h1368rx7br5}
+\PYG{c+cm}{// localhost:80/api/uploads}
+\PYG{c+cm}{// ?include=steps}
+\PYG{c+cm}{// \PYGZam{}filter[client\PYGZus{}app]=25}
+\PYG{c+cm}{// \PYGZam{}filter[status]=3}
+\PYG{c+cm}{// \PYGZam{}filter[start\PYGZus{}date]=2023\PYGZhy{}01\PYGZhy{}25}
+\PYG{c+cm}{// \PYGZam{}filter[end\PYGZus{}date]=2023\PYGZhy{}01\PYGZhy{}28}
+\PYG{c+cm}{// \PYGZam{}filter[client\PYGZus{}id]=1}
+\PYG{c+cm}{// \PYGZam{}filter[user\PYGZus{}id]=10831}
+\PYG{c+cm}{// \PYGZam{}filter[per\PYGZus{}page]=2}
+\PYG{c+cm}{// \PYGZam{}filter[id]=01gqq238mchk4b4h1368rx7br5*/}
+\PYG{n+nx}{Route}\PYG{o}{::}\PYG{n+na}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}/uploads\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nx}{UploadController}\PYG{o}{::}\PYG{n+na}{class}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}index\PYGZsq{}}\PYG{p}{]);}
+\PYG{n+nx}{Route}\PYG{o}{::}\PYG{n+na}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}/uploads/list\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nx}{UploadController}\PYG{o}{::}\PYG{n+na}{class}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}availableUploadslist\PYGZsq{}}\PYG{p}{]);}
+\PYG{n+nx}{Route}\PYG{o}{::}\PYG{n+na}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}/uploads/status\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nx}{UploadController}\PYG{o}{::}\PYG{n+na}{class}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}uploadStatusList\PYGZsq{}}\PYG{p}{]);}
+
+\PYG{c+c1}{// example localhost:80/api/uploads/01gqm9bv6hyhr6tcgq6gygrjeg?include=steps,results\PYGZam{}append=}
+\PYG{n+nx}{Route}\PYG{o}{::}\PYG{n+na}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}/uploads/\PYGZob{}id\PYGZcb{}\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nx}{UploadController}\PYG{o}{::}\PYG{n+na}{class}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}show\PYGZsq{}}\PYG{p}{]);}
+\PYG{n+nx}{Route}\PYG{o}{::}\PYG{n+na}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}/uploads/\PYGZob{}id\PYGZcb{}/results\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nx}{UploadController}\PYG{o}{::}\PYG{n+na}{class}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}results\PYGZsq{}}\PYG{p}{]);}
+
+\PYG{n+nx}{Route}\PYG{o}{::}\PYG{n+na}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}/uploads/\PYGZob{}id\PYGZcb{}/logs/\PYGZob{}fileName\PYGZcb{}\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nx}{UploadController}\PYG{o}{::}\PYG{n+na}{class}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}downloadLogFile\PYGZsq{}}\PYG{p}{]);}
+\PYG{n+nx}{Route}\PYG{o}{::}\PYG{n+na}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}/uploads/\PYGZob{}id\PYGZcb{}/payload\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nx}{UploadController}\PYG{o}{::}\PYG{n+na}{class}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}downloadPayloadFile\PYGZsq{}}\PYG{p}{]);}
+\PYG{n+nx}{Route}\PYG{o}{::}\PYG{n+na}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}/uploads/\PYGZob{}id\PYGZcb{}/originals/\PYGZob{}fileName\PYGZcb{}\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nx}{UploadController}\PYG{o}{::}\PYG{n+na}{class}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}downloadOriginalFile\PYGZsq{}}\PYG{p}{]);}
+\PYG{n+nx}{Route}\PYG{o}{::}\PYG{n+na}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}/steps/\PYGZob{}id\PYGZcb{}/\PYGZob{}fileName\PYGZcb{}\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nx}{UploadStepController}\PYG{o}{::}\PYG{n+na}{class}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}downloadStepFile\PYGZsq{}}\PYG{p}{]);}
+
+\PYG{n+nx}{Route}\PYG{o}{::}\PYG{n+na}{post}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}/command/uploads/\PYGZob{}category\PYGZcb{}/\PYGZob{}type\PYGZcb{}\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nx}{UploadController}\PYG{o}{::}\PYG{n+na}{class}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}upload\PYGZsq{}}\PYG{p}{]);}
+
+\PYG{n+nx}{Route}\PYG{o}{::}\PYG{n+na}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}/steps/\PYGZob{}id\PYGZcb{}\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nx}{UploadStepController}\PYG{o}{::}\PYG{n+na}{class}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}show\PYGZsq{}}\PYG{p}{]);}
+\end{Verbatim}

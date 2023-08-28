@@ -1,0 +1,35 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZlt{}?php}
+
+\PYG{k}{namespace} \PYG{n+nx}{App\PYGZbs{}Http\PYGZbs{}Requests}\PYG{p}{;}
+
+\PYG{k}{use} \PYG{n+nx}{Illuminate\PYGZbs{}Foundation\PYGZbs{}Http\PYGZbs{}FormRequest}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{Illuminate\PYGZbs{}Validation\PYGZbs{}Rule}\PYG{p}{;}
+
+\PYG{k}{class} \PYG{n+nc}{UploadStoreRequest} \PYG{k}{extends} \PYG{n+nx}{FormRequest}
+\PYG{p}{\PYGZob{}}
+
+    \PYG{l+s+sd}{/**}
+\PYG{l+s+sd}{     * Get the validation rules that apply to the request.}
+\PYG{l+s+sd}{     *}
+\PYG{l+s+sd}{     * @return array\PYGZlt{}string, mixed\PYGZgt{}}
+\PYG{l+s+sd}{     */}
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{rules}\PYG{p}{()}\PYG{o}{:} \PYG{k}{array}
+    \PYG{p}{\PYGZob{}}
+        \PYG{n+nv}{\PYGZdl{}allowedClientApps} \PYG{o}{=} \PYG{n+nx}{config}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}allowed\PYGZus{}client\PYGZus{}app\PYGZsq{}}\PYG{p}{);}
+        \PYG{k}{return} \PYG{p}{[}
+            \PYG{l+s+s1}{\PYGZsq{}client\PYGZus{}app\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}
+                \PYG{l+s+s1}{\PYGZsq{}required\PYGZsq{}}\PYG{p}{,}
+                \PYG{l+s+s1}{\PYGZsq{}numeric\PYGZsq{}}\PYG{p}{,}
+                \PYG{l+s+s1}{\PYGZsq{}integer\PYGZsq{}}\PYG{p}{,}
+                \PYG{n+nx}{Rule}\PYG{o}{::}\PYG{n+na}{in}\PYG{p}{(}\PYG{n+nb}{array\PYGZus{}keys}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}allowedClientApps}\PYG{p}{)),}
+            \PYG{p}{],}
+            \PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}required|array|min:2\PYGZsq{}}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}parameters.client\PYGZus{}id\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}required|numeric|integer\PYGZsq{}}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}parameters.user\PYGZus{}id\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}required|numeric|integer\PYGZsq{}}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}files\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}required|array|min:1\PYGZsq{}}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}files.*.content\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}required|starts\PYGZus{}with:data:text/plain;base64,|min:27\PYGZsq{}}
+        \PYG{p}{];}
+    \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

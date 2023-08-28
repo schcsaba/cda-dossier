@@ -1,0 +1,30 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZlt{}?php}
+
+\PYG{k}{namespace} \PYG{n+nx}{App\PYGZbs{}Http\PYGZbs{}Controllers}\PYG{p}{;}
+
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}Http\PYGZbs{}Requests\PYGZbs{}UploadStoreRequest}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{Illuminate\PYGZbs{}Http\PYGZbs{}JsonResponse}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{Illuminate\PYGZbs{}Support\PYGZbs{}Facades\PYGZbs{}Artisan}\PYG{p}{;}
+
+\PYG{k}{class} \PYG{n+nc}{UploadController} \PYG{k}{extends} \PYG{n+nx}{Controller}
+\PYG{p}{\PYGZob{}}
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{upload}\PYG{p}{(}\PYG{n+nx}{UploadStoreRequest} \PYG{n+nv}{\PYGZdl{}request}\PYG{p}{,} \PYG{n+nx}{string} \PYG{n+nv}{\PYGZdl{}category}\PYG{p}{,} \PYG{n+nx}{string} \PYG{n+nv}{\PYGZdl{}type}\PYG{p}{)}\PYG{o}{:} \PYG{n+nx}{JsonResponse}
+    \PYG{p}{\PYGZob{}}
+        \PYG{n+nx}{Artisan}\PYG{o}{::}\PYG{n+na}{call}\PYG{p}{(}
+            \PYG{l+s+s1}{\PYGZsq{}upload\PYGZhy{}\PYGZsq{}} \PYG{o}{.} \PYG{n+nv}{\PYGZdl{}category} \PYG{o}{.} \PYG{l+s+s1}{\PYGZsq{}:\PYGZsq{}} \PYG{o}{.} \PYG{n+nv}{\PYGZdl{}type}\PYG{p}{,}
+            \PYG{p}{[}
+                \PYG{l+s+s1}{\PYGZsq{}token\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nx}{request}\PYG{p}{()}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{header}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Authorization\PYGZsq{}}\PYG{p}{),}
+                \PYG{l+s+s1}{\PYGZsq{}input\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nv}{\PYGZdl{}request}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{validated}\PYG{p}{(),}
+                \PYG{l+s+s1}{\PYGZsq{}category\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nv}{\PYGZdl{}category}\PYG{p}{,}
+                \PYG{l+s+s1}{\PYGZsq{}type\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nv}{\PYGZdl{}type}
+            \PYG{p}{]}
+        \PYG{p}{);}
+
+        \PYG{n+nv}{\PYGZdl{}o} \PYG{o}{=} \PYG{n+nx}{Artisan}\PYG{o}{::}\PYG{n+na}{output}\PYG{p}{();}
+        \PYG{n+nv}{\PYGZdl{}o} \PYG{o}{=} \PYG{n+nb}{json\PYGZus{}decode}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}o}\PYG{p}{,} \PYG{k}{true}\PYG{p}{);}
+
+        \PYG{k}{return} \PYG{k}{new} \PYG{n+nx}{JsonResponse}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}o}\PYG{p}{,} \PYG{l+m+mi}{201}\PYG{p}{);}
+    \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

@@ -1,0 +1,13 @@
+\subsubsection{La méthode \Verb{upload} de la classe \Verb{UploadController}}
+
+La classe \Verb|UploadController| (Code source~\ref{code:upload-controller}) représente une classe de contrôleur dans le projet. Elle gère les requêtes en répondant à certaines routes définies dans l'API. Nous ne nous occupons ici que de la route d'importation des fichiers et de la méthode \Verb{upload} de la classe. Lorsqu'une requête POST est effectuée vers cette route, la méthode \Verb{upload} du contrôleur est appelée.
+
+\begin{code}
+    \caption{La version simplifiée de la classe \Verb{UploadController}.}
+    \inputminted{php}{code/UploadController.php}
+    \label{code:upload-controller}
+\end{code}
+
+La méthode \Verb{upload} prend trois paramètres : une instance de la classe \Verb{UploadStoreRequest} (Code source~\ref{code:upload-store-request}, page~\pageref{code:upload-store-request}) pour la validation de la requête, une chaîne \Verb{category} pour la catégorie du fichier et une chaîne \Verb{type} pour le type de fichier. La méthode utilise ensuite la classe \Verb{Artisan} pour appeler une commande Artisan personnalisée correspondant à l'importation du fichier en utilisant la catégorie et le type spécifiés. Les paramètres tels que le jeton d'autorisation, les données validées de la requête et les détails de la catégorie et du type sont transmis à la commande.
+
+Après l'exécution de la commande, la sortie est récupérée et analysée en tant que JSON. Cette sortie représente le résultat de l'importation du fichier, qui est ensuite renvoyé sous forme de réponse JSON avec le code de statut 201 (Créé). En somme, la classe \Verb{UploadController} agit comme un pont entre les requêtes d'importation de fichiers, la validation des données et l'exécution de la commande associée pour traiter les fichiers importés et renvoyer les résultats appropriés.

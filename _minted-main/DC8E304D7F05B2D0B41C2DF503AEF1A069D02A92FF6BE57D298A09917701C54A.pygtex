@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{x}{        Route::post(\PYGZsq{}/command/uploads/\PYGZob{}category\PYGZcb{}/\PYGZob{}type\PYGZcb{}\PYGZsq{}, [UploadController::class, \PYGZsq{}upload\PYGZsq{}]);}
+\end{Verbatim}

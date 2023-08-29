@@ -1,0 +1,90 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZlt{}?php}
+
+\PYG{k}{namespace} \PYG{n+nx}{App\PYGZbs{}Listeners}\PYG{p}{;}
+
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}Events\PYGZbs{}NextStepEvent}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}Events\PYGZbs{}StepErrorEvent}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}Models\PYGZbs{}Upload}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}Models\PYGZbs{}Utils\PYGZbs{}UploadStatus}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}Models\PYGZbs{}Utils\PYGZbs{}UploadType}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}UploadSteps\PYGZbs{}Step}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{Illuminate\PYGZbs{}Contracts\PYGZbs{}Queue\PYGZbs{}ShouldQueue}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{Illuminate\PYGZbs{}Pipeline\PYGZbs{}Pipeline}\PYG{p}{;}
+
+\PYG{k}{use} \PYG{n+nx}{Illuminate\PYGZbs{}Queue\PYGZbs{}InteractsWithQueue}\PYG{p}{;}
+
+\PYG{k}{class} \PYG{n+nc}{StepEventSubscriber} \PYG{k}{implements} \PYG{n+nx}{ShouldQueue}
+\PYG{p}{\PYGZob{}}
+    \PYG{k}{public} \PYG{k}{const} \PYG{n+no}{PROCESS\PYGZus{}CONFIG\PYGZus{}KEY} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}process\PYGZsq{}}\PYG{p}{;}
+    \PYG{k}{public} \PYG{k}{const} \PYG{n+no}{ERROR\PYGZus{}CONFIG\PYGZus{}KEY} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}error\PYGZsq{}}\PYG{p}{;}
+
+    \PYG{k}{use} \PYG{n+nx}{InteractsWithQueue}\PYG{p}{;}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{handleNextStep}\PYG{p}{(}\PYG{n+nx}{NextStepEvent} \PYG{n+nv}{\PYGZdl{}event}\PYG{p}{)}\PYG{o}{:} \PYG{n+nx}{bool}
+    \PYG{p}{\PYGZob{}}
+        \PYG{l+s+sd}{/**@var Step \PYGZdl{}step */}
+        \PYG{n+nv}{\PYGZdl{}step} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}event}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{step}\PYG{p}{;}
+        \PYG{n+nv}{\PYGZdl{}transactionAndFileParameters} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}step}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{getTransactionAndFileParameters}\PYG{p}{();}
+        \PYG{n+nv}{\PYGZdl{}uploadTypePath} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}event}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{step}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{getUploadType}\PYG{p}{();}
+
+        \PYG{n+nv}{\PYGZdl{}uploadTypeConfig} \PYG{o}{=} \PYG{n+nx}{UploadType}\PYG{o}{::}\PYG{n+na}{getUploadConfig}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}uploadTypePath} \PYG{o}{.} \PYG{l+s+s1}{\PYGZsq{}.\PYGZsq{}} \PYG{o}{.} \PYG{n+nx}{self}\PYG{o}{::}\PYG{n+na}{PROCESS\PYGZus{}CONFIG\PYGZus{}KEY}\PYG{p}{);}
+        \PYG{n+nv}{\PYGZdl{}nextStep} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}uploadTypeConfig}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{getNextStep}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}step}\PYG{p}{);}
+
+        \PYG{k}{if} \PYG{p}{(}\PYG{o}{!}\PYG{k}{empty}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}nextStep}\PYG{p}{))} \PYG{p}{\PYGZob{}}
+            \PYG{n+nv}{\PYGZdl{}stepConfigParameters} \PYG{o}{=} \PYG{n+nb}{array\PYGZus{}key\PYGZus{}exists}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}}\PYG{p}{,} \PYG{n+nv}{\PYGZdl{}nextStep}\PYG{p}{)} \PYG{o}{?} \PYG{n+nv}{\PYGZdl{}nextStep}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}}\PYG{p}{]} \PYG{o}{:} \PYG{p}{[];}
+            \PYG{n+nv}{\PYGZdl{}instanceStep} \PYG{o}{=} \PYG{k}{new} \PYG{n+nv}{\PYGZdl{}nextStep}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}class\PYGZus{}namespace\PYGZsq{}}\PYG{p}{](}
+                \PYG{n+nv}{\PYGZdl{}event}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{step}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{getUploadId}\PYG{p}{(),}
+                \PYG{n+nv}{\PYGZdl{}event}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{step}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{getUploadType}\PYG{p}{(),}
+                \PYG{n+nv}{\PYGZdl{}stepConfigParameters}\PYG{p}{,}
+                \PYG{n+nv}{\PYGZdl{}transactionAndFileParameters}\PYG{p}{,}
+                \PYG{n+nv}{\PYGZdl{}event}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{step}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{getNameResultOut}\PYG{p}{(),}
+            \PYG{p}{);}
+            \PYG{n+nv}{\PYGZdl{}instanceStep}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{start}\PYG{p}{();}
+        \PYG{p}{\PYGZcb{}}
+
+        \PYG{k}{if} \PYG{p}{(}\PYG{k}{empty}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}nextStep}\PYG{p}{))} \PYG{p}{\PYGZob{}}
+            \PYG{l+s+sd}{/**@var Upload \PYGZdl{}upload */}
+            \PYG{n+nv}{\PYGZdl{}upload} \PYG{o}{=} \PYG{n+nx}{Upload}\PYG{o}{::}\PYG{n+na}{find}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}event}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{step}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{getUploadId}\PYG{p}{());}
+            \PYG{n+nv}{\PYGZdl{}upload}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{setStatus}\PYG{p}{(}\PYG{n+nx}{UploadStatus}\PYG{o}{::}\PYG{n+na}{COMPLETED}\PYG{p}{);}
+            \PYG{n+nv}{\PYGZdl{}upload}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{save}\PYG{p}{();}
+        \PYG{p}{\PYGZcb{}}
+
+        \PYG{k}{return} \PYG{k}{true}\PYG{p}{;}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{handleStepError}\PYG{p}{(}\PYG{n+nx}{StepErrorEvent} \PYG{n+nv}{\PYGZdl{}stepErrorEvent}\PYG{p}{)}\PYG{o}{:} \PYG{n+nx}{bool}
+    \PYG{p}{\PYGZob{}}
+        \PYG{l+s+sd}{/**@var Upload \PYGZdl{}upload */}
+        \PYG{n+nv}{\PYGZdl{}upload} \PYG{o}{=} \PYG{n+nx}{Upload}\PYG{o}{::}\PYG{n+na}{find}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}stepErrorEvent}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{step}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{getUploadId}\PYG{p}{());}
+        \PYG{n+nv}{\PYGZdl{}upload}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{setStatus}\PYG{p}{(}\PYG{n+nx}{UploadStatus}\PYG{o}{::}\PYG{n+na}{ABORTED}\PYG{p}{);} \PYG{c+c1}{// ? already done ?}
+
+        \PYG{n+nv}{\PYGZdl{}uploadTypePath} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}stepErrorEvent}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{step}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{getUploadType}\PYG{p}{();}
+        \PYG{n+nv}{\PYGZdl{}hasConfig} \PYG{o}{=} \PYG{n+nx}{UploadType}\PYG{o}{::}\PYG{n+na}{hasConfig}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}uploadTypePath} \PYG{o}{.} \PYG{l+s+s1}{\PYGZsq{}.\PYGZsq{}}\PYG{o}{.}\PYG{n+nx}{self}\PYG{o}{::}\PYG{n+na}{ERROR\PYGZus{}CONFIG\PYGZus{}KEY}\PYG{p}{);}
+
+        \PYG{k}{if} \PYG{p}{(}\PYG{n+nv}{\PYGZdl{}hasConfig}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+            \PYG{n+nv}{\PYGZdl{}uploadTypeConfig} \PYG{o}{=} \PYG{n+nx}{UploadType}\PYG{o}{::}\PYG{n+na}{getUploadConfig}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}uploadTypePath} \PYG{o}{.} \PYG{l+s+s1}{\PYGZsq{}.error\PYGZsq{}}\PYG{p}{);}
+            \PYG{n+nv}{\PYGZdl{}errorTasks} \PYG{o}{=} \PYG{n+nb}{array\PYGZus{}column}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}uploadTypeConfig}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{getUploadConfigArray}\PYG{p}{(),} \PYG{l+s+s1}{\PYGZsq{}class\PYGZus{}namespace\PYGZsq{}}\PYG{p}{);}
+
+            \PYG{n+nx}{app}\PYG{p}{(}\PYG{n+nx}{Pipeline}\PYG{o}{::}\PYG{n+na}{class}\PYG{p}{)}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{send}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}stepErrorEvent}\PYG{p}{)}
+                \PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{through}\PYG{p}{(}
+                    \PYG{n+nv}{\PYGZdl{}errorTasks}
+                \PYG{p}{)}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{then}\PYG{p}{(}\PYG{k}{function} \PYG{p}{(}\PYG{n+nv}{\PYGZdl{}stepErrorEvent}\PYG{p}{)} \PYG{p}{\PYGZob{}} \PYG{k}{return} \PYG{k}{true}\PYG{p}{;} \PYG{p}{\PYGZcb{});}
+        \PYG{p}{\PYGZcb{}}
+        \PYG{k}{return} \PYG{k}{true}\PYG{p}{;}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{subscribe}\PYG{p}{(}\PYG{n+nx}{Dispatcher} \PYG{n+nv}{\PYGZdl{}events}\PYG{p}{)}\PYG{o}{:} \PYG{n+nx}{void}
+    \PYG{p}{\PYGZob{}}
+        \PYG{n+nv}{\PYGZdl{}events}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{listen}\PYG{p}{(}
+            \PYG{n+nx}{NextStepEvent}\PYG{o}{::}\PYG{n+na}{class}\PYG{p}{,}
+            \PYG{p}{[}\PYG{n+nx}{StepEventSubscriber}\PYG{o}{::}\PYG{n+na}{class}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}handleNextStep\PYGZsq{}}\PYG{p}{]}
+        \PYG{p}{);}
+
+        \PYG{n+nv}{\PYGZdl{}events}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{listen}\PYG{p}{(}
+            \PYG{n+nx}{StepErrorEvent}\PYG{o}{::}\PYG{n+na}{class}\PYG{p}{,}
+            \PYG{p}{[}\PYG{n+nx}{StepEventSubscriber}\PYG{o}{::}\PYG{n+na}{class}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}handleStepError\PYGZsq{}}\PYG{p}{]}
+        \PYG{p}{);}
+    \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

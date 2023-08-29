@@ -1,0 +1,22 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZlt{}?php}
+
+\PYG{k}{namespace} \PYG{n+nx}{App\PYGZbs{}Events}\PYG{p}{;}
+
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}UploadSteps\PYGZbs{}StepInterface}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{Illuminate\PYGZbs{}Broadcasting\PYGZbs{}Channel}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{Illuminate\PYGZbs{}Broadcasting\PYGZbs{}PrivateChannel}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{Illuminate\PYGZbs{}Foundation\PYGZbs{}Events\PYGZbs{}Dispatchable}\PYG{p}{;}
+
+\PYG{k}{class} \PYG{n+nc}{NextStepEvent}
+\PYG{p}{\PYGZob{}}
+    \PYG{k}{use} \PYG{n+nx}{Dispatchable}\PYG{p}{;}
+
+    \PYG{k}{public} \PYG{n+nx}{StepInterface} \PYG{n+nv}{\PYGZdl{}step}\PYG{p}{;}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}construct}\PYG{p}{(}\PYG{n+nx}{StepInterface} \PYG{n+nv}{\PYGZdl{}step}\PYG{p}{)}
+    \PYG{p}{\PYGZob{}}
+        \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{step} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}step}\PYG{p}{;}
+    \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

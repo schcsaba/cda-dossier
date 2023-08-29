@@ -1,0 +1,89 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZlt{}?php}
+
+\PYG{k}{namespace} \PYG{n+nx}{App\PYGZbs{}Models\PYGZbs{}Utils}\PYG{p}{;}
+
+
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}UploadSteps\PYGZbs{}FuelTransaction\PYGZbs{}RedirectToNewConfig}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}UploadSteps\PYGZbs{}StepInterface}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}UploadSteps\PYGZbs{}StepStart}\PYG{p}{;}
+
+\PYG{k}{class} \PYG{n+nc}{UploadType}
+\PYG{p}{\PYGZob{}}
+
+    \PYG{k}{public} \PYG{k}{const} \PYG{n+no}{ROOT\PYGZus{}PATH} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}uploads\PYGZsq{}}\PYG{p}{;}
+
+    \PYG{k}{private} \PYG{k}{static} \PYG{n+nv}{\PYGZdl{}config}\PYG{p}{;}
+
+    \PYG{k}{protected} \PYG{n+nx}{string} \PYG{n+nv}{\PYGZdl{}uploadTypeConfigPath}\PYG{p}{;}
+
+    \PYG{k}{protected} \PYG{k}{array} \PYG{n+nv}{\PYGZdl{}uploadConfigArray}\PYG{p}{;}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}construct}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}uploadTypeConfigPath}\PYG{p}{)}
+    \PYG{p}{\PYGZob{}}
+        \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{uploadTypeConfigPath} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}uploadTypeConfigPath}\PYG{p}{;}
+        \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{uploadConfigArray} \PYG{o}{=} \PYG{n+nx}{config}\PYG{p}{(}\PYG{n+nx}{self}\PYG{o}{::}\PYG{n+na}{ROOT\PYGZus{}PATH} \PYG{o}{.} \PYG{l+s+s1}{\PYGZsq{}.\PYGZsq{}} \PYG{o}{.} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{uploadTypeConfigPath}\PYG{p}{);}
+        \PYG{k}{if} \PYG{p}{(}\PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{uploadConfigArray} \PYG{o}{==} \PYG{k}{null}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+            \PYG{k}{throw} \PYG{k}{new} \PYG{n+nx}{\PYGZbs{}Exception}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Config type unknown\PYGZsq{}}\PYG{p}{);}
+        \PYG{p}{\PYGZcb{}}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{getUploadConfigArray}\PYG{p}{()}
+    \PYG{p}{\PYGZob{}}
+        \PYG{k}{return} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{uploadConfigArray}\PYG{p}{;}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{public} \PYG{k}{static} \PYG{k}{function} \PYG{n+nf}{hasConfig}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}path}\PYG{p}{)}
+    \PYG{p}{\PYGZob{}}
+        \PYG{k}{return} \PYG{n+nx}{config}\PYG{p}{(}\PYG{n+nx}{self}\PYG{o}{::}\PYG{n+na}{ROOT\PYGZus{}PATH} \PYG{o}{.} \PYG{l+s+s1}{\PYGZsq{}.\PYGZsq{}} \PYG{o}{.} \PYG{n+nv}{\PYGZdl{}path}\PYG{p}{)} \PYG{o}{!==} \PYG{k}{null}\PYG{p}{;}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{public} \PYG{k}{static} \PYG{k}{function} \PYG{n+nf}{getUploadConfig}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}uploadTypeConfigPath}\PYG{p}{)}
+    \PYG{p}{\PYGZob{}}
+        \PYG{n+nx}{self}\PYG{o}{::}\PYG{n+nv}{\PYGZdl{}config} \PYG{o}{=} \PYG{k}{new} \PYG{n+nx}{UploadType}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}uploadTypeConfigPath}\PYG{p}{);}
+        \PYG{k}{return} \PYG{n+nx}{self}\PYG{o}{::}\PYG{n+nv}{\PYGZdl{}config}\PYG{p}{;}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{getCurrentRankStep}\PYG{p}{(}\PYG{n+nx}{StepInterface} \PYG{n+nv}{\PYGZdl{}step}\PYG{p}{)}
+    \PYG{p}{\PYGZob{}}
+        \PYG{k}{if} \PYG{p}{(}\PYG{n+nv}{\PYGZdl{}step} \PYG{n+nx}{instanceof} \PYG{n+nx}{StepStart} \PYG{o}{||} \PYG{n+nv}{\PYGZdl{}step} \PYG{n+nx}{instanceof} \PYG{n+nx}{RedirectToNewConfig}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+            \PYG{n+nv}{\PYGZdl{}key} \PYG{o}{=} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{}} \PYG{k}{else} \PYG{p}{\PYGZob{}}
+            \PYG{n+nv}{\PYGZdl{}class} \PYG{o}{=} \PYG{n+nb}{get\PYGZus{}class}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}step}\PYG{p}{);}
+            \PYG{n+nv}{\PYGZdl{}key} \PYG{o}{=} \PYG{n+nb}{array\PYGZus{}search}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}class}\PYG{p}{,} \PYG{n+nb}{array\PYGZus{}column}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{uploadConfigArray}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}class\PYGZus{}namespace\PYGZsq{}}\PYG{p}{));}
+
+            \PYG{k}{if} \PYG{p}{(}\PYG{n+nv}{\PYGZdl{}key} \PYG{o}{===} \PYG{k}{false}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{k}{throw} \PYG{k}{new} \PYG{n+nx}{\PYGZbs{}Exception}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Step not found in configuration\PYGZsq{}}\PYG{p}{);}
+            \PYG{p}{\PYGZcb{}}
+        \PYG{p}{\PYGZcb{}}
+
+        \PYG{k}{return} \PYG{n+nv}{\PYGZdl{}key}\PYG{p}{;}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{getCurrentStep}\PYG{p}{(}\PYG{n+nx}{StepInterface} \PYG{n+nv}{\PYGZdl{}step}\PYG{p}{)}
+    \PYG{p}{\PYGZob{}}
+        \PYG{n+nv}{\PYGZdl{}key} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{getCurrentRankStep}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}step}\PYG{p}{);}
+        \PYG{k}{return} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{uploadConfigArray}\PYG{p}{[}\PYG{n+nv}{\PYGZdl{}key}\PYG{p}{];}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{hasNextStep}\PYG{p}{(}\PYG{n+nx}{StepInterface} \PYG{n+nv}{\PYGZdl{}step}\PYG{p}{)}
+    \PYG{p}{\PYGZob{}}
+        \PYG{n+nv}{\PYGZdl{}key} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{getCurrentRankStep}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}step}\PYG{p}{);}
+        \PYG{n+nv}{\PYGZdl{}next} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}key} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+        \PYG{n+nv}{\PYGZdl{}hasNextStep} \PYG{o}{=} \PYG{n+nb}{array\PYGZus{}key\PYGZus{}exists}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}next}\PYG{p}{,} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{uploadConfigArray}\PYG{p}{);}
+        \PYG{k}{return} \PYG{n+nv}{\PYGZdl{}hasNextStep}\PYG{p}{;}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{getNextStep}\PYG{p}{(}\PYG{n+nx}{StepInterface} \PYG{n+nv}{\PYGZdl{}currentStep}\PYG{p}{)}
+    \PYG{p}{\PYGZob{}}
+        \PYG{n+nv}{\PYGZdl{}nextStep} \PYG{o}{=} \PYG{p}{[];}
+        \PYG{n+nv}{\PYGZdl{}key} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{getCurrentRankStep}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}currentStep}\PYG{p}{);}
+        \PYG{n+nv}{\PYGZdl{}next} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}key} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+        \PYG{n+nv}{\PYGZdl{}hasNextStep} \PYG{o}{=} \PYG{n+nb}{array\PYGZus{}key\PYGZus{}exists}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}next}\PYG{p}{,} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{uploadConfigArray}\PYG{p}{);}
+        \PYG{k}{if} \PYG{p}{(}\PYG{n+nv}{\PYGZdl{}hasNextStep}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+            \PYG{n+nv}{\PYGZdl{}nextStep} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{uploadConfigArray}\PYG{p}{[}\PYG{n+nv}{\PYGZdl{}next}\PYG{p}{];}
+        \PYG{p}{\PYGZcb{}}
+        \PYG{k}{return} \PYG{n+nv}{\PYGZdl{}nextStep}\PYG{p}{;}
+    \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

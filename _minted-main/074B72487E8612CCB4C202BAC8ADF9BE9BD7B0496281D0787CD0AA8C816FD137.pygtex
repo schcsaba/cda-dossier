@@ -1,0 +1,206 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZlt{}?php}
+
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}Definitions\PYGZbs{}UploadConfigurationParameters}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}Definitions\PYGZbs{}ValueType}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}UploadSteps\PYGZbs{}CastValues}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}UploadSteps\PYGZbs{}FuelTransaction\PYGZbs{}CreateFuelTransactionImportHistory}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}UploadSteps\PYGZbs{}GenerateUnitPriceExclVat}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}UploadSteps\PYGZbs{}GenerateVatRate}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}Definitions\PYGZbs{}FuelTransactionMap}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}UploadSteps\PYGZbs{}CheckGlobalParameters}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}UploadSteps\PYGZbs{}CheckRequiredHeaders}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}UploadSteps\PYGZbs{}CleanData}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}UploadSteps\PYGZbs{}ConvertEncoding}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}UploadSteps\PYGZbs{}GenerateLocationName}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}UploadSteps\PYGZbs{}ExtractToArray}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}UploadSteps\PYGZbs{}FuelTransaction\PYGZbs{}BindValues}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}UploadSteps\PYGZbs{}FuelTransaction\PYGZbs{}ExportTransactionsInMicroservice}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}UploadSteps\PYGZbs{}FuelTransaction\PYGZbs{}FilterAndMapFuelTransactions}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}UploadSteps\PYGZbs{}FuelTransaction\PYGZbs{}GetFuelSupplierId}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}UploadSteps\PYGZbs{}FuelTransaction\PYGZbs{}GetMemberCode}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}UploadSteps\PYGZbs{}GenerateInvoiceNumber}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}UploadSteps\PYGZbs{}GetVehicle}\PYG{p}{;}
+
+\PYG{k}{return} \PYG{p}{[}
+    \PYG{l+s+s1}{\PYGZsq{}process\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}
+        \PYG{p}{[}
+            \PYG{l+s+s1}{\PYGZsq{}class\PYGZus{}namespace\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nx}{GetFuelSupplierId}\PYG{o}{::}\PYG{n+na}{class}
+        \PYG{p}{],}
+        \PYG{p}{[}
+            \PYG{l+s+s1}{\PYGZsq{}class\PYGZus{}namespace\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nx}{CreateFuelTransactionImportHistory}\PYG{o}{::}\PYG{n+na}{class}
+        \PYG{p}{],}
+        \PYG{p}{[}
+            \PYG{l+s+s1}{\PYGZsq{}class\PYGZus{}namespace\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nx}{CheckGlobalParameters}\PYG{o}{::}\PYG{n+na}{class}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}
+                \PYG{l+s+s1}{\PYGZsq{}client\PYGZus{}id\PYGZsq{}}\PYG{p}{,}
+                \PYG{l+s+s1}{\PYGZsq{}user\PYGZus{}id\PYGZsq{}}
+            \PYG{p}{]}
+        \PYG{p}{],}
+        \PYG{p}{[}
+            \PYG{l+s+s1}{\PYGZsq{}class\PYGZus{}namespace\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nx}{ConvertEncoding}\PYG{o}{::}\PYG{n+na}{class}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}
+                \PYG{l+s+s1}{\PYGZsq{}from\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}ISO\PYGZhy{}8859\PYGZhy{}15\PYGZsq{}}\PYG{p}{,}
+                \PYG{l+s+s1}{\PYGZsq{}to\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}UTF\PYGZhy{}8\PYGZsq{}}
+            \PYG{p}{]}
+        \PYG{p}{],}
+        \PYG{p}{[}
+            \PYG{l+s+s1}{\PYGZsq{}class\PYGZus{}namespace\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nx}{ExtractToArray}\PYG{o}{::}\PYG{n+na}{class}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}
+                \PYG{l+s+s1}{\PYGZsq{}end\PYGZus{}of\PYGZus{}line\PYGZus{}char\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}
+            \PYG{p}{]}
+        \PYG{p}{],}
+        \PYG{p}{[}
+            \PYG{l+s+s1}{\PYGZsq{}class\PYGZus{}namespace\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nx}{CleanData}\PYG{o}{::}\PYG{n+na}{class}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}
+                \PYG{l+s+s1}{\PYGZsq{}separator\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{};\PYGZsq{}}\PYG{p}{,}
+                \PYG{l+s+s1}{\PYGZsq{}chars\PYGZus{}to\PYGZus{}remove\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s2}{\PYGZdq{}\PYGZsq{}\PYGZdq{}}
+            \PYG{p}{]}
+        \PYG{p}{],}
+        \PYG{p}{[}
+            \PYG{l+s+s1}{\PYGZsq{}class\PYGZus{}namespace\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nx}{CheckRequiredHeaders}\PYG{o}{::}\PYG{n+na}{class}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}
+                \PYG{l+s+s1}{\PYGZsq{}separator\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{};\PYGZsq{}}\PYG{p}{,}
+                \PYG{l+s+s1}{\PYGZsq{}headers\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s2}{\PYGZdq{}Enseigne;Site : Code site;Site : Numéro de terminal;Site : Libellé;Site : Libellé court;Site : Type du site;Client : Référence client;Client : Nom du client;Carte : Type de carte;Carte : Numéro de carte;Carte : Date de validité;Numéro de TLC;Date de télécollecte;Type de transaction;Numéro de transaction;Date de transaction;Code devise;Code produit;Produit;Prix unitaire;Quantité;Montant;Montant HT;Code véhicule;Code chauffeur;Kilométrage;Immatriculation;Code réponse;Numéro d\PYGZsq{}opposition;Numéro d\PYGZsq{}autorisation;Motif d\PYGZsq{}autorisation;Mode de transaction;Mode de vente;Mode de validation;Facturation client;Facturation site\PYGZdq{}}\PYG{p}{,}
+            \PYG{p}{]}
+        \PYG{p}{],}
+        \PYG{p}{[}
+            \PYG{l+s+s1}{\PYGZsq{}class\PYGZus{}namespace\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nx}{GetMemberCode}\PYG{o}{::}\PYG{n+na}{class}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}
+                \PYG{l+s+s1}{\PYGZsq{}separator\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{};\PYGZsq{}}\PYG{p}{,}
+                \PYG{l+s+s1}{\PYGZsq{}header\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}Client : Référence client\PYGZsq{}}
+            \PYG{p}{]}
+        \PYG{p}{],}
+        \PYG{p}{[}
+            \PYG{l+s+s1}{\PYGZsq{}class\PYGZus{}namespace\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nx}{GenerateVatRate}\PYG{o}{::}\PYG{n+na}{class}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}
+                \PYG{l+s+s1}{\PYGZsq{}separator\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{};\PYGZsq{}}\PYG{p}{,}
+                \PYG{l+s+s1}{\PYGZsq{}price\PYGZus{}with\PYGZus{}taxes\PYGZus{}field\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}Montant\PYGZsq{}}\PYG{p}{,}
+                \PYG{l+s+s1}{\PYGZsq{}price\PYGZus{}without\PYGZus{}taxes\PYGZus{}field\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}Montant HT\PYGZsq{}}\PYG{p}{,}
+                \PYG{l+s+s1}{\PYGZsq{}field\PYGZus{}names\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}vat\PYGZus{}rate\PYGZsq{}}\PYG{p}{]}
+            \PYG{p}{]}
+        \PYG{p}{],}
+        \PYG{p}{[}
+            \PYG{l+s+s1}{\PYGZsq{}class\PYGZus{}namespace\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nx}{GenerateUnitPriceExclVat}\PYG{o}{::}\PYG{n+na}{class}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}
+                \PYG{l+s+s1}{\PYGZsq{}separator\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{};\PYGZsq{}}\PYG{p}{,}
+                \PYG{l+s+s1}{\PYGZsq{}quantity\PYGZus{}field\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}Quantité\PYGZsq{}}\PYG{p}{,}
+                \PYG{l+s+s1}{\PYGZsq{}price\PYGZus{}without\PYGZus{}taxes\PYGZus{}field\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}Montant HT\PYGZsq{}}\PYG{p}{,}
+                \PYG{l+s+s1}{\PYGZsq{}field\PYGZus{}names\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}up\PYGZus{}excl\PYGZus{}vat\PYGZsq{}}\PYG{p}{]}
+            \PYG{p}{]}
+        \PYG{p}{],}
+        \PYG{p}{[}
+            \PYG{l+s+s1}{\PYGZsq{}class\PYGZus{}namespace\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nx}{GenerateInvoiceNumber}\PYG{o}{::}\PYG{n+na}{class}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}
+                \PYG{l+s+s1}{\PYGZsq{}separator\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{};\PYGZsq{}}\PYG{p}{,}
+                \PYG{l+s+s1}{\PYGZsq{}client\PYGZus{}reference\PYGZus{}field\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}Client : Référence client\PYGZsq{}}\PYG{p}{,}
+                \PYG{l+s+s1}{\PYGZsq{}field\PYGZus{}names\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}invoice\PYGZus{}number\PYGZsq{}}\PYG{p}{]}
+            \PYG{p}{]}
+        \PYG{p}{],}
+        \PYG{p}{[}
+            \PYG{l+s+s1}{\PYGZsq{}class\PYGZus{}namespace\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nx}{GenerateLocationName}\PYG{o}{::}\PYG{n+na}{class}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}
+                \PYG{l+s+s1}{\PYGZsq{}separator\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{};\PYGZsq{}}\PYG{p}{,}
+                \PYG{l+s+s1}{\PYGZsq{}location\PYGZus{}name\PYGZus{}field\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}Site : Libellé\PYGZsq{}}\PYG{p}{,}
+                \PYG{l+s+s1}{\PYGZsq{}field\PYGZus{}names\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}location\PYGZus{}name\PYGZsq{}}\PYG{p}{]}
+            \PYG{p}{]}
+        \PYG{p}{],}
+        \PYG{p}{[}
+            \PYG{l+s+s1}{\PYGZsq{}class\PYGZus{}namespace\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nx}{FilterAndMapFuelTransactions}\PYG{o}{::}\PYG{n+na}{class}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}
+                \PYG{l+s+s1}{\PYGZsq{}delimiter\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{};\PYGZsq{}}\PYG{p}{,}
+                \PYG{l+s+s1}{\PYGZsq{}filter\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}
+                    \PYG{l+s+s1}{\PYGZsq{}invoice\PYGZus{}number\PYGZsq{}}\PYG{p}{,}
+                    \PYG{l+s+s1}{\PYGZsq{}invoice\PYGZus{}date\PYGZsq{}}\PYG{p}{,}
+                    \PYG{l+s+s1}{\PYGZsq{}Client : Référence client\PYGZsq{}}\PYG{p}{,}
+                    \PYG{l+s+s1}{\PYGZsq{}Date de transaction\PYGZsq{}}\PYG{p}{,}
+                    \PYG{l+s+s1}{\PYGZsq{}Numéro de transaction\PYGZsq{}}\PYG{p}{,}
+                    \PYG{l+s+s1}{\PYGZsq{}Montant HT\PYGZsq{}}\PYG{p}{,}
+                    \PYG{l+s+s1}{\PYGZsq{}Quantité\PYGZsq{}}\PYG{p}{,}
+                    \PYG{l+s+s1}{\PYGZsq{}vat\PYGZus{}rate\PYGZsq{}}\PYG{p}{,}
+                    \PYG{l+s+s1}{\PYGZsq{}up\PYGZus{}excl\PYGZus{}vat\PYGZsq{}}\PYG{p}{,}
+                    \PYG{l+s+s1}{\PYGZsq{}Code produit\PYGZsq{}}\PYG{p}{,}
+                    \PYG{l+s+s1}{\PYGZsq{}Immatriculation\PYGZsq{}}\PYG{p}{,}
+                    \PYG{l+s+s1}{\PYGZsq{}Kilométrage\PYGZsq{}}\PYG{p}{,}
+                    \PYG{l+s+s1}{\PYGZsq{}Produit\PYGZsq{}}\PYG{p}{,}
+                    \PYG{l+s+s1}{\PYGZsq{}Code produit\PYGZsq{}}\PYG{p}{,}
+                    \PYG{l+s+s1}{\PYGZsq{}Site : Libellé\PYGZsq{}}\PYG{p}{,}
+                    \PYG{l+s+s1}{\PYGZsq{}location\PYGZus{}name\PYGZsq{}}\PYG{p}{,}
+                    \PYG{l+s+s1}{\PYGZsq{}Carte : Numéro de carte\PYGZsq{}}
+
+                \PYG{p}{],}
+                \PYG{l+s+s1}{\PYGZsq{}mapping\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}
+                    \PYG{n+nx}{FuelTransactionMap}\PYG{o}{::}\PYG{n+na}{INVOICE\PYGZus{}DATE} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}invoice\PYGZus{}date\PYGZsq{}}\PYG{p}{,}
+                    \PYG{n+nx}{FuelTransactionMap}\PYG{o}{::}\PYG{n+na}{INVOICE\PYGZus{}NUMBER} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}invoice\PYGZus{}number\PYGZsq{}}\PYG{p}{,}
+                    \PYG{n+nx}{FuelTransactionMap}\PYG{o}{::}\PYG{n+na}{MEMBER\PYGZus{}CODE} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}Client : Référence client\PYGZsq{}}\PYG{p}{,}
+                    \PYG{n+nx}{FuelTransactionMap}\PYG{o}{::}\PYG{n+na}{TRANSACTION\PYGZus{}NUMBER} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}Numéro de transaction\PYGZsq{}}\PYG{p}{,}
+                    \PYG{n+nx}{FuelTransactionMap}\PYG{o}{::}\PYG{n+na}{TRANSACTION\PYGZus{}DT} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}Date de transaction\PYGZsq{}}\PYG{p}{,}
+                    \PYG{n+nx}{FuelTransactionMap}\PYG{o}{::}\PYG{n+na}{TRANSACTION\PYGZus{}AMOUNT\PYGZus{}EXCL\PYGZus{}VAT} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}Montant HT\PYGZsq{}}\PYG{p}{,}
+                    \PYG{n+nx}{FuelTransactionMap}\PYG{o}{::}\PYG{n+na}{QUANTITY} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}Quantité\PYGZsq{}}\PYG{p}{,}
+                    \PYG{n+nx}{FuelTransactionMap}\PYG{o}{::}\PYG{n+na}{VAT\PYGZus{}RATE} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}vat\PYGZus{}rate\PYGZsq{}}\PYG{p}{,}
+                    \PYG{n+nx}{FuelTransactionMap}\PYG{o}{::}\PYG{n+na}{UP\PYGZus{}EXCL\PYGZus{}VAT} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}up\PYGZus{}excl\PYGZus{}vat\PYGZsq{}}\PYG{p}{,}
+                    \PYG{n+nx}{FuelTransactionMap}\PYG{o}{::}\PYG{n+na}{REGPLATE} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}Immatriculation\PYGZsq{}}\PYG{p}{,}
+                    \PYG{n+nx}{FuelTransactionMap}\PYG{o}{::}\PYG{n+na}{PRODUCT\PYGZus{}CODE} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}Code produit\PYGZsq{}}\PYG{p}{,}
+                    \PYG{n+nx}{FuelTransactionMap}\PYG{o}{::}\PYG{n+na}{PRODUCT\PYGZus{}NAME} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}Produit\PYGZsq{}}\PYG{p}{,}
+                    \PYG{n+nx}{FuelTransactionMap}\PYG{o}{::}\PYG{n+na}{TRANSACTION\PYGZus{}TYPE\PYGZus{}CODE} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}Code produit\PYGZsq{}}\PYG{p}{,}
+                    \PYG{n+nx}{FuelTransactionMap}\PYG{o}{::}\PYG{n+na}{TRANSACTION\PYGZus{}TYPE\PYGZus{}NAME} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}Produit\PYGZsq{}}\PYG{p}{,}
+                    \PYG{n+nx}{FuelTransactionMap}\PYG{o}{::}\PYG{n+na}{LOCATION\PYGZus{}NAME} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}location\PYGZus{}name\PYGZsq{}}\PYG{p}{,}
+                    \PYG{n+nx}{FuelTransactionMap}\PYG{o}{::}\PYG{n+na}{CITY} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}location\PYGZus{}name\PYGZsq{}}\PYG{p}{,}
+                    \PYG{n+nx}{FuelTransactionMap}\PYG{o}{::}\PYG{n+na}{SUBSCRIPTION\PYGZus{}CARD\PYGZus{}NUMBER} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}Carte : Numéro de carte\PYGZsq{}}\PYG{p}{,}
+                    \PYG{n+nx}{FuelTransactionMap}\PYG{o}{::}\PYG{n+na}{VEHICLE\PYGZus{}ODOMETER\PYGZus{}IN\PYGZus{}KM} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}Kilométrage\PYGZsq{}}\PYG{p}{,}
+                    \PYG{n+nx}{FuelTransactionMap}\PYG{o}{::}\PYG{n+na}{VAT\PYGZus{}AMOUNT} \PYG{o}{=\PYGZgt{}} \PYG{k}{null}
+                \PYG{p}{]}
+            \PYG{p}{]}
+        \PYG{p}{],}
+        \PYG{p}{[}
+            \PYG{l+s+s1}{\PYGZsq{}class\PYGZus{}namespace\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nx}{CastValues}\PYG{o}{::}\PYG{n+na}{class}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}} \PYG{o}{=\PYGZgt{}}
+                \PYG{p}{[}
+                    \PYG{p}{[}
+                        \PYG{l+s+s1}{\PYGZsq{}keys\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}
+                            \PYG{n+nx}{FuelTransactionMap}\PYG{o}{::}\PYG{n+na}{TRANSACTION\PYGZus{}AMOUNT\PYGZus{}EXCL\PYGZus{}VAT}\PYG{p}{,}
+                            \PYG{n+nx}{FuelTransactionMap}\PYG{o}{::}\PYG{n+na}{UP\PYGZus{}EXCL\PYGZus{}VAT}\PYG{p}{,}
+                            \PYG{n+nx}{FuelTransactionMap}\PYG{o}{::}\PYG{n+na}{QUANTITY}\PYG{p}{,}
+                            \PYG{n+nx}{FuelTransactionMap}\PYG{o}{::}\PYG{n+na}{VAT\PYGZus{}RATE}\PYG{p}{,}
+                        \PYG{p}{],}
+                        \PYG{l+s+s1}{\PYGZsq{}type\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nx}{ValueType}\PYG{o}{::}\PYG{n+na}{FLOAT}\PYG{p}{,}
+                        \PYG{l+s+s1}{\PYGZsq{}format\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}from\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{},\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}to\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}.\PYGZsq{}}\PYG{p}{],}
+                    \PYG{p}{],}
+                    \PYG{p}{[}
+                        \PYG{l+s+s1}{\PYGZsq{}keys\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}\PYG{n+nx}{FuelTransactionMap}\PYG{o}{::}\PYG{n+na}{VEHICLE\PYGZus{}ODOMETER\PYGZus{}IN\PYGZus{}KM}\PYG{p}{],}
+                        \PYG{l+s+s1}{\PYGZsq{}type\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nx}{ValueType}\PYG{o}{::}\PYG{n+na}{INTEGER}
+                    \PYG{p}{],}
+                    \PYG{p}{[}
+                        \PYG{l+s+s1}{\PYGZsq{}keys\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}\PYG{n+nx}{FuelTransactionMap}\PYG{o}{::}\PYG{n+na}{INVOICE\PYGZus{}DATE}\PYG{p}{],}
+                        \PYG{l+s+s1}{\PYGZsq{}type\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nx}{ValueType}\PYG{o}{::}\PYG{n+na}{DATE}\PYG{p}{,}
+                        \PYG{l+s+s1}{\PYGZsq{}format\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}from\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{k}{null}\PYG{p}{]}
+                    \PYG{p}{],}
+                    \PYG{p}{[}
+                        \PYG{l+s+s1}{\PYGZsq{}keys\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}\PYG{n+nx}{FuelTransactionMap}\PYG{o}{::}\PYG{n+na}{TRANSACTION\PYGZus{}DT}\PYG{p}{],}
+                        \PYG{l+s+s1}{\PYGZsq{}type\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nx}{ValueType}\PYG{o}{::}\PYG{n+na}{DATETIME}\PYG{p}{,}
+                        \PYG{l+s+s1}{\PYGZsq{}format\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}from\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}d\PYGZhy{}m\PYGZhy{}Y H:i:s\PYGZsq{}}\PYG{p}{]}
+                    \PYG{p}{]}
+                \PYG{p}{]}
+        \PYG{p}{],}
+        \PYG{p}{[}
+            \PYG{l+s+s1}{\PYGZsq{}class\PYGZus{}namespace\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nx}{GetVehicle}\PYG{o}{::}\PYG{n+na}{class}
+        \PYG{p}{],}
+
+        \PYG{p}{[}
+            \PYG{l+s+s1}{\PYGZsq{}class\PYGZus{}namespace\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nx}{BindValues}\PYG{o}{::}\PYG{n+na}{class}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}
+                \PYG{n+nx}{UploadConfigurationParameters}\PYG{o}{::}\PYG{n+na}{WITH\PYGZus{}SUBSCRIPTION\PYGZus{}CARDS} \PYG{o}{=\PYGZgt{}} \PYG{k}{true}\PYG{p}{,}
+            \PYG{p}{]}
+        \PYG{p}{],}
+        \PYG{p}{[}
+            \PYG{l+s+s1}{\PYGZsq{}class\PYGZus{}namespace\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nx}{ExportTransactionsInMicroservice}\PYG{o}{::}\PYG{n+na}{class}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[]}
+        \PYG{p}{]}
+    \PYG{p}{],}
+    \PYG{l+s+s1}{\PYGZsq{}error\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}
+        \PYG{p}{[}
+            \PYG{l+s+s1}{\PYGZsq{}class\PYGZus{}namespace\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nx}{\PYGZbs{}App\PYGZbs{}UploadErrorTasks\PYGZbs{}FuelTransaction\PYGZbs{}UpdateFuelTransactionImportHistory}\PYG{o}{::}\PYG{n+na}{class}\PYG{p}{,}
+        \PYG{p}{]}
+    \PYG{p}{]}
+\PYG{p}{];}
+\end{Verbatim}

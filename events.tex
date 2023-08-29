@@ -1,0 +1,51 @@
+\subsubsection{Les événements}
+
+Comme nous l'avons vu, la méthode \Verb|handle| de la classe \Verb|UploadTrigger| déclenche l'événement appelé \Verb|NextStepEvent|.
+
+Les événements dans Laravel sont un mécanisme qui permettent la communication entre différentes parties de l'application de manière souple et découplée. Ils facilitent la gestion des interactions entre les composants en permettant à une partie de déclencher un événement, tandis que d'autres parties (les écouteurs d'événements) peuvent réagir à cet événement de manière autonome. Les événements permettent de séparer les responsabilités et de rendre l'application plus modulaire, tout en facilitant l'ajout ou la modification de fonctionnalités sans perturber l'ensemble du système.
+
+Le fonctionnement des événements dans Laravel repose sur trois éléments principaux :
+
+\begin{enumerate}
+    \item \textbf{Définition de l'événement :} Un événement est défini en tant que classe qui utilise le trait \Verb|Dispatchable|. Cette classe contient généralement des propriétés et des méthodes pour définir les informations spécifiques à l'événement.
+    \item \textbf{Déclenchement de l'événement :} Une fois qu'on a créé la classe d'événement, on peut utiliser la méthode statique \Verb|dispatch()| sur la classe pour déclencher l'événement. Tous les arguments transmis à la méthode seront transmis au constructeur de l'événement. Cela notifie tous les écouteurs d'événements associés à cet événement.
+    \item \textbf{Écouteurs d'événements :} Les écouteurs d'événements sont des classes qui réagissent aux événements spécifiques enregistrés. Ils écoutent les événements déclenchés et exécutent des actions prédéfinies en réponse à ces événements.
+\end{enumerate}
+
+Les abonnés d'événements (event subscribers) dans Laravel offrent une manière alternative d'organiser et de gérer les écouteurs d'événements. Au lieu d'attacher des écouteurs à des classes d'événements individuelles en utilisant la méthode \Verb|listen()|, les abonnés d'événements nous permettent de regrouper des écouteurs liés dans une seule classe. En raison de son caractère pratique, nous avons utilisé cette approche et nous avons créé l'abonné d'événement appelé \Verb|StepEventSubscriber|. Mais avant de l'examiner en détail, regardons la classe \Verb|NextStepEvent| (Code source~\ref{code:next-step-event}).
+
+\begin{code}
+    \caption{La classe \Verb{NextStepEvent}.}
+    \inputminted{php}{code/NextStepEvent.php}
+    \label{code:next-step-event}
+\end{code}
+
+La classe \Verb|NextStepEvent| utilise la trait \Verb|Dispatchable|. La classe a une propriété publique \Verb|step| qui est une instance de l'interface \Verb|StepInterface|. L'interface \Verb|StepInterface| définit les méthodes (\verb|start|, \Verb|process|, \Verb|getNameOfPreviousResultIn|, \Verb|getNameResultOut|) que doivent implémenter les classes qui représentent les maillons de téléchargement. Le constructeur de la classe prend une instance de l'interface \Verb|StepInterface| en argument et la stocke dans la propriété \Verb|step|.
+
+Nous avons créé un autre événement en plus du \Verb|NextStepEvent|, le \Verb|StepErrorEvent|. Le code de cet événement est très similaire à celui de l'événement présenté ici. La seule différence réside dans le fait que le \Verb|StepErrorEvent| possède une propriété supplémentaire, le \Verb|message|. Cette propriété est une chaîne de caractères et elle est définie par le constructeur à la valeur de son deuxième argument. L'événement \Verb|StepErrorEvent| est déclenché par les maillons s'ils rencontrent une erreur au cours de leur exécution. Passons maintenant à l'abonné d'événement \Verb|StepEventSubscriber|.
+
+La classe \Verb|StepEventSubscriber| implémente l'interface \Verb|ShouldQueue|, indiquant que les écouteurs doivent être placés dans une file d'attente pour un traitement différé. Les constantes \Verb|PROCESS_CONFIG_KEY| et \Verb|ERROR_CONFIG_KEY| sont définies pour représenter les clés de configuration utilisées dans les événements.
+
+La méthode \Verb|handleNextStep| (Code source~\ref{code:step-event-subscriber-handle-next-step}) est l'écouteur pour l'événement \Verb|NextStepEvent|. Cet écouteur traite les maillons suivants lorsqu'un événement \Verb|NextStepEvent| est déclenché. Il récupère les paramètres nécessaires de l'événement et exécute les maillons de traitement définis dans la configuration. Tout d'abord, l'événement \Verb|NextStepEvent| fournit un objet \Verb|Step| qui représente le aillon actuel du processus. À partir de cet objet, l'événement peut extraire les paramètres nécessaires et l'emplacement du type d'importation (upload type). En utilisant le type d'importation, la méthode accède à la configuration de l'importation correspondante dans la classe \Verb|UploadType|.\footnote{Le code de la classe \Verb{UploadType} et la configuration de l'importation du fichier LCCC sont disponibles aux annexes (Code source~\ref{code:upload-type}, page~\pageref{code:upload-type}, Code source~\ref{code:lccc-config}, page~\pageref{code:lccc-config}).} Cette configuration contient des informations sur les maillons et les actions à effectuer pour ce type d'importation. Une fois que la configuration est trouvée, la méthode recherche le maillon suivant à exécuter. S'il y a un maillon suivant défini dans la configuration, la méthode extrait les informations sur ce prochain maillon, notamment sa classe et ses paramètres. Si un maillon suivant est trouvé, la méthode instancie ce maillon en utilisant la classe et les paramètres extraits. Ensuite, elle appelle la méthode \Verb|start| sur cette instance pour lancer l'exécution du maillon suivant. Si aucun maillon suivant n'est trouvé, cela signifie que l'importation est terminée. Dans ce cas, la méthode met à jour le statut de l'importation pour indiquer qu'elle est terminée.
+
+\begin{code}
+    \caption{La méthode \Verb{handleNextStep} de la classe \Verb{StepEventSubscriber}.}
+    \inputminted[firstline=21,lastline=51]{php}{code/StepEventSubscriber.php}
+    \label{code:step-event-subscriber-handle-next-step}
+\end{code}
+
+La méthode \Verb|handleStepError| (Code source~\ref{code:step-event-subscriber-handle-step-error}) est l'écouteur pour l'événement \Verb|StepErrorEvent|. Cet écouteur gère les erreurs survenues lors des maillons de traitement. Il récupère les informations d'erreur de l'événement et exécute les étapes de gestion des erreurs définies dans la configuration. Lorsqu'un événement \Verb|StepErrorEvent| est déclenché, la méthode \Verb|handleStepError| est appelée. Cet événement fournit un objet \Verb|Step| qui représente le maillon où l'erreur s'est produite. À partir de cet objet \Verb|Step|, la méthode identifie l'importation associée à l'erreur en récupérant son identifiant. Cela permet d'accéder à l'enregistrement de l'importation dans la base de données. En utilisant l'identifiant d'importation, la méthode récupère l'enregistrement de l'importation à partir de la base de données. Cela permet d'accéder aux détails de l'importation, tels que son statut actuel. La méthode met à jour le statut de l'importation pour indiquer qu'elle a été annulée (\Verb|UploadStatus::ABORTED|). Cela permet de notifier que l'importation a été interrompue en raison d'une erreur. Ensuite, la méthode vérifie si la configuration de l'importation contient une section dédiée aux actions en cas d'erreur (\Verb|ERROR_CONFIG_KEY|). Si une telle configuration est disponible, cela signifie qu'il existe des étapes spécifiques à exécuter en cas d'erreur. Si une configuration d'erreur est trouvée, la méthode récupère les classes des étapes d'erreur à partir de la configuration. Ces classes représentent les étapes spécifiques à effectuer pour gérer l'erreur. La méthode utilise la classe \Verb|Pipeline| de Laravel pour exécuter en séquence les étapes d'erreur. Elle envoie l'objet StepErrorEvent à travers la séquence de tâches d'erreur définies dans la configuration. Une fois que toutes les étapes d'erreur ont été exécutées, la méthode retourne true pour indiquer que le processus de gestion d'erreur est terminé avec succès.
+
+\begin{code}
+    \caption{La méthode \Verb{handleStepError} de la classe \Verb{StepEventSubscriber}.}
+    \inputminted[firstline=53,lastline=72]{php}{code/StepEventSubscriber.php}
+    \label{code:step-event-subscriber-handle-step-error}
+\end{code}
+
+La méthode \Verb|subscribe| (Code source~\ref{code:step-event-subscriber-subscribe}) attache les écouteurs aux événements spécifiques (\Verb|NextStepEvent| et \Verb|StepErrorEvent|). Cela définit quelle méthode doit être appelée lorsque ces événements sont déclenchés.
+
+\begin{code}
+    \caption{La méthode \Verb{subscribe} de la classe \Verb{StepEventSubscriber}.}
+    \inputminted[firstline=74,lastline=85]{php}{code/StepEventSubscriber.php}
+    \label{code:step-event-subscriber-subscribe}
+\end{code}

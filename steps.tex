@@ -1,0 +1,49 @@
+\subsubsection{Les maillons}
+
+Dans l'histoire de l'importation d'un fichier LCCC, nous arrivons à la dernière étape : l'écouteur d'événements crée des maillons (les instances des classes enfants de la classe \Verb|Step|) en fonction de la configuration, les ajoute à la file d'attente l'une après l'autre et le fichier est traité par ces maillons. Pour comprendre le fonctionnement des maillons, nous allons d'abord examiner la classe abstraite \Verb|Step|, puis un exemple de maillon qui étend la classe \Verb|Step|.
+
+La classe \Verb|Step| est une classe abstraite qui représente un maillon dans le processus de traitement des importations. Elle implémente l'interface \Verb|StepInterface|, qui définit les méthodes (\verb|start|, \Verb|process|, \Verb|getNameOfPreviousResultIn|, \Verb|getNameResultOut|) que chaque maillon doit implémenter. La classe possède des propriétés telles que \Verb|pathToPreviousResultIn|, \Verb|uploadId|, \Verb|uploadType|, \Verb|stepConfigParameters|, \Verb|pathToResultOut|, \Verb|transactionAndFileParameters|, \Verb|uploadStep|, \Verb|logFilePath|, et \Verb|devLogFilePath|. Ces propriétés représentent diverses informations nécessaires pour le traitement d'une maillon.
+
+Le constructeur de la classe (Code source~\ref{code:step-constructor}) est appelé lors de l'instanciation d'un nouveau maillon. Il prend en paramètres des informations essentielles comme l'identifiant de l'importation, le type d'importation, les paramètres de configuration du maillon, les paramètres de transaction et de fichier, et le chemin du résultat précédent.
+
+\begin{code}
+    \caption{Le constructeur de la classe \Verb{Step}.}
+    \inputminted[firstline=29,lastline=60]{php}{code/Step.php}
+    \label{code:step-constructor}
+\end{code}
+
+Le constructeur crée également un enregistrement \Verb|UploadStep| dans la base de données pour suivre le maillon en cours. Il enregistre des informations telles que l'identifiant de l'importation, le chemin du résultat entrant, le type de maillon et le statut du maillon (défini comme \Verb|UploadStatus::STARTED|).
+
+La classe Step déclare deux méthodes abstraites : \Verb|process| et \Verb|__toString|. Ces méthodes doivent être implémentées par les sous-classes. \Verb|process| contient la logique spécifique à chaque maillon, tandis que \Verb|__toString| retourne une représentation sous forme de chaîne de l'objet.
+
+La méthode \Verb|start| (Code source~\ref{code:step-start}) est responsable du démarrage du maillon. Elle enregistre le début du maillon dans les fichiers de journal, met à jour le statut du maillon, puis appelle la méthode \Verb|process| pour exécuter la logique du maillon. En cas d'exception, le maillon est marquée comme annulée et un message d'erreur est enregistré.
+
+\begin{code}
+    \caption{La méthode \Verb{start} de la classe \Verb{Step}.}
+    \inputminted[firstline=66,lastline=96]{php}{code/Step.php}
+    \label{code:step-start}
+\end{code}
+
+La méthode \Verb|end| (Code source~\ref{code:step-end}) est appelée lorsque le maillon est terminé avec succès. Elle met à jour le statut du maillon pour indiquer qu'il est terminé (\Verb|UploadStatus::COMPLETED|) et déclenche l'événement \Verb|NextStepEvent| pour signaler la fin du maillon.
+
+\begin{code}
+    \caption{La méthode \Verb{end} de la classe \Verb{Step}.}
+    \inputminted[firstline=98,lastline=105]{php}{code/Step.php}
+    \label{code:step-end}
+\end{code}
+
+La classe fournit plusieurs méthodes pour accéder aux informations du maillon, telles que l'identifiant de l'importation, le type d'importation, les paramètres de configuration, les paramètres de transaction et de fichier, etc.
+
+En résumé, la classe Step est la base pour la création de maillons dans le processus de traitement des importations. Elle gère la gestion des maillons, le suivi des informations relatives au maillon et l'exécution de la logique spécifique à chaque maillon. Les maillons spécifiques sont ensuite créés en étendant la classe \Verb|Step| et en implémentant la méthode \Verb|process| avec la logique de traitement appropriée.
+
+A titre d'exemple, nous allons examiner le quatrième maillon du traitement du fichier LCCC, la classe ConvertEncoding (Code source~\ref{code:convert-encoding}). Bien entendu, ce maillon peut être et est utilisé pour le traitement d'autres types de fichiers. Cette classe est un maillon spécifique du processus de traitement des importations. Elle étend la classe abstraite \Verb|Step|. Cela signifie qu'elle hérite de toutes les propriétés et méthodes définies dans la classe \Verb|Step|.
+
+\begin{code}
+    \caption{La classe \Verb{ConvertEncoding}.}
+    \inputminted{php}{code/ConvertEncoding.php}
+    \label{code:convert-encoding}
+\end{code}
+
+La méthode \Verb|process| est une méthode obligatoire à implémenter, car elle est déclarée comme abstraite dans la classe parente. Cette méthode contient la logique spécifique à ce maillon de conversion d'encodage. Dans la méthode \Verb|process|, des entrées de journal sont ajoutées pour suivre le déroulement du maillon. Ensuite, la méthode vérifie si les paramètres de configuration requis, tels que \Verb|from| et \Verb|to|, sont présents. Si ces paramètres sont manquants, une exception est levée avec un message d'erreur approprié. La méthode utilise la méthode héritée \Verb|getPreviousResult| pour récupérer le résultat du maillon précédent. La conversion d'encodage est effectuée en utilisant la fonction PHP \Verb|iconv|. Les paramètres \Verb|from| et \Verb|to| indiquent les encodages source et cible de la conversion. Le contenu est converti de l'encodage source à l'encodage cible. Le résultat converti est ensuite enregistré en tant que résultat de ce maillon en utilisant la méthode \Verb|putOutResult| héritée de la classe parente. Enfin, des entrées de journal sont ajoutées pour indiquer que la conversion d'encodage a été effectuée avec succès, en précisant les encodages source et cible. La méthode \Verb|__toString| retourne une chaîne de caractères qui décrit ce maillon de manière générale.
+
+Le traitement des fichiers est réalisé au moyen d'une série de maillons comme celle-ci, définies dans la configuration du type de fichier spécifique. Ces maillons utilisent la sortie du maillon précédent et génèrent leurs propres résultats. En général, l'objectif du traitement est de formater le fichier de manière à ce que les données puissent être extraites, puis d'extraire les données et de les enregistrer dans les colonnes appropriées des tables adéquates de la base de données appropriée de SuiviDeFlotte. Tout au long du processus, l'activité des maillons est consignée dans des fichiers et également dans la base de données de l'application. Ce faisant, nous sommes arrivés à la fin de l'histoire de l'importation d'un fichier LCCC.

@@ -1,0 +1,37 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZlt{}?php}
+
+\PYG{k}{namespace} \PYG{n+nx}{App\PYGZbs{}UploadSteps}\PYG{p}{;}
+
+
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}Helpers\PYGZbs{}Logger}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}UploadSteps\PYGZbs{}Utils\PYGZbs{}ShortErrorMessage}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{Exception}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{Psr\PYGZbs{}Log\PYGZbs{}LogLevel}\PYG{p}{;}
+
+\PYG{k}{class} \PYG{n+nc}{ConvertEncoding} \PYG{k}{extends} \PYG{n+nx}{Step}
+\PYG{p}{\PYGZob{}}
+    \PYG{k}{function} \PYG{n+nf}{process}\PYG{p}{()}
+    \PYG{p}{\PYGZob{}}
+        \PYG{n+nx}{Logger}\PYG{o}{::}\PYG{n+na}{appendLog}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{logFilePath}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}process\PYGZsq{}}\PYG{p}{,} \PYG{n+nx}{LogLevel}\PYG{o}{::}\PYG{n+na}{INFO}\PYG{p}{);}
+        \PYG{n+nx}{Logger}\PYG{o}{::}\PYG{n+na}{appendLog}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{devLogFilePath}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}process\PYGZsq{}}\PYG{p}{,} \PYG{n+nx}{LogLevel}\PYG{o}{::}\PYG{n+na}{INFO}\PYG{p}{);}
+
+        \PYG{k}{if}\PYG{p}{(}\PYG{o}{!}\PYG{n+nb}{isset}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{stepConfigParameters}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}from\PYGZsq{}}\PYG{p}{])} \PYG{o}{||} \PYG{o}{!}\PYG{n+nb}{isset}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{stepConfigParameters}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}to\PYGZsq{}}\PYG{p}{]))\PYGZob{}}
+            \PYG{k}{throw} \PYG{k}{new} \PYG{n+nx}{Exception}\PYG{p}{(}\PYG{n+nx}{ShortErrorMessage}\PYG{o}{::}\PYG{n+na}{SERVER\PYGZus{}ERROR} \PYG{o}{.} \PYG{n+nx}{ShortErrorMessage}\PYG{o}{::}\PYG{n+na}{GLUE} \PYG{o}{.} \PYG{l+s+s1}{\PYGZsq{}: Parameter missing for step \PYGZsq{}} \PYG{o}{.} \PYG{n+nb}{get\PYGZus{}class}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}this}\PYG{p}{));}
+        \PYG{p}{\PYGZcb{}}
+
+        \PYG{n+nv}{\PYGZdl{}content} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{getPreviousResult}\PYG{p}{();}
+
+        \PYG{n+nv}{\PYGZdl{}convertContent} \PYG{o}{=} \PYG{n+nb}{iconv}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{stepConfigParameters}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}from\PYGZsq{}}\PYG{p}{],} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{stepConfigParameters}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}to\PYGZsq{}}\PYG{p}{],} \PYG{n+nv}{\PYGZdl{}content}\PYG{p}{);}
+        \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{putOutResult}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}convertContent}\PYG{p}{);}
+
+        \PYG{n+nx}{Logger}\PYG{o}{::}\PYG{n+na}{appendLog}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{logFilePath}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}The encoding is successfully converted from \PYGZsq{}}\PYG{o}{.} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{stepConfigParameters}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}from\PYGZsq{}}\PYG{p}{]} \PYG{o}{.}\PYG{l+s+s1}{\PYGZsq{} to \PYGZsq{}}\PYG{o}{.} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{stepConfigParameters}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}to\PYGZsq{}}\PYG{p}{]} \PYG{o}{.}\PYG{l+s+s1}{\PYGZsq{}.\PYGZsq{}}\PYG{p}{,} \PYG{n+nx}{LogLevel}\PYG{o}{::}\PYG{n+na}{INFO}\PYG{p}{);}
+        \PYG{n+nx}{Logger}\PYG{o}{::}\PYG{n+na}{appendLog}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{devLogFilePath}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}The encoding is successfully converted from \PYGZsq{}}\PYG{o}{.} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{stepConfigParameters}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}from\PYGZsq{}}\PYG{p}{]} \PYG{o}{.}\PYG{l+s+s1}{\PYGZsq{} to \PYGZsq{}}\PYG{o}{.} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{stepConfigParameters}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}to\PYGZsq{}}\PYG{p}{]} \PYG{o}{.}\PYG{l+s+s1}{\PYGZsq{}.\PYGZsq{}}\PYG{p}{,} \PYG{n+nx}{LogLevel}\PYG{o}{::}\PYG{n+na}{INFO}\PYG{p}{);}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{function} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}toString}\PYG{p}{()}
+    \PYG{p}{\PYGZob{}}
+        \PYG{k}{return} \PYG{l+s+s1}{\PYGZsq{}Convert encoding...\PYGZsq{}}\PYG{p}{;}
+    \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

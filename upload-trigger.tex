@@ -1,0 +1,53 @@
+\subsubsection{La classe abstraite \Verb{UploadTrigge} et ses enfants}
+
+Dans l'API, les commandes Artisan personnalisées qui sont appelées par la méthode \Verb|upload| de la classe \Verb|UploadController| sont représentées par la classe abstraite \Verb|UploadTrigger| et ses enfants. Elles se trouvent dans le dossier \Verb|app/Console/Commands| du projet.
+
+La classe \Verb|UploadTrigger| est une classe de commande, destinée à gérer le processus de déclenchement d'une importation de fichiers. Elle étend la classe \Verb|Command| de Laravel, fournissant ainsi la base pour définir des commandes spécifiques.
+
+La classe contient des propriétés statiques \Verb|storageDirectory| et \Verb|workDirectory| pour les répertoires de stockage et de travail. Dans le constructeur (Code source~\ref{code:upload-trigger-constructor}), des arguments d'entrée (\Verb|input|, \Verb|token|, \Verb|category| et \Verb|type|) sont définis pour la commande, ainsi qu'une définition d'entrée pour les utiliser.
+
+\begin{code}
+    \caption{Le constructeur de la classe \Verb{UploadTrigger}.}
+    \inputminted[firstline=28,lastline=38]{php}{code/UploadTrigger.php}
+    \label{code:upload-trigger-constructor}
+\end{code}
+
+La méthode \Verb|handle()| (Code source~\ref{code:upload-trigger-handle}) est appelée lorsque la commande est exécutée. Elle enregistre un nouvel \Verb|Upload| en utilisant les paramètres fournis, puis déclenche un événement \Verb|StepStart| avec les paramètres nécessaires pour démarrer l'étape de traitement. Le statut de l'importation est mis à jour et les informations sont enregistrées dans un fichier journal.
+
+\begin{code}
+    \caption{La méthode \Verb{handle()} de la classe \Verb{UploadTrigger}.}
+    \inputminted[firstline=40,lastline=62]{php}{code/UploadTrigger.php}
+    \label{code:upload-trigger-handle}
+\end{code}
+
+La méthode \Verb|recordNewUpload()| (Code source~\ref{code:upload-trigger-record-new-upload}) enregistre les détails de l'importation dans la base de données, gère les fichiers associés et renvoie un objet \Verb|Upload|.
+
+\begin{code}
+    \caption{La méthode \Verb{recordNewUpload()} de la classe \Verb{UploadTrigger}.}
+    \inputminted[firstline=65,lastline=88]{php}{code/UploadTrigger.php}
+    \label{code:upload-trigger-record-new-upload}
+\end{code}
+
+La méthode \Verb|saveInDirectories()| (Code source~\ref{code:upload-trigger-save-in-directories}) gère l'enregistrement des fichiers dans les répertoires de stockage et de travail, tout en gérant les paramètres associés.
+
+\begin{code}
+    \caption{La méthode \Verb{saveInDirectories()} de la classe \Verb{UploadTrigger}.}
+    \inputminted[firstline=90,lastline=121]{php}{code/UploadTrigger.php}
+    \label{code:upload-trigger-save-in-directories}
+\end{code}
+
+L'objectif global de la classe est de gérer le flux de travail lié à l'importation de fichiers, de l'enregistrement initial à l'enregistrement des fichiers et à la mise à jour des statuts et des journaux correspondants. Cette classe de commande abstraite joue un rôle essentiel dans la gestion des processus d'importation de fichiers dans l'API, en encapsulant les étapes et les opérations associées dans des méthodes clés.
+
+Cette classe contient les fonctionnalités communes des commandes d'importation de fichiers. Pour créer des commandes spécifiques à un fichier, il convient d'étendre cette classe et de définir les attributs spécifiques dans les classes enfants.
+
+La classe \Verb|UploadTriggerLCCC| (Code source~\ref{code:upload-trigger-lccc}) est une classe de commande spécifique à notre fichier d'exemple, destinée à gérer le déclenchement de l'importation des transactions de carburant spécifiques à LCCC. Elle étend la classe abstraite \Verb|UploadTrigger|, héritant ainsi des fonctionnalités et du comportement définis dans la classe parente.
+
+La propriété \Verb|signature| est définie pour cette commande, indiquant comment la commande doit être appelée à partir de la ligne de commande Laravel ou à partir du code, comme dans la méthode \Verb|upload| de la classe \Verb|UploadController|. Dans ce cas, la signature est \Verb|upload-fuel-transactions:lccc|.
+
+La propriété \Verb|description| donne une brève description de ce que fait la commande. Dans ce cas, la description est \foreignquote{french}{Import fuel transactions LCCC}, ce qui indique clairement que la commande est utilisée pour l'importation des transactions de carburant spécifiques à LCCC.
+
+\begin{code}
+    \caption{La classe \Verb{UploadTriggerLCCC}.}
+    \inputminted{php}{code/UploadTriggerLCCC.php}
+    \label{code:upload-trigger-lccc}
+\end{code}

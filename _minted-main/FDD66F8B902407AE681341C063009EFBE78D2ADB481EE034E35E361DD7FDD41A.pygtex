@@ -1,0 +1,124 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZlt{}?php}
+
+\PYG{k}{namespace} \PYG{n+nx}{App\PYGZbs{}Console\PYGZbs{}Commands}\PYG{p}{;}
+
+
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}Events\PYGZbs{}NextStepEvent}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}Events\PYGZbs{}StepErrorEvent}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}Helpers\PYGZbs{}ErrorResponseSender}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}Helpers\PYGZbs{}Logger}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}Http\PYGZbs{}Resources\PYGZbs{}UploadResource}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}Http\PYGZbs{}UploadResponse}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}Models\PYGZbs{}Upload}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}Models\PYGZbs{}Utils\PYGZbs{}UploadStatus}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}UploadSteps\PYGZbs{}StepStart}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{Exception}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{Illuminate\PYGZbs{}Console\PYGZbs{}Command}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{Illuminate\PYGZbs{}Support\PYGZbs{}Facades\PYGZbs{}Storage}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{Psr\PYGZbs{}Log\PYGZbs{}LogLevel}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{Symfony\PYGZbs{}Component\PYGZbs{}Console\PYGZbs{}Input\PYGZbs{}InputArgument}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{Symfony\PYGZbs{}Component\PYGZbs{}Console\PYGZbs{}Input\PYGZbs{}InputDefinition}\PYG{p}{;}
+
+\PYG{k}{abstract} \PYG{k}{class} \PYG{n+nc}{UploadTrigger} \PYG{k}{extends} \PYG{n+nx}{Command}
+\PYG{p}{\PYGZob{}}
+    \PYG{k}{public} \PYG{k}{static} \PYG{n+nx}{string} \PYG{n+nv}{\PYGZdl{}storageDirectory} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}storage\PYGZus{}directory\PYGZsq{}}\PYG{p}{;}
+    \PYG{k}{public} \PYG{k}{static} \PYG{n+nx}{string} \PYG{n+nv}{\PYGZdl{}workDirectory} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}work\PYGZus{}directory\PYGZsq{}}\PYG{p}{;}
+    \PYG{k}{private} \PYG{n+nx}{string} \PYG{n+nv}{\PYGZdl{}logFilePath}\PYG{p}{;}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}construct}\PYG{p}{()}
+    \PYG{p}{\PYGZob{}}
+        \PYG{k}{parent}\PYG{o}{::}\PYG{n+na}{\PYGZus{}\PYGZus{}construct}\PYG{p}{();}
+
+        \PYG{n+nv}{\PYGZdl{}inputArgument} \PYG{o}{=} \PYG{k}{new} \PYG{n+nx}{InputArgument}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}input\PYGZsq{}}\PYG{p}{,} \PYG{n+nx}{InputArgument}\PYG{o}{::}\PYG{n+na}{REQUIRED}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}desc\PYGZsq{}}\PYG{p}{);}
+        \PYG{n+nv}{\PYGZdl{}authorizationArgument} \PYG{o}{=} \PYG{k}{new} \PYG{n+nx}{InputArgument}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}token\PYGZsq{}}\PYG{p}{,} \PYG{n+nx}{InputArgument}\PYG{o}{::}\PYG{n+na}{REQUIRED}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Token authorization\PYGZsq{}}\PYG{p}{);}
+        \PYG{n+nv}{\PYGZdl{}categoryArgument} \PYG{o}{=} \PYG{k}{new} \PYG{n+nx}{InputArgument}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}category\PYGZsq{}}\PYG{p}{,} \PYG{n+nx}{InputArgument}\PYG{o}{::}\PYG{n+na}{REQUIRED}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Category of the upload\PYGZsq{}}\PYG{p}{);}
+        \PYG{n+nv}{\PYGZdl{}typeArgument} \PYG{o}{=} \PYG{k}{new} \PYG{n+nx}{InputArgument}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}type\PYGZsq{}}\PYG{p}{,} \PYG{n+nx}{InputArgument}\PYG{o}{::}\PYG{n+na}{REQUIRED}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Type of the upload\PYGZsq{}}\PYG{p}{);}
+        \PYG{n+nv}{\PYGZdl{}definition} \PYG{o}{=} \PYG{k}{new} \PYG{n+nx}{InputDefinition}\PYG{p}{([}\PYG{n+nv}{\PYGZdl{}authorizationArgument}\PYG{p}{,} \PYG{n+nv}{\PYGZdl{}inputArgument}\PYG{p}{,} \PYG{n+nv}{\PYGZdl{}categoryArgument}\PYG{p}{,} \PYG{n+nv}{\PYGZdl{}typeArgument}\PYG{p}{]);}
+        \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{setDefinition}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}definition}\PYG{p}{);}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{handle}\PYG{p}{()}\PYG{o}{:} \PYG{n+nx}{void}
+    \PYG{p}{\PYGZob{}}
+        \PYG{n+nv}{\PYGZdl{}input} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{argument}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}input\PYGZsq{}}\PYG{p}{);}
+
+        \PYG{n+nv}{\PYGZdl{}upload} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{recordNewUpload}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}input}\PYG{p}{);}
+
+        \PYG{n+nv}{\PYGZdl{}transactionAndFileParam} \PYG{o}{=} \PYG{n+nb}{array\PYGZus{}merge}\PYG{p}{(}
+            \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}upload\PYGZus{}type\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{argument}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}category\PYGZsq{}}\PYG{p}{)} \PYG{o}{.} \PYG{l+s+s1}{\PYGZsq{}.\PYGZsq{}} \PYG{o}{.} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{argument}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}type\PYGZsq{}}\PYG{p}{)],}
+            \PYG{n+nv}{\PYGZdl{}input}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}}\PYG{p}{],}
+            \PYG{n+nb}{array\PYGZus{}key\PYGZus{}exists}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}}\PYG{p}{,} \PYG{n+nv}{\PYGZdl{}input}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}files\PYGZsq{}}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{])} \PYG{o}{?} \PYG{n+nv}{\PYGZdl{}input}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}files\PYGZsq{}}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{][}\PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}}\PYG{p}{]} \PYG{o}{:} \PYG{p}{[],}
+            \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}token\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{argument}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}token\PYGZsq{}}\PYG{p}{)]}
+        \PYG{p}{);}
+
+        \PYG{n+nv}{\PYGZdl{}stepParamIn} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}upload}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{id} \PYG{o}{.} \PYG{l+s+s1}{\PYGZsq{}\PYGZus{}0\PYGZus{}\PYGZsq{}}\PYG{p}{;}
+
+        \PYG{n+nx}{NextStepEvent}\PYG{o}{::}\PYG{n+na}{dispatch}\PYG{p}{(}\PYG{k}{new} \PYG{n+nx}{StepStart}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}upload}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{id}\PYG{p}{,} \PYG{n+nv}{\PYGZdl{}upload}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{upload\PYGZus{}type}\PYG{p}{,} \PYG{p}{[],} \PYG{n+nv}{\PYGZdl{}transactionAndFileParam}\PYG{p}{,} \PYG{n+nv}{\PYGZdl{}stepParamIn}\PYG{p}{));}
+
+        \PYG{n+nv}{\PYGZdl{}upload}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{setStatus}\PYG{p}{(}\PYG{n+nx}{UploadStatus}\PYG{o}{::}\PYG{n+na}{STARTED}\PYG{p}{);}
+        \PYG{n+nv}{\PYGZdl{}uploadResource} \PYG{o}{=} \PYG{k}{new} \PYG{n+nx}{UploadResource}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}upload}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{append}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}UploadStatus\PYGZsq{}}\PYG{p}{)}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{only}\PYG{p}{([}\PYG{l+s+s1}{\PYGZsq{}id\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}status\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}UploadStatus\PYGZsq{}}\PYG{p}{]));}
+
+        \PYG{n+nx}{Logger}\PYG{o}{::}\PYG{n+na}{appendLog}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{logFilePath}\PYG{p}{,} \PYG{n+nv}{\PYGZdl{}uploadResource}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{response}\PYG{p}{()}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{content}\PYG{p}{(),} \PYG{n+nx}{LogLevel}\PYG{o}{::}\PYG{n+na}{INFO}\PYG{p}{);}
+        \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{info}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}uploadResource}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{response}\PYG{p}{()}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{content}\PYG{p}{());}
+    \PYG{p}{\PYGZcb{}}
+
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{recordNewUpload}\PYG{p}{(}\PYG{k}{array} \PYG{n+nv}{\PYGZdl{}input}\PYG{p}{)}\PYG{o}{:} \PYG{n+nx}{Upload}
+    \PYG{p}{\PYGZob{}}
+        \PYG{n+nv}{\PYGZdl{}upload} \PYG{o}{=} \PYG{n+nx}{Upload}\PYG{o}{::}\PYG{n+na}{create}\PYG{p}{(}
+            \PYG{p}{[}
+                \PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}}  \PYG{o}{=\PYGZgt{}} \PYG{n+nv}{\PYGZdl{}input}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}}\PYG{p}{],}
+                \PYG{l+s+s1}{\PYGZsq{}client\PYGZus{}app\PYGZsq{}}  \PYG{o}{=\PYGZgt{}} \PYG{p}{(}\PYG{n+nx}{int}\PYG{p}{)}\PYG{n+nv}{\PYGZdl{}input}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}client\PYGZus{}app\PYGZsq{}}\PYG{p}{],}
+                \PYG{l+s+s1}{\PYGZsq{}upload\PYGZus{}type\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{argument}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}category\PYGZsq{}}\PYG{p}{)} \PYG{o}{.} \PYG{l+s+s1}{\PYGZsq{}.\PYGZsq{}} \PYG{o}{.} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{argument}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}type\PYGZsq{}}\PYG{p}{)}
+            \PYG{p}{]}
+        \PYG{p}{);}
+
+        \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{logFilePath} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}upload}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{id} \PYG{o}{.} \PYG{l+s+s1}{\PYGZsq{}/\PYGZsq{}} \PYG{o}{.} \PYG{n+nv}{\PYGZdl{}upload}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{id} \PYG{o}{.} \PYG{l+s+s1}{\PYGZsq{}\PYGZus{}log\PYGZsq{}}\PYG{p}{;}
+
+        \PYG{n+nv}{\PYGZdl{}result} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{saveInDirectories}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}upload}\PYG{p}{,} \PYG{n+nv}{\PYGZdl{}input}\PYG{p}{);}
+        \PYG{n+nv}{\PYGZdl{}success} \PYG{o}{=} \PYG{l+m+mi}{0} \PYG{o}{===} \PYG{n+nb}{count}\PYG{p}{(}\PYG{n+nb}{array\PYGZus{}keys}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}result}\PYG{p}{,} \PYG{k}{false}\PYG{p}{));}
+        \PYG{k}{if} \PYG{p}{(}\PYG{k}{false} \PYG{o}{===} \PYG{n+nv}{\PYGZdl{}success}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+            \PYG{n+nv}{\PYGZdl{}upload}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{setStatus}\PYG{p}{(}\PYG{n+nx}{UploadStatus}\PYG{o}{::}\PYG{n+na}{ABORTED}\PYG{p}{);}
+            \PYG{n+nv}{\PYGZdl{}message} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}File save failed.\PYGZsq{}}\PYG{p}{;}
+            \PYG{n+nv}{\PYGZdl{}code} \PYG{o}{=} \PYG{l+m+mi}{500}\PYG{p}{;}
+            \PYG{n+nv}{\PYGZdl{}uploadResponse} \PYG{o}{=} \PYG{k}{new} \PYG{n+nx}{UploadResponse}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}upload}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{id}\PYG{p}{,} \PYG{n+nv}{\PYGZdl{}upload}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{status}\PYG{p}{,} \PYG{n+nv}{\PYGZdl{}message}\PYG{p}{,} \PYG{n+nv}{\PYGZdl{}result}\PYG{p}{,} \PYG{n+nv}{\PYGZdl{}code}\PYG{p}{);}
+            \PYG{n+nx}{Logger}\PYG{o}{::}\PYG{n+na}{appendLog}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{logFilePath}\PYG{p}{,} \PYG{n+nv}{\PYGZdl{}uploadResponse}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{getUploadJsonResponse}\PYG{p}{(),} \PYG{n+nx}{LogLevel}\PYG{o}{::}\PYG{n+na}{ERROR}\PYG{p}{);}
+            \PYG{n+nx}{ErrorResponseSender}\PYG{o}{::}\PYG{n+na}{sendErrorResponse}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}message}\PYG{p}{,} \PYG{n+nv}{\PYGZdl{}code}\PYG{p}{);}
+        \PYG{p}{\PYGZcb{}}
+        \PYG{k}{return} \PYG{n+nv}{\PYGZdl{}upload}\PYG{p}{;}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{saveInDirectories}\PYG{p}{(}\PYG{n+nx}{Upload} \PYG{n+nv}{\PYGZdl{}upload}\PYG{p}{,} \PYG{k}{array} \PYG{n+nv}{\PYGZdl{}input}\PYG{p}{)}\PYG{o}{:} \PYG{k}{array}
+    \PYG{p}{\PYGZob{}}
+        \PYG{n+nv}{\PYGZdl{}inputFiles} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}input}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}files\PYGZsq{}}\PYG{p}{];}
+        \PYG{n+nv}{\PYGZdl{}uploadParameters} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}input}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}}\PYG{p}{];}
+        \PYG{n+nv}{\PYGZdl{}result} \PYG{o}{=} \PYG{p}{[];}
+        \PYG{n+nv}{\PYGZdl{}payload} \PYG{o}{=} \PYG{n+nb}{json\PYGZus{}encode}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}input}\PYG{p}{);}
+
+        \PYG{n+nv}{\PYGZdl{}basePathForUpload} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}upload}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{id} \PYG{o}{.} \PYG{l+s+s1}{\PYGZsq{}/\PYGZsq{}}\PYG{p}{;}
+        \PYG{n+nv}{\PYGZdl{}saved} \PYG{o}{=} \PYG{n+nx}{Storage}\PYG{o}{::}\PYG{n+na}{disk}\PYG{p}{(}\PYG{n+nx}{self}\PYG{o}{::}\PYG{n+nv}{\PYGZdl{}storageDirectory}\PYG{p}{)}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{put}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}upload}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{id} \PYG{o}{.} \PYG{l+s+s1}{\PYGZsq{}/\PYGZsq{}} \PYG{o}{.} \PYG{n+nv}{\PYGZdl{}upload}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{id} \PYG{o}{.} \PYG{l+s+s1}{\PYGZsq{}\PYGZus{}payload.json\PYGZsq{}}\PYG{p}{,} \PYG{n+nv}{\PYGZdl{}payload}\PYG{p}{);}
+        \PYG{n+nv}{\PYGZdl{}result}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}payload\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}saved}\PYG{p}{;}
+
+        \PYG{k}{foreach} \PYG{p}{(}\PYG{n+nv}{\PYGZdl{}inputFiles} \PYG{k}{as} \PYG{n+nv}{\PYGZdl{}key} \PYG{o}{=\PYGZgt{}} \PYG{n+nv}{\PYGZdl{}file}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+            \PYG{n+nv}{\PYGZdl{}content} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}file}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}content\PYGZsq{}}\PYG{p}{];}
+            \PYG{n+nv}{\PYGZdl{}content} \PYG{o}{=} \PYG{n+nb}{str\PYGZus{}replace}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}data:text/plain;base64,\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{,} \PYG{n+nv}{\PYGZdl{}content}\PYG{p}{);}
+            \PYG{n+nv}{\PYGZdl{}content} \PYG{o}{=} \PYG{n+nb}{base64\PYGZus{}decode}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}content}\PYG{p}{);}
+
+            \PYG{n+nv}{\PYGZdl{}basePath} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}upload}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{id} \PYG{o}{.} \PYG{l+s+s1}{\PYGZsq{}/\PYGZsq{}}\PYG{p}{;}
+
+            \PYG{n+nv}{\PYGZdl{}contentPath} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}basePath} \PYG{o}{.} \PYG{l+s+s1}{\PYGZsq{}/\PYGZsq{}} \PYG{o}{.} \PYG{n+nv}{\PYGZdl{}upload}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{id} \PYG{o}{.} \PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZsq{}} \PYG{o}{.} \PYG{n+nv}{\PYGZdl{}key} \PYG{o}{.} \PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZsq{}}\PYG{p}{;}
+            \PYG{n+nv}{\PYGZdl{}contentSavedInWorkDir} \PYG{o}{=} \PYG{n+nx}{Storage}\PYG{o}{::}\PYG{n+na}{disk}\PYG{p}{(}\PYG{n+nx}{self}\PYG{o}{::}\PYG{n+nv}{\PYGZdl{}workDirectory}\PYG{p}{)}
+                \PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{put}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}contentPath}\PYG{p}{,} \PYG{n+nv}{\PYGZdl{}content}\PYG{p}{);}
+
+            \PYG{n+nv}{\PYGZdl{}paramPath} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}contentPath} \PYG{o}{.} \PYG{l+s+s1}{\PYGZsq{}\PYGZus{}parameters\PYGZsq{}}\PYG{p}{;}
+            \PYG{n+nv}{\PYGZdl{}contentSavedInStorageDir} \PYG{o}{=} \PYG{n+nx}{Storage}\PYG{o}{::}\PYG{n+na}{disk}\PYG{p}{(}\PYG{n+nx}{self}\PYG{o}{::}\PYG{n+nv}{\PYGZdl{}storageDirectory}\PYG{p}{)}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{put}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}contentPath}\PYG{p}{,} \PYG{n+nv}{\PYGZdl{}content}\PYG{p}{);}
+            \PYG{k}{if} \PYG{p}{(}\PYG{n+nb}{array\PYGZus{}key\PYGZus{}exists}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}}\PYG{p}{,} \PYG{n+nv}{\PYGZdl{}file}\PYG{p}{))} \PYG{p}{\PYGZob{}}
+                \PYG{n+nv}{\PYGZdl{}paramSavedInStorageDir} \PYG{o}{=} \PYG{n+nx}{Storage}\PYG{o}{::}\PYG{n+na}{disk}\PYG{p}{(}\PYG{n+nx}{self}\PYG{o}{::}\PYG{n+nv}{\PYGZdl{}storageDirectory}\PYG{p}{)}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{put}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}paramPath}\PYG{p}{,} \PYG{n+nb}{json\PYGZus{}encode}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}file}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}}\PYG{p}{]));}
+            \PYG{p}{\PYGZcb{}}
+            \PYG{n+nv}{\PYGZdl{}saved} \PYG{o}{=} \PYG{k}{true} \PYG{o}{===} \PYG{n+nv}{\PYGZdl{}contentSavedInWorkDir} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{k}{true} \PYG{o}{===} \PYG{n+nv}{\PYGZdl{}contentSavedInStorageDir}\PYG{p}{;}
+            \PYG{n+nv}{\PYGZdl{}result}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}file\PYGZus{}\PYGZsq{}} \PYG{o}{.} \PYG{n+nv}{\PYGZdl{}key}\PYG{p}{]} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}saved}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{}}
+        \PYG{k}{return} \PYG{n+nv}{\PYGZdl{}result}\PYG{p}{;}
+    \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

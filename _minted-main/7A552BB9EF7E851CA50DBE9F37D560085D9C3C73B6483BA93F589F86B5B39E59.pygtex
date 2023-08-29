@@ -1,0 +1,14 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZlt{}?php}
+
+\PYG{k}{namespace} \PYG{n+nx}{App\PYGZbs{}Console\PYGZbs{}Commands\PYGZbs{}FuelTransactions}\PYG{p}{;}
+
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}Console\PYGZbs{}Commands\PYGZbs{}UploadTrigger}\PYG{p}{;}
+
+\PYG{k}{class} \PYG{n+nc}{UploadTriggerLCCC} \PYG{k}{extends} \PYG{n+nx}{UploadTrigger}
+\PYG{p}{\PYGZob{}}
+    \PYG{k}{protected} \PYG{n+nv}{\PYGZdl{}signature} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}upload\PYGZhy{}fuel\PYGZhy{}transactions:lccc\PYGZsq{}}\PYG{p}{;}
+
+    \PYG{k}{protected} \PYG{n+nv}{\PYGZdl{}description} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}Import fuel transactions LCCC\PYGZsq{}}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

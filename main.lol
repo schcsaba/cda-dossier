@@ -16,10 +16,15 @@
 \select@language {french} \contentsline {listing}{\numberline {8.5}{\ignorespaces La définition de la route d'importation de fichiers dans le fichier \FVExtraRobustCommand \RobustVerb \FVExtraAlwaysUnexpanded {\FVExtraUnexpandedReadStarOArgBVArg {routes/api.php}}.}}{46}{listing.caption.33}%
 \select@language {french} \contentsline {listing}{\numberline {8.6}{\ignorespaces La classe \FVExtraRobustCommand \RobustVerb \FVExtraAlwaysUnexpanded {\FVExtraUnexpandedReadStarOArgBVArg {UploadStoreRequest}}.}}{47}{listing.caption.34}%
 \select@language {french} \contentsline {listing}{\numberline {8.7}{\ignorespaces La version simplifiée de la classe \FVExtraRobustCommand \RobustVerb \FVExtraAlwaysUnexpanded {\FVExtraUnexpandedReadStarOArgBVArg {UploadController}}.}}{48}{listing.caption.36}%
+\select@language {french} \contentsline {listing}{\numberline {8.8}{\ignorespaces Le constructeur de la classe \FVExtraRobustCommand \RobustVerb \FVExtraAlwaysUnexpanded {\FVExtraUnexpandedReadStarOArgBVArg {UploadTrigger}}.}}{49}{listing.caption.38}%
+\select@language {french} \contentsline {listing}{\numberline {8.9}{\ignorespaces La méthode \FVExtraRobustCommand \RobustVerb \FVExtraAlwaysUnexpanded {\FVExtraUnexpandedReadStarOArgBVArg {handle()}} de la classe \FVExtraRobustCommand \RobustVerb \FVExtraAlwaysUnexpanded {\FVExtraUnexpandedReadStarOArgBVArg {UploadTrigger}}.}}{49}{listing.caption.39}%
+\select@language {french} \contentsline {listing}{\numberline {8.10}{\ignorespaces La méthode \FVExtraRobustCommand \RobustVerb \FVExtraAlwaysUnexpanded {\FVExtraUnexpandedReadStarOArgBVArg {recordNewUpload()}} de la classe \FVExtraRobustCommand \RobustVerb \FVExtraAlwaysUnexpanded {\FVExtraUnexpandedReadStarOArgBVArg {UploadTrigger}}.}}{50}{listing.caption.40}%
+\select@language {french} \contentsline {listing}{\numberline {8.11}{\ignorespaces La méthode \FVExtraRobustCommand \RobustVerb \FVExtraAlwaysUnexpanded {\FVExtraUnexpandedReadStarOArgBVArg {saveInDirectories()}} de la classe \FVExtraRobustCommand \RobustVerb \FVExtraAlwaysUnexpanded {\FVExtraUnexpandedReadStarOArgBVArg {UploadTrigger}}.}}{50}{listing.caption.41}%
+\select@language {french} \contentsline {listing}{\numberline {8.12}{\ignorespaces La classe \FVExtraRobustCommand \RobustVerb \FVExtraAlwaysUnexpanded {\FVExtraUnexpandedReadStarOArgBVArg {UploadTriggerLCCC}}.}}{52}{listing.caption.42}%
 \select@language {french} \addvspace {10\p@ }
 \select@language {french} \addvspace {10\p@ }
 \select@language {french} \addvspace {10\p@ }
 \select@language {french} \addvspace {10\p@ }
 \select@language {french} \addvspace {10\p@ }
 \select@language {french} \addvspace {10\p@ }
-\select@language {french} \contentsline {listing}{\numberline {A.1}{\ignorespaces Le fichier de configuration de Nginx (\FVExtraRobustCommand \RobustVerb \FVExtraAlwaysUnexpanded {\FVExtraUnexpandedReadStarOArgBVArg {conf.d}}) du projet Pipeline documentaire utilisé en production.}}{60}{listing.caption.43}%
+\select@language {french} \contentsline {listing}{\numberline {A.1}{\ignorespaces Le fichier de configuration de Nginx (\FVExtraRobustCommand \RobustVerb \FVExtraAlwaysUnexpanded {\FVExtraUnexpandedReadStarOArgBVArg {conf.d}}) du projet Pipeline documentaire utilisé en production.}}{63}{listing.caption.49}%

@@ -39,7 +39,7 @@ La charge utile doit être envoyée à la route appropriée définie dans le fic
     \label{code:file-import-route}
 \end{code}
 
-Cette route est définie pour une requête POST vers l'URL \Verb|/command/uploads/{category}/{type}|. Lorsqu'une requête POST est effectuée vers cette URL, elle sera traitée par la méthode \Verb|upload| du contrôleur \Verb|UploadController|. Cette méthode prendra en charge le traitement de la requête et la gestion de l'importation des fichiers correspondant à la catégorie et au type spécifiés dans l'URL. Cette définition de route établit une correspondance entre une URL POST spécifique et la méthode du contrôleur qui gère le traitement de la requête et les opérations nécessaires. Cela permet de créer une API RESTful qui répond aux requêtes POST adressées à cette URL particulière.
+Cette route est définie pour une requête POST vers l'URL \Verb|/command/uploads/{category}/{type}|. Lorsqu'une requête POST est effectuée vers cette URL, elle sera traitée par la méthode \Verb|upload| du contrôleur \Verb|UploadController|. Cette méthode prendra en charge le traitement de la requête et la gestion de l'importation des fichiers correspondant à la catégorie et au type spécifiés dans l'URL. Dans le cas de notre fichier, la catégorie est \Verb|fuel-transactions|, le type est \Verb|lccc|. Cette définition de route établit une correspondance entre une URL POST spécifique et la méthode du contrôleur qui gère le traitement de la requête et les opérations nécessaires. Cela permet de créer une API RESTful qui répond aux requêtes POST adressées à cette URL particulière.
 
 \begin{code}
     \caption{La classe \Verb{UploadStoreRequest}.}
@@ -48,3 +48,4 @@ Cette route est définie pour une requête POST vers l'URL \Verb|/command/upload
 \end{code}
 
 \input{controller}
+\input{upload-trigger}

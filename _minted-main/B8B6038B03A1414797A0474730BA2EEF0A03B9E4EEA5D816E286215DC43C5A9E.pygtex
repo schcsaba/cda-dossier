@@ -1,0 +1,203 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZlt{}?php}
+
+\PYG{k}{namespace} \PYG{n+nx}{Tests\PYGZbs{}Feature}\PYG{p}{;}
+
+\PYG{k}{use} \PYG{n+nx}{Tests\PYGZbs{}TestCase}\PYG{p}{;}
+
+\PYG{k}{class} \PYG{n+nc}{UploadControllerTest} \PYG{k}{extends} \PYG{n+nx}{TestCase}
+\PYG{p}{\PYGZob{}}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{testNoClientAppKey}\PYG{p}{()}\PYG{o}{:} \PYG{n+nx}{void}
+    \PYG{p}{\PYGZob{}}
+        \PYG{n+nv}{\PYGZdl{}response} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{postJson}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}/api/command/uploads/onboarding/drivers\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}
+            \PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}
+                \PYG{l+s+s1}{\PYGZsq{}client\PYGZus{}id\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+m+mi}{1}\PYG{p}{,}
+                \PYG{l+s+s1}{\PYGZsq{}user\PYGZus{}id\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+m+mi}{10831}
+            \PYG{p}{]}
+        \PYG{p}{]);}
+        \PYG{n+nv}{\PYGZdl{}response}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{assertUnprocessable}\PYG{p}{();}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{testNoClientAppValue}\PYG{p}{()}\PYG{o}{:} \PYG{n+nx}{void}
+    \PYG{p}{\PYGZob{}}
+        \PYG{n+nv}{\PYGZdl{}response} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{postJson}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}/api/command/uploads/onboarding/drivers\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}
+            \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}client\PYGZus{}app\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}  \PYGZsq{}}\PYG{p}{]}
+        \PYG{p}{]);}
+        \PYG{n+nv}{\PYGZdl{}response}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{assertUnprocessable}\PYG{p}{();}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{testUnknownClientApp}\PYG{p}{()}\PYG{o}{:} \PYG{n+nx}{void}
+    \PYG{p}{\PYGZob{}}
+        \PYG{n+nv}{\PYGZdl{}allowedClientApps} \PYG{o}{=} \PYG{n+nx}{config}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}allowed\PYGZus{}client\PYGZus{}app\PYGZsq{}}\PYG{p}{);}
+        \PYG{k}{while} \PYG{p}{(}\PYG{n+nb}{in\PYGZus{}array}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}badClientApp} \PYG{o}{=} \PYG{n+nb}{rand}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{50}\PYG{p}{),} \PYG{n+nv}{\PYGZdl{}allowedClientApps}\PYG{p}{))} \PYG{p}{;}
+        \PYG{n+nv}{\PYGZdl{}response} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{postJson}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}/api/command/uploads/onboarding/drivers\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}client\PYGZus{}app\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nv}{\PYGZdl{}badClientApp}\PYG{p}{]);}
+
+        \PYG{n+nv}{\PYGZdl{}response}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{assertUnprocessable}\PYG{p}{();}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{testNoParametersKey}\PYG{p}{()}\PYG{o}{:} \PYG{n+nx}{void}
+    \PYG{p}{\PYGZob{}}
+        \PYG{n+nv}{\PYGZdl{}allowedClientApps} \PYG{o}{=} \PYG{n+nb}{array\PYGZus{}flip}\PYG{p}{(}\PYG{n+nx}{config}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}allowed\PYGZus{}client\PYGZus{}app\PYGZsq{}}\PYG{p}{));}
+        \PYG{n+nb}{shuffle}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}allowedClientApps}\PYG{p}{);}
+        \PYG{n+nv}{\PYGZdl{}response} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{postJson}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}/api/command/uploads/onboarding/drivers\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}client\PYGZus{}app\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nb}{array\PYGZus{}pop}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}allowedClientApps}\PYG{p}{)]);}
+
+        \PYG{n+nv}{\PYGZdl{}response}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{assertUnprocessable}\PYG{p}{();}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{testParametersValueNotArray}\PYG{p}{()}\PYG{o}{:} \PYG{n+nx}{void}
+    \PYG{p}{\PYGZob{}}
+        \PYG{n+nv}{\PYGZdl{}allowedClientApps} \PYG{o}{=} \PYG{n+nb}{array\PYGZus{}flip}\PYG{p}{(}\PYG{n+nx}{config}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}allowed\PYGZus{}client\PYGZus{}app\PYGZsq{}}\PYG{p}{));}
+        \PYG{n+nb}{shuffle}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}allowedClientApps}\PYG{p}{);}
+        \PYG{n+nv}{\PYGZdl{}response} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{postJson}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}/api/command/uploads/onboarding/drivers\PYGZsq{}}\PYG{p}{,}
+            \PYG{p}{[}
+                \PYG{l+s+s1}{\PYGZsq{}client\PYGZus{}app\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nb}{array\PYGZus{}pop}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}allowedClientApps}\PYG{p}{),}
+                \PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+m+mi}{1}
+            \PYG{p}{]}
+        \PYG{p}{);}
+
+        \PYG{n+nv}{\PYGZdl{}response}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{assertUnprocessable}\PYG{p}{();}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{testParametersValueEmptyArray}\PYG{p}{()}\PYG{o}{:} \PYG{n+nx}{void}
+    \PYG{p}{\PYGZob{}}
+        \PYG{n+nv}{\PYGZdl{}allowedClientApps} \PYG{o}{=} \PYG{n+nb}{array\PYGZus{}flip}\PYG{p}{(}\PYG{n+nx}{config}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}allowed\PYGZus{}client\PYGZus{}app\PYGZsq{}}\PYG{p}{));}
+        \PYG{n+nb}{shuffle}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}allowedClientApps}\PYG{p}{);}
+        \PYG{n+nv}{\PYGZdl{}response} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{postJson}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}/api/command/uploads/onboarding/drivers\PYGZsq{}}\PYG{p}{,}
+            \PYG{p}{[}
+                \PYG{l+s+s1}{\PYGZsq{}client\PYGZus{}app\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nb}{array\PYGZus{}pop}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}allowedClientApps}\PYG{p}{),}
+                \PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[]}
+            \PYG{p}{]}
+        \PYG{p}{);}
+
+        \PYG{n+nv}{\PYGZdl{}response}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{assertUnprocessable}\PYG{p}{();}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{testNoFilesKey}\PYG{p}{()}\PYG{o}{:} \PYG{n+nx}{void}
+    \PYG{p}{\PYGZob{}}
+        \PYG{n+nv}{\PYGZdl{}allowedClientApps} \PYG{o}{=} \PYG{n+nb}{array\PYGZus{}flip}\PYG{p}{(}\PYG{n+nx}{config}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}allowed\PYGZus{}client\PYGZus{}app\PYGZsq{}}\PYG{p}{));}
+        \PYG{n+nb}{shuffle}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}allowedClientApps}\PYG{p}{);}
+        \PYG{n+nv}{\PYGZdl{}response} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{postJson}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}/api/command/uploads/onboarding/drivers\PYGZsq{}}\PYG{p}{,}
+            \PYG{p}{[}
+                \PYG{l+s+s1}{\PYGZsq{}client\PYGZus{}app\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nb}{array\PYGZus{}pop}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}allowedClientApps}\PYG{p}{),}
+                \PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}
+                    \PYG{l+s+s1}{\PYGZsq{}client\PYGZus{}id\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+m+mi}{1}\PYG{p}{,}
+                    \PYG{l+s+s1}{\PYGZsq{}user\PYGZus{}id\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+m+mi}{10831}
+                \PYG{p}{]}
+            \PYG{p}{]}
+        \PYG{p}{);}
+        \PYG{n+nv}{\PYGZdl{}response}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{assertUnprocessable}\PYG{p}{();}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{testFilesValueNotArray}\PYG{p}{()}\PYG{o}{:} \PYG{n+nx}{void}
+    \PYG{p}{\PYGZob{}}
+        \PYG{n+nv}{\PYGZdl{}allowedClientApps} \PYG{o}{=} \PYG{n+nb}{array\PYGZus{}flip}\PYG{p}{(}\PYG{n+nx}{config}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}allowed\PYGZus{}client\PYGZus{}app\PYGZsq{}}\PYG{p}{));}
+        \PYG{n+nb}{shuffle}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}allowedClientApps}\PYG{p}{);}
+        \PYG{n+nv}{\PYGZdl{}response} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{postJson}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}/api/command/uploads/onboarding/drivers\PYGZsq{}}\PYG{p}{,}
+            \PYG{p}{[}
+                \PYG{l+s+s1}{\PYGZsq{}client\PYGZus{}app\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nb}{array\PYGZus{}pop}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}allowedClientApps}\PYG{p}{),}
+                \PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}
+                    \PYG{l+s+s1}{\PYGZsq{}client\PYGZus{}id\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+m+mi}{1}\PYG{p}{,}
+                    \PYG{l+s+s1}{\PYGZsq{}user\PYGZus{}id\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+m+mi}{10831}
+                \PYG{p}{],}
+                \PYG{l+s+s1}{\PYGZsq{}files\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}text\PYGZsq{}}
+            \PYG{p}{]}
+        \PYG{p}{);}
+        \PYG{n+nv}{\PYGZdl{}response}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{assertUnprocessable}\PYG{p}{();}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{testFilesValuEmptyArray}\PYG{p}{()}\PYG{o}{:} \PYG{n+nx}{void}
+    \PYG{p}{\PYGZob{}}
+        \PYG{n+nv}{\PYGZdl{}allowedClientApps} \PYG{o}{=} \PYG{n+nb}{array\PYGZus{}flip}\PYG{p}{(}\PYG{n+nx}{config}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}allowed\PYGZus{}client\PYGZus{}app\PYGZsq{}}\PYG{p}{));}
+        \PYG{n+nb}{shuffle}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}allowedClientApps}\PYG{p}{);}
+        \PYG{n+nv}{\PYGZdl{}response} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{postJson}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}/api/command/uploads/onboarding/drivers\PYGZsq{}}\PYG{p}{,}
+            \PYG{p}{[}
+                \PYG{l+s+s1}{\PYGZsq{}client\PYGZus{}app\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nb}{array\PYGZus{}pop}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}allowedClientApps}\PYG{p}{),}
+                \PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}
+                    \PYG{l+s+s1}{\PYGZsq{}client\PYGZus{}id\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+m+mi}{1}\PYG{p}{,}
+                    \PYG{l+s+s1}{\PYGZsq{}user\PYGZus{}id\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+m+mi}{10831}
+                \PYG{p}{],}
+                \PYG{l+s+s1}{\PYGZsq{}files\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[]}
+            \PYG{p}{]}
+        \PYG{p}{);}
+        \PYG{n+nv}{\PYGZdl{}response}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{assertUnprocessable}\PYG{p}{();}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{testNoFilesContentKey}\PYG{p}{()}\PYG{o}{:} \PYG{n+nx}{void}
+    \PYG{p}{\PYGZob{}}
+        \PYG{n+nv}{\PYGZdl{}allowedClientApps} \PYG{o}{=} \PYG{n+nb}{array\PYGZus{}flip}\PYG{p}{(}\PYG{n+nx}{config}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}allowed\PYGZus{}client\PYGZus{}app\PYGZsq{}}\PYG{p}{));}
+        \PYG{n+nb}{shuffle}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}allowedClientApps}\PYG{p}{);}
+        \PYG{n+nv}{\PYGZdl{}response} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{postJson}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}/api/command/uploads/onboarding/drivers\PYGZsq{}}\PYG{p}{,}
+            \PYG{p}{[}
+                \PYG{l+s+s1}{\PYGZsq{}client\PYGZus{}app\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nb}{array\PYGZus{}pop}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}allowedClientApps}\PYG{p}{),}
+                \PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}
+                    \PYG{l+s+s1}{\PYGZsq{}client\PYGZus{}id\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+m+mi}{1}\PYG{p}{,}
+                    \PYG{l+s+s1}{\PYGZsq{}user\PYGZus{}id\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+m+mi}{10831}
+                \PYG{p}{],}
+                \PYG{l+s+s1}{\PYGZsq{}files\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}
+                    \PYG{p}{[}
+                        \PYG{l+s+s1}{\PYGZsq{}mime\PYGZus{}type\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}csv\PYGZsq{}}\PYG{p}{,}
+                        \PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}
+                            \PYG{l+s+s1}{\PYGZsq{}vehicle\PYGZus{}id\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+m+mi}{25}
+                        \PYG{p}{],}
+                        \PYG{l+s+s1}{\PYGZsq{}content\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}
+                    \PYG{p}{],}
+                    \PYG{p}{[}
+                        \PYG{l+s+s1}{\PYGZsq{}mime\PYGZus{}type\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}csv\PYGZsq{}}\PYG{p}{,}
+                        \PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}
+                            \PYG{l+s+s1}{\PYGZsq{}vehicle\PYGZus{}id\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+m+mi}{25}
+                        \PYG{p}{]}
+                    \PYG{p}{],}
+                    \PYG{p}{[}
+                        \PYG{l+s+s1}{\PYGZsq{}mime\PYGZus{}type\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}csv\PYGZsq{}}\PYG{p}{,}
+                        \PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}
+                            \PYG{l+s+s1}{\PYGZsq{}vehicle\PYGZus{}id\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+m+mi}{25}
+                        \PYG{p}{],}
+                        \PYG{l+s+s1}{\PYGZsq{}content\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}
+                    \PYG{p}{]}
+                \PYG{p}{]}
+            \PYG{p}{]}
+        \PYG{p}{);}
+        \PYG{n+nv}{\PYGZdl{}response}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{assertUnprocessable}\PYG{p}{();}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{testNoFilesContentValue}\PYG{p}{()}\PYG{o}{:} \PYG{n+nx}{void}
+    \PYG{p}{\PYGZob{}}
+        \PYG{n+nv}{\PYGZdl{}allowedClientApps} \PYG{o}{=} \PYG{n+nb}{array\PYGZus{}flip}\PYG{p}{(}\PYG{n+nx}{config}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}allowed\PYGZus{}client\PYGZus{}app\PYGZsq{}}\PYG{p}{));}
+        \PYG{n+nb}{shuffle}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}allowedClientApps}\PYG{p}{);}
+        \PYG{n+nv}{\PYGZdl{}response} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{postJson}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}/api/command/uploads/onboarding/drivers\PYGZsq{}}\PYG{p}{,}
+            \PYG{p}{[}
+                \PYG{l+s+s1}{\PYGZsq{}client\PYGZus{}app\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nb}{array\PYGZus{}pop}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}allowedClientApps}\PYG{p}{),}
+                \PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}
+                    \PYG{l+s+s1}{\PYGZsq{}client\PYGZus{}id\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+m+mi}{1}\PYG{p}{,}
+                    \PYG{l+s+s1}{\PYGZsq{}user\PYGZus{}id\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+m+mi}{10831}
+                \PYG{p}{],}
+                \PYG{l+s+s1}{\PYGZsq{}files\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}
+                    \PYG{p}{[}
+                        \PYG{l+s+s1}{\PYGZsq{}mime\PYGZus{}type\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}csv\PYGZsq{}}\PYG{p}{,}
+                        \PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}
+                            \PYG{l+s+s1}{\PYGZsq{}vehicle\PYGZus{}id\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+m+mi}{25}
+                        \PYG{p}{],}
+                        \PYG{l+s+s1}{\PYGZsq{}content\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}text\PYGZsq{}}
+                    \PYG{p}{],}
+                    \PYG{p}{[}
+                        \PYG{l+s+s1}{\PYGZsq{}mime\PYGZus{}type\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}csv\PYGZsq{}}\PYG{p}{,}
+                        \PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}
+                            \PYG{l+s+s1}{\PYGZsq{}vehicle\PYGZus{}id\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+m+mi}{25}
+                        \PYG{p}{],}
+                        \PYG{l+s+s1}{\PYGZsq{}content\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}data:text/plain;base64,\PYGZsq{}}
+                    \PYG{p}{],}
+                    \PYG{p}{[}
+                        \PYG{l+s+s1}{\PYGZsq{}mime\PYGZus{}type\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}csv\PYGZsq{}}\PYG{p}{,}
+                        \PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{p}{[}
+                            \PYG{l+s+s1}{\PYGZsq{}vehicle\PYGZus{}id\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+m+mi}{25}
+                        \PYG{p}{],}
+                        \PYG{l+s+s1}{\PYGZsq{}content\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}text\PYGZsq{}}
+                    \PYG{p}{]}
+                \PYG{p}{]}
+            \PYG{p}{]}
+        \PYG{p}{);}
+        \PYG{n+nv}{\PYGZdl{}response}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{assertUnprocessable}\PYG{p}{();}
+    \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

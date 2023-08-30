@@ -1,0 +1,75 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZlt{}?php}
+
+\PYG{k}{namespace} \PYG{n+nx}{Tests\PYGZbs{}Unit\PYGZbs{}UploadSteps}\PYG{p}{;}
+
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}Console\PYGZbs{}Commands\PYGZbs{}UploadTrigger}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}Models\PYGZbs{}Upload}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{Illuminate\PYGZbs{}Foundation\PYGZbs{}Testing\PYGZbs{}RefreshDatabase}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{Illuminate\PYGZbs{}Support\PYGZbs{}Facades\PYGZbs{}Storage}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{Tests\PYGZbs{}TestCase}\PYG{p}{;}
+
+\PYG{k}{abstract} \PYG{k}{class} \PYG{n+nc}{StepTest} \PYG{k}{extends} \PYG{n+nx}{TestCase}
+\PYG{p}{\PYGZob{}}
+    \PYG{k}{use} \PYG{n+nx}{RefreshDatabase}\PYG{p}{;}
+
+    \PYG{k}{private} \PYG{n+nx}{Upload} \PYG{n+nv}{\PYGZdl{}upload}\PYG{p}{;}
+
+    \PYG{k}{private} \PYG{n+nx}{string} \PYG{n+nv}{\PYGZdl{}inputFileName} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}input\PYGZsq{}}\PYG{p}{;}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{setUp}\PYG{p}{()}\PYG{o}{:} \PYG{n+nx}{void}
+    \PYG{p}{\PYGZob{}}
+        \PYG{k}{parent}\PYG{o}{::}\PYG{n+na}{setUp}\PYG{p}{();}
+        \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{upload} \PYG{o}{=} \PYG{n+nx}{Upload}\PYG{o}{::}\PYG{n+na}{factory}\PYG{p}{()}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{create}\PYG{p}{();}
+        \PYG{n+nx}{Storage}\PYG{o}{::}\PYG{n+na}{fake}\PYG{p}{(}\PYG{n+nx}{UploadTrigger}\PYG{o}{::}\PYG{n+nv}{\PYGZdl{}workDirectory}\PYG{p}{);}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{getUpload}\PYG{p}{()}\PYG{o}{:} \PYG{n+nx}{Upload}
+    \PYG{p}{\PYGZob{}}
+        \PYG{k}{return} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{upload}\PYG{p}{;}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{setInputFileName}\PYG{p}{(}\PYG{n+nx}{mixed} \PYG{n+nv}{\PYGZdl{}inputFileName}\PYG{p}{)}\PYG{o}{:} \PYG{k}{static}
+    \PYG{p}{\PYGZob{}}
+        \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{inputFileName} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}inputFileName}\PYG{p}{;}
+        \PYG{k}{return} \PYG{n+nv}{\PYGZdl{}this}\PYG{p}{;}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{getInputFileName}\PYG{p}{()}\PYG{o}{:} \PYG{n+nx}{string}
+    \PYG{p}{\PYGZob{}}
+        \PYG{k}{return} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{inputFileName}\PYG{p}{;}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{getStepResult}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}assoc} \PYG{o}{=} \PYG{k}{false}\PYG{p}{)}
+    \PYG{p}{\PYGZob{}}
+        \PYG{k}{return} \PYG{n+nb}{json\PYGZus{}decode}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{getStepResultFile}\PYG{p}{(),} \PYG{n+nv}{\PYGZdl{}assoc}\PYG{p}{);}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{getStepResultFile}\PYG{p}{()}\PYG{o}{:} \PYG{o}{?}\PYG{n+nx}{string}
+    \PYG{p}{\PYGZob{}}
+        \PYG{k}{return} \PYG{n+nx}{Storage}\PYG{o}{::}\PYG{n+na}{persistentFake}\PYG{p}{(}\PYG{n+nx}{UploadTrigger}\PYG{o}{::}\PYG{n+nv}{\PYGZdl{}workDirectory}\PYG{p}{)}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{get}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{getOutputFilename}\PYG{p}{());}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{createInputFile}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}data}\PYG{p}{)}\PYG{o}{:} \PYG{n+nx}{bool}
+    \PYG{p}{\PYGZob{}}
+        \PYG{n+nv}{\PYGZdl{}path} \PYG{o}{=} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{getUpload}\PYG{p}{()}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{id} \PYG{o}{.} \PYG{l+s+s1}{\PYGZsq{}/\PYGZsq{}} \PYG{o}{.} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{inputFileName}\PYG{p}{;}
+         \PYG{k}{return} \PYG{n+nx}{Storage}\PYG{o}{::}\PYG{n+na}{persistentFake}\PYG{p}{(}\PYG{n+nx}{UploadTrigger}\PYG{o}{::}\PYG{n+nv}{\PYGZdl{}workDirectory}\PYG{p}{)}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{put}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}path}\PYG{p}{,} \PYG{n+nv}{\PYGZdl{}data}\PYG{p}{);}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{private} \PYG{k}{function} \PYG{n+nf}{getOutputFilename}\PYG{p}{()}\PYG{o}{:} \PYG{n+nx}{string}
+    \PYG{p}{\PYGZob{}}
+        \PYG{k}{return} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{getUpload}\PYG{p}{()}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{id} \PYG{o}{.} \PYG{l+s+s1}{\PYGZsq{}/\PYGZsq{}} \PYG{o}{.} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{inputFileName} \PYG{o}{.} \PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZsq{}} \PYG{o}{.} \PYG{n+nb}{strtolower}\PYG{p}{(}\PYG{n+nb}{str\PYGZus{}replace}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Test\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{,} \PYG{n+nx}{class\PYGZus{}basename}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}this}\PYG{p}{)));}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{getLogFile}\PYG{p}{()}
+    \PYG{p}{\PYGZob{}}
+        \PYG{k}{return} \PYG{n+nx}{Storage}\PYG{o}{::}\PYG{n+na}{persistentFake}\PYG{p}{(}\PYG{n+nx}{UploadTrigger}\PYG{o}{::}\PYG{n+nv}{\PYGZdl{}workDirectory}\PYG{p}{)}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{get}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{getUpload}\PYG{p}{()}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{id} \PYG{o}{.} \PYG{l+s+s1}{\PYGZsq{}/\PYGZsq{}} \PYG{o}{.} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{getUpload}\PYG{p}{()}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{id} \PYG{o}{.} \PYG{l+s+s1}{\PYGZsq{}\PYGZus{}0\PYGZus{}log\PYGZsq{}}\PYG{p}{);}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{tearDown}\PYG{p}{()}\PYG{o}{:} \PYG{n+nx}{void}
+    \PYG{p}{\PYGZob{}}
+        \PYG{k}{parent}\PYG{o}{::}\PYG{n+na}{tearDown}\PYG{p}{();}
+        \PYG{n+nx}{Storage}\PYG{o}{::}\PYG{n+na}{fake}\PYG{p}{(}\PYG{n+nx}{UploadTrigger}\PYG{o}{::}\PYG{n+nv}{\PYGZdl{}workDirectory}\PYG{p}{);}
+    \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

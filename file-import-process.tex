@@ -9,11 +9,11 @@ Dans cette sous-section, nous suivrons le destin d'un fichier pendant son import
     \label{fig:lccc}
 \end{figure}
 
-Pour l'API, il est possible d'envoyer des fichiers dans le corps d'une requête POST au format encodé en base64, en tant que partie d'un objet JSON bien défini, comme démontré dans le Code source~\ref{code:lccc-payload}. Cette charge utile est validée avant d'être acceptée par l'API, plus précisément l'application Laravel utilise la méthode \Verb|rules()| de la classe \Verb|UploadStoreRequest| créée par nous pour la valider (Code source~\ref{code:upload-store-request}).
+Pour l'API, il est possible d'envoyer des fichiers dans le corps d'une requête POST au format encodé en base64, en tant que partie d'un objet JSON bien défini, comme démontré dans le Code source~\ref{code:lccc-payload}. Cette charge utile est validée avant d'être acceptée par l'API, plus précisément l'application Laravel utilise la méthode \Verb|rules| de la classe \Verb|UploadStoreRequest| créée par nous pour la valider (Code source~\ref{code:upload-store-request}).
 
 Cette classe se trouve dans le dossier \Verb|app/Http/Requests|. Elle étend la classe \Verb|FormRequest| de Laravel, permettant ainsi de définir les règles de validation pour la requête de stockage (store request) d'import de fichiers.
 
-La méthode \Verb|rules()| définit les règles de validation pour les différentes parties de la requête. Les règles sont définies sous forme d'un tableau associatif. Parmi les règles définies :
+La méthode \Verb|rules| définit les règles de validation pour les différentes parties de la requête. Les règles sont définies sous forme d'un tableau associatif. Parmi les règles définies :
 
 \begin{itemize}
     \item Le champ \Verb|client_app| doit être présent, être un nombre entier et être une des valeurs autorisées spécifiées dans la configuration du projet (\Verb|allowed_client_app|).

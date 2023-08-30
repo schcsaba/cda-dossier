@@ -12,26 +12,26 @@ La classe contient des propriétés statiques \Verb|storageDirectory| et \Verb|w
     \label{code:upload-trigger-constructor}
 \end{code}
 
-La méthode \Verb|handle()| (Code source~\ref{code:upload-trigger-handle}) est appelée lorsque la commande est exécutée. Elle enregistre un nouvel \Verb|Upload| en utilisant les paramètres fournis, puis déclenche un événement \Verb|StepStart| avec les paramètres nécessaires pour démarrer l'étape de traitement. Le statut de l'importation est mis à jour et les informations sont enregistrées dans un fichier journal.
+La méthode \Verb|handle| (Code source~\ref{code:upload-trigger-handle}) est appelée lorsque la commande est exécutée. Elle enregistre un nouvel \Verb|Upload| en utilisant les paramètres fournis, puis déclenche un événement \Verb|StepStart| avec les paramètres nécessaires pour démarrer le maillon de traitement. Le statut de l'importation est mis à jour et les informations sont enregistrées dans un fichier journal.
 
 \begin{code}
-    \caption{La méthode \Verb{handle()} de la classe \Verb{UploadTrigger}.}
+    \caption{La méthode \Verb{handle} de la classe \Verb{UploadTrigger}.}
     \inputminted[firstline=40,lastline=62]{php}{code/UploadTrigger.php}
     \label{code:upload-trigger-handle}
 \end{code}
 
-La méthode \Verb|recordNewUpload()| (Code source~\ref{code:upload-trigger-record-new-upload}) enregistre les détails de l'importation dans la base de données, gère les fichiers associés et renvoie un objet \Verb|Upload|.
+La méthode \Verb|recordNewUpload| (Code source~\ref{code:upload-trigger-record-new-upload}) enregistre les détails de l'importation dans la base de données, gère les fichiers associés et renvoie un objet \Verb|Upload|.
 
 \begin{code}
-    \caption{La méthode \Verb{recordNewUpload()} de la classe \Verb{UploadTrigger}.}
+    \caption{La méthode \Verb{recordNewUpload} de la classe \Verb{UploadTrigger}.}
     \inputminted[firstline=65,lastline=88]{php}{code/UploadTrigger.php}
     \label{code:upload-trigger-record-new-upload}
 \end{code}
 
-La méthode \Verb|saveInDirectories()| (Code source~\ref{code:upload-trigger-save-in-directories}) gère l'enregistrement des fichiers dans les répertoires de stockage et de travail, tout en gérant les paramètres associés.
+La méthode \Verb|saveInDirectories| (Code source~\ref{code:upload-trigger-save-in-directories}) gère l'enregistrement des fichiers dans les répertoires de stockage et de travail, tout en gérant les paramètres associés.
 
 \begin{code}
-    \caption{La méthode \Verb{saveInDirectories()} de la classe \Verb{UploadTrigger}.}
+    \caption{La méthode \Verb{saveInDirectories} de la classe \Verb{UploadTrigger}.}
     \inputminted[firstline=90,lastline=121]{php}{code/UploadTrigger.php}
     \label{code:upload-trigger-save-in-directories}
 \end{code}

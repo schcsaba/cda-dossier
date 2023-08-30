@@ -8,11 +8,11 @@ Le fonctionnement des événements dans Laravel repose sur trois éléments prin
 
 \begin{enumerate}
     \item \textbf{Définition de l'événement :} Un événement est défini en tant que classe qui utilise le trait \Verb|Dispatchable|. Cette classe contient généralement des propriétés et des méthodes pour définir les informations spécifiques à l'événement.
-    \item \textbf{Déclenchement de l'événement :} Une fois qu'on a créé la classe d'événement, on peut utiliser la méthode statique \Verb|dispatch()| sur la classe pour déclencher l'événement. Tous les arguments transmis à la méthode seront transmis au constructeur de l'événement. Cela notifie tous les écouteurs d'événements associés à cet événement.
+    \item \textbf{Déclenchement de l'événement :} Une fois qu'on a créé la classe d'événement, on peut utiliser la méthode statique \Verb|dispatch| sur la classe pour déclencher l'événement. Tous les arguments transmis à la méthode seront transmis au constructeur de l'événement. Cela notifie tous les écouteurs d'événements associés à cet événement.
     \item \textbf{Écouteurs d'événements :} Les écouteurs d'événements sont des classes qui réagissent aux événements spécifiques enregistrés. Ils écoutent les événements déclenchés et exécutent des actions prédéfinies en réponse à ces événements.
 \end{enumerate}
 
-Les abonnés d'événements (event subscribers) dans Laravel offrent une manière alternative d'organiser et de gérer les écouteurs d'événements. Au lieu d'attacher des écouteurs à des classes d'événements individuelles en utilisant la méthode \Verb|listen()|, les abonnés d'événements nous permettent de regrouper des écouteurs liés dans une seule classe. En raison de son caractère pratique, nous avons utilisé cette approche et nous avons créé l'abonné d'événement appelé \Verb|StepEventSubscriber|. Mais avant de l'examiner en détail, regardons la classe \Verb|NextStepEvent| (Code source~\ref{code:next-step-event}).
+Les abonnés d'événements (event subscribers) dans Laravel offrent une manière alternative d'organiser et de gérer les écouteurs d'événements. Au lieu d'attacher des écouteurs à des classes d'événements individuelles en utilisant la méthode \Verb|listen|, les abonnés d'événements nous permettent de regrouper des écouteurs liés dans une seule classe. En raison de son caractère pratique, nous avons utilisé cette approche et nous avons créé l'abonné d'événement appelé \Verb|StepEventSubscriber|. Mais avant de l'examiner en détail, regardons la classe \Verb|NextStepEvent| (Code source~\ref{code:next-step-event}).
 
 \begin{code}
     \caption{La classe \Verb{NextStepEvent}.}

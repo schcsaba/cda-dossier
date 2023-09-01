@@ -19,7 +19,7 @@ La raison derrière cette mission était que selon les retours des utilisateurs,
     \label{fig:original-import-page}
 \end{figure}
 
-Pour accomplir cette mission, j'ai tout d'abord dû créer une maquette de la nouvelle apparence de la page, en tenant compte des exigences. Après quelques ajustements issus de discussions avec le propriétaire du produit, la version finale de la maquette a été approuvée, me permettant ainsi de débuter sa mise en œuvre. Dans cette section, je vais présenter les détails de la maquette que j'ai élaboré, ainsi que la mise en œuvre technique des modifications relatives à l'importation du fichier de transactions de carburant.
+Pour accomplir cette mission, j'ai tout d'abord dû créer une maquette de la nouvelle apparence de la page, en tenant compte des exigences. Après quelques ajustements issus de discussions avec le propriétaire du produit, la version finale de la maquette a été approuvée, me permettant ainsi de débuter sa mise en œuvre. Dans cette section, je vais présenter les détails de la maquette que j'ai élaboré, ainsi que la mise en œuvre technique des modifications.
 
 \subsection{Maquettage}
 
@@ -55,3 +55,42 @@ Les figures suivantes illustrent différents aspects de la maquette : la réorga
 
 \subsection{Développement frontend}
 
+Pour mettre en œuvre les modifications qui ont été visuellement conçues dans la maquette, j'ai dû modifier le fichier \Verb|import.blade.php| dans le dossier \Verb|Suivideflotte/Fleet/Packages/Fuel/resources/views| du projet Portail, qui comprend le projet Gestion de parc (Fleet) (Figure~\ref{fig:architecture}, page~\pageref{fig:architecture}). Les principales modifications que j'ai apportées sont les suivantes :
+
+\begin{itemize}
+    \item J'ai modifié le formulaire d'importation de fichiers d'origine. J'ai vidé la route d'action du formulaire, car elle sert désormais uniquement à sélectionner un prestataire et non à télécharger un fichier, l'action du formulaire étant gérée par JavaScript (Code source~\ref{code:frontend-diff-original-form}).
+    \item J'ai ajouté un nouveau formulaire de téléchargement de fichier pour permettre aux utilisateurs de télécharger des fichiers de carburant. Il inclut un champ pour sélectionner un fichier et un bouton pour l'importer (Code source~\ref{code:frontend-diff-new-form}, page~\pageref{code:frontend-diff-new-form}).
+    \item J'ai ajouté un bouton \foreignquote{french}{Guide de téléchargement}. Lorsque ce bouton est cliqué, une fenêtre modale s'ouvre, contenant les étapes pour télécharger un fichier de carburant à partir du site Web du prestataire correspondant (Bouton -- Code source~\ref{code:frontend-diff-new-form}, page~\pageref{code:frontend-diff-new-form}, lignes 100-105; Fenêtre modale -- Code source~\ref{code:frontend-modal}, page~\pageref{code:frontend-modal}).
+    \item J'ai mis à jour la table d'historique pour prendre en compte différentes étapes du traitement des fichiers de carburant.
+          \begin{itemize}
+              \item Les éléments en cours de traitement sont indiqués par une icône de chargement.
+              \item Les erreurs de traitement sont mises en évidence en rouge avec un message d'erreur.
+              \item Les fichiers traités avec succès sont marqués comme tels.
+          \end{itemize}
+    \item J'ai ajouté une nouvelle fonction \Verb|getGuide| (Code source~\ref{code:frontend-get-guide}, page~\pageref{code:frontend-get-guide}) pour récupérer un guide spécifique en fonction du type de prestataire sélectionné. Cela permet d'afficher des guides spécifiques aux prestataires pour aider les utilisateurs à télécharger les fichiers de carburant corrects.
+    \item Deux nouvelles fonctions, \Verb|handleFileInput| (Code source~\ref{code:frontend-handle-file-input}) et \Verb|importFile| (Code source~\ref{code:frontend-import-file}, page~\pageref{code:frontend-import-file}), ont été ajoutées pour gérer la sélection et l'importation de fichiers de carburant. Elles utilisent AJAX pour soumettre les fichiers et affichent des messages de réussite ou d'erreur aux utilisateurs.
+    \item Une nouvelle fonction \Verb|importHistory| (Code source~\ref{code:frontend-import-history}, page~\pageref{code:frontend-import-history}) a été ajoutée pour récupérer l'historique de manière asynchrone en utilisant AJAX. Cela garantit que les informations d'historique sont mises à jour régulièrement sans recharger la page.
+    \item Une nouvelle fonction \Verb|checkRecentPendingImports|  (Code source~\ref{code:frontend-check-recent-pending-imports}, page~\pageref{code:frontend-check-recent-pending-imports}) a été ajoutée pour vérifier s'il y a des imports en attente récents. Si tel est le cas, l'indicateur \Verb|shouldImportHistory| est défini sur vrai, indiquant qu'un import est en cours ou récent.
+\end{itemize}
+
+Ces modifications visent à améliorer l'expérience des utilisateurs lors de l'importation de fichiers de carburant en fournissant des guides, des informations contextuelles, et en rendant l'ensemble du processus plus réactif et informatif.
+
+Le jeton CSRF (Cross-Site Request Forgery) est une mesure de sécurité importante dans les applications web pour empêcher les attaques CSRF. En français, il est appelé \foreignquote{french}{jeton anti-CSRF} ou \foreignquote{french}{jeton anti-forgery}. Son rôle principal est de garantir que les requêtes HTTP proviennent d'une source légitime et autorisée, généralement de la même application web.
+
+Dans la fonction \Verb|importFile|, le jeton CSRF est utilisé pour s'assurer que la requête POST qui envoie le fichier vers le serveur est légitime et provient réellement de l'application web en cours. Cela ajoute une couche de sécurité essentielle pour éviter que des tiers malveillants ne soumettent des fichiers ou ne déclenchent des actions non autorisées au nom de l'utilisateur.
+
+En incluant le jeton CSRF dans la requête, l'application web peut vérifier que la requête est authentique et autorisée. Si le jeton CSRF ne correspond pas aux attentes, la requête est généralement rejetée, ce qui protège l'application contre les attaques CSRF.
+
+Le jeton CSRF dans la fonction \Verb|importFile| est crucial pour garantir que seules les requêtes légitimes de l'application sont acceptées, renforçant ainsi la sécurité globale de l'importation de fichiers.
+
+\begin{code}
+    \caption{La partie du fichier \Verb{.diff} téléchargé depuis GitLab qui montre la modification du formulaire d'importation original.}
+    \inputminted[firstline=41,lastline=47]{diff}{code/frontend.diff}
+    \label{code:frontend-diff-original-form}
+\end{code}
+
+\begin{code}
+    \caption{La fonction \Verb{handleFileInput}.}
+    \inputminted[firstline=511,lastline=513]{js}{code/import.blade.php}
+    \label{code:frontend-handle-file-input}
+\end{code}

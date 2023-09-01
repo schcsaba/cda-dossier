@@ -1,0 +1,465 @@
+diff --git a/Suivideflotte/Fleet/Packages/Fuel/App/Requests/ImportFuelTransactionsRequest.php b/Suivideflotte/Fleet/Packages/Fuel/App/Requests/ImportFuelTransactionsRequest.php
+index c1931b7f7e45d7c06c77707848887a294225ee2d..842ef8274270a29888ab80d0614e99c3632a41a2 100644
+--- a/Suivideflotte/Fleet/Packages/Fuel/App/Requests/ImportFuelTransactionsRequest.php
++++ b/Suivideflotte/Fleet/Packages/Fuel/App/Requests/ImportFuelTransactionsRequest.php
+@@ -11,6 +11,19 @@ class ImportFuelTransactionsRequest extends FormRequest
+         return true;
+     }
+ 
++    /**
++     * Préparer les données pour la validation
++     *
++     * @return void
++     */
++    protected function prepareForValidation()
++    {
++        $this->merge([
++            'supplier' => $this->route()->parameter('supplier')
++        ]);
++    }
++
++
+     /**
+      * règles de validation
+      *
+diff --git a/Suivideflotte/Fleet/Packages/Fuel/resources/views/import.blade.php b/Suivideflotte/Fleet/Packages/Fuel/resources/views/import.blade.php
+index 1d33fe4e56df574e21264ebc8abc8ea58a545e5d..2c39d58330c2d50e5114780590454dfdeaab256b 100644
+--- a/Suivideflotte/Fleet/Packages/Fuel/resources/views/import.blade.php
++++ b/Suivideflotte/Fleet/Packages/Fuel/resources/views/import.blade.php
+@@ -3,6 +3,7 @@
+ @section('head')
+     @parent
+     @include('package-fleet-fuel::parts.templates.fuelcard-template')
++    @include('layouts.tooltip', ['title' => 'IMPORT FICHIER CARBURANT', 'body' => '<p>Retrouvez ici l’ensemble de vos Importations de fichiers de carburant.</p>'])
+     <link rel="stylesheet" href="{{ URL::asset('css/jquery.fileupload.css') }}"/>
+ @endsection
+ 
+@@ -51,12 +52,7 @@
+                                     <h4>Import</h4>
+                                 </div>
+                                 <div class="card-block">
+-                                    <form class="form-inline import"
+-                                          action="{{ route('fleet.fuel.import.transactions',['supplier' => '']) }}/@{{ supplier }} "
+-                                          method="post" enctype="multipart/form-data">
+-
+-                                        {{ csrf_field() }}
+-
++                                    <form class="form-inline import" action="">
+                                         <div class="form-group">
+                                             <span class="label">Type de fichier</span>
+                                             <div class="btn-group" data-toggle="buttons">
+@@ -111,26 +107,69 @@
+                                                 </label>
+                                             </div>
+                                         </div>
+-                                        <div class="form-group">
+-                                            <span class="label">Fichier</span>
+-                                            <span class="btn btn-default fileinput-button">
++                                    </form>
++                                </div>
++                            </div>
++                            <div v-show="supplier" class="card">
++                                <div class="card-header">
++                                    <h4>Téléchargez un fichier <span class="text-capitalize">@{{ findBrand(supplier) }}</span></h4>
++                                </div>
++                                <div class="card-block">
++                                    <form @submit.prevent="importFile">
++
++                                        {{ csrf_field() }}
++
++                                        <div class="form-inline form-group">
++                                            <div class="form-group">
++                                                <span class="label">1. Téléchargez un fichier <span class="text-capitalize">@{{ findBrand(supplier) }}</span> de type <span v-if="'' != fileUploadAcceptType()" v-html="fileUploadAcceptType()"></span> : </span>
++                                                <span class="btn btn-default fileinput-button">
+                                                 <i class="fa fa-plus"></i>
+                                                 <span class="btn-file-upload">Ajouter un fichier
+                                                     <span v-if="'' != fileUploadAcceptType()" v-html="'('+fileUploadAcceptType()+')'"></span>
+                                                 </span>
+-                                                <input id="fileupload" type="file" name="file" :accept="fileUploadAcceptType()" :disabled="fileuploadDisabled == 1" v-model="file">
++                                                <input id="fileupload" type="file" name="file" :accept="fileUploadAcceptType()" :disabled="fileuploadDisabled == 1" @change="handleFileInput">
+                                             </span>
++                                            </div>
++                                            <div class="form-group" v-if="file != ''">
++                                                <p class="form-control-static">@{{ file.name }}</p>
++                                            </div>
+                                         </div>
+-                                        <div class="form-group" v-if="file != ''">
+-                                            <p class="form-control-static">@{{ file }}</p>
+-                                        </div>
+-                                        <div class="form-group pull-right">
++
++                                        <div class="form-group">
++                                            <span class="label">2. Cliquez sur le bouton d'importation : </span>
+                                             <button type="submit" class="btn btn-outline-primary"
+                                                     :disabled="supplier == null || file == '' "><i
+-                                                        class="fa fa-cloud-upload" aria-hidden="true"></i> Importer
++                                                    class="fa fa-cloud-upload" aria-hidden="true"></i> Importer
+                                             </button>
+                                         </div>
+                                     </form>
++                                    <div v-if="guide.length">
++                                        <span class="label">Pour savoir comment récupérer un fichier <span class="text-capitalize">@{{ findBrand(supplier) }}</span>, cliquez sur le bouton info : </span>
++                                        <span class="btn btn-outline-info" id="btnGuide">
++                                                <i class="fa fa-info-circle"></i> Guide de téléchargement
++                                            </span>
++                                    </div>
++                                </div>
++                            </div>
++                            <div class="modal fade" id="modalGuide" role="dialog" aria-labelledby="modalGuide" aria-hidden="true">
++                                <div class="modal-dialog" role="document" style="max-width: 80%; display: flex; justify-content: center">
++                                    <div class="modal-content" style="height: 690px; overflow-y: scroll">
++                                        <div class="modal-header">
++                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
++                                                <span aria-hidden="true">&times;</span>
++                                            </button>
++
++                                            <h4 class="modal-title" id="myModalLabel">
++                                                Comment télécharger un fichier <span class="text-capitalize">@{{ findBrand(supplier) }}</span> ?
++                                            </h4>
++                                        </div>
++                                        <div class="modal-body" style="display: flex; flex-direction: column; row-gap: 15px">
++                                            <div v-for="guideStep in guide" style="display: flex; flex-direction: column; align-items: center; row-gap: 10px">
++                                                <h5>@{{ guideStep[0] }}</h5>
++                                                <img :src="guideStep[1]" style="width: 90%">
++                                            </div>
++                                        </div>
++                                    </div>
+                                 </div>
+                             </div>
+                         @endif
+@@ -168,7 +207,7 @@
+                                         <i class="fa fa-circle-o-notch fa-spin fa-3x text-muted"></i>
+                                     </div>
+ 
+-                                    <div class="table-responsive" v-show="history.length > 0">
++                                    <div class="table-responsive" v-show="historyForList.length > 0">
+                                         <table class="table table-striped table-hover table-sm">
+                                             <thead class="thead-inverse">
+                                             <tr>
+@@ -180,23 +219,65 @@
+                                             </tr>
+                                             </thead>
+                                             <tbody>
+-                                            <tr v-for="item in history">
+-                                                <td class="display-flexalign-items-center"
++                                            <tr v-for="n in waitingImportStart">
++                                                <td colspan="5" style="text-align: center;"><i class="fa fa-circle-o-notch fa-spin fa-3x text-muted"></i></td>
++                                            </tr>
++                                            <tr v-for="n in importStartError" style="background-color: rgba(250, 80, 58, 0.25); color: rgb(255, 0, 0);">
++                                                <td class="display-flex align-items-center"
++                                                    style="vertical-align: middle;">
++                                                    <img :src=" '../img/fleet/fuel/' + findBrand(supplierForStaticListElements) +'.png' "
++                                                         style="width:40px; margin-right:5px;  margin-left:5px"/>
++                                                    <span class="text-capitalize">@{{ findBrand(supplierForStaticListElements) }}</span>
++                                                </td>
++                                                <td colspan="4" style="text-align: left">Le traitement du fichier n'a pas pu démarrer!<br>Une erreur s'est produite
++                                                </td>
++                                            </tr>
++                                            <tr v-for="n in importStartSuccess">
++                                                <td class="display-flex align-items-center"
+                                                     style="vertical-align: middle">
+-                                                    <img :src=" '../img/fleet/fuel/' + findBrand(item.idSupllier) +'.png' "
++                                                    <img :src=" '../img/fleet/fuel/' + findBrand(supplierForStaticListElements) +'.png' "
+                                                          style="width:40px; margin-right:5px;  margin-left:5px"/>
+-                                                    <span class="text-capitalize">@{{ findBrand(item.idSupllier) }}</span>
++                                                    <span class="text-capitalize">@{{ findBrand(supplierForStaticListElements) }}</span>
+                                                 </td>
+-                                                <td style="vertical-align: middle">
++                                                <td colspan="4" style="text-align: left"><span style="color: rgb(18, 125, 0)">Le traitement du fichier a démarré</span><br><span style="color: rgb(139, 145, 154)">Le fichier est en cours de traitement </span><i class="fa fa-circle-o-notch fa-spin text-muted"></i>
++                                                </td>
++                                            </tr>
++                                            <tr v-for="item in historyForList" track-by="idImport">
++                                                <td v-if="item.status == 3 || item.status == 1  || item.status == 2" class="display-flex align-items-center"
++                                                    style="vertical-align: middle">
++                                                    <img :src=" '../img/fleet/fuel/' + findBrand(item.idSupplier) +'.png' "
++                                                         style="width:40px; margin-right:5px;  margin-left:5px"/>
++                                                    <span class="text-capitalize">@{{ findBrand(item.idSupplier) }}</span>
++                                                </td>
++                                                <td v-if="item.status == 4 || item.status == 0"
++                                                    style="vertical-align: middle; background-color: rgba(250, 80, 58, 0.25);">
++                                                    <img :src=" '../img/fleet/fuel/' + findBrand(item.idSupplier) +'.png' "
++                                                         style="width:40px; margin-right:5px;  margin-left:5px;"/>
++                                                    <span class="text-capitalize">@{{ findBrand(item.idSupplier) }}</span>
++                                                </td>
++                                                <td v-if="item.status == 2" colspan="4" style="text-align: left"><span style="color: rgb(18, 125, 0)">Le traitement du fichier a démarré</span><br><span style="color: rgb(139, 145, 154)">Le fichier est en cours de traitement </span><i class="fa fa-circle-o-notch fa-spin text-muted"></i>
++                                                </td>
++                                                <td v-if="item.status == 4 || item.status == 0" colspan="2" style="text-align: left; background-color: rgba(250, 80, 58, 0.25);"><span style="color: rgb(18, 125, 0)">Le traitement du fichier a démarré</span><br><span style="color: rgb(139, 145, 154)">Le fichier est en cours de traitement</span><br><span style="color: rgb(255, 0, 0);">Une erreur s'est produite</span>
++                                                </td>
++                                                <td v-if="item.status == 3 || item.status == 1" style="vertical-align: middle">
+                                                     Du @{{ convertDate(item.from) }}<br>Au @{{ convertDate(item.to) }}
+                                                 </td>
+-                                                <td style="vertical-align: middle">
++                                                <td v-if="item.status == 3 || item.status == 1" style="vertical-align: middle">
+                                                     @{{ convertDateTime(item.date) }}
+                                                 </td>
+-                                                <td style="vertical-align: middle">
++                                                <td v-if="item.status == 3 || item.status == 1" style="vertical-align: middle">
++                                                    @{{ item.user ? item.user : '-' }}
++                                                </td>
++                                                <td v-if="item.status == 4 || item.status == 0" style="vertical-align: middle; background-color: rgba(250, 80, 58, 0.25);">
+                                                     @{{ item.user ? item.user : '-' }}
+                                                 </td>
+-                                                <td style="vertical-align: middle">
++                                                <td v-if="(item.status == 4 || item.status == 0) && !item.uploadError" style="vertical-align: middle; background-color: rgba(250, 80, 58, 0.25);">
++                                                    -
++                                                </td>
++                                                <td v-if="(item.status == 4 || item.status == 0) && item.uploadError" style="vertical-align: middle; color: rgb(255, 0, 0); background-color: rgba(250, 80, 58, 0.25);" data-toggle="tooltip" data-placement="left" data-html="true" data-original-title="@{{ item.uploadError }}">
++                                                    <i class="fa fa-solid fa-exclamation-circle" style="cursor: pointer"></i>
++                                                </td>
++                                                <td v-if="item.status == 3 || item.status == 1" style="vertical-align: middle">
+                                                     <a :href="'{{ route('fleet.fuel.transactions') }}?period=' + convertDateForLink(item.from)">
+                                                         <i class="fa fa-list-ul"></i>
+                                                     </a>
+@@ -207,7 +288,7 @@
+                                         </table>
+                                     </div>
+ 
+-                                    <div v-show="history.length == 0 && loader == false">
++                                    <div v-show="historyForList.length == 0 && loader == false">
+                                         <h2 class="text-muted text-xs-center m-t-3">
+                                             Aucun historique
+                                         </h2>
+@@ -243,9 +324,19 @@
+                     supplier: null,
+                     fileuploadDisabled: 1,
+                     file: '',
++                    csrfToken: '',
+                     dayDate: null,
+                     months: [],
+-                    history: [],
++                    historyForBars: [],
++                    historyForList: [],
++                    prevHistoryForListSize: 0,
++                    limit: 300,
++                    guide: [],
++                    waitingImportStart: 0,
++                    importStartSuccess: 0,
++                    importStartError: 0,
++                    shouldImportHistory: true,
++                    supplierForStaticListElements: null,
+                     listSuppliers: [
+                         {
+                             name: 'total-energie-icone',
+@@ -293,7 +384,8 @@
+             watch: {
+                 supplier(newSupplier, oldSupplier) {
+                     if (null !== newSupplier) {
+-                        this.fileuploadDisabled = 0
++                        this.fileuploadDisabled = 0;
++                        this.getGuide(newSupplier);
+                     }
+                 },
+             },
+@@ -325,7 +417,7 @@
+                     numberOfDay = moment().endOf('month').diff(moment().subtract(2, 'month').startOf('month'), 'days');
+                     dayHeight = 450 / numberOfDay;
+ 
+-                    this.history.forEach((line) => {
++                    this.historyForBars.forEach((line) => {
+                         from = moment(line.from, 'YYYY-MM-DD');
+                         to = moment(line.to, 'YYYY-MM-DD');
+ 
+@@ -335,31 +427,31 @@
+                         let heightTimeline = (differenceDay * dayHeight) + dayHeight;
+                         let heightToBottom = differenceDayToStart * dayHeight;
+ 
+-                        if (1 == line.idSupllier) {
++                        if (1 == line.idSupplier) {
+                             this.listSuppliers[0].isUsed = true;
+                             this.listSuppliers[0].timelines.push({ heightTimeline: heightTimeline, heightToBottom: heightToBottom, from: moment(line.from, 'YYYY-MM-DD').format('DD/MM/YYYY'), to: moment(line.to, 'YYYY-MM-DD').format('DD/MM/YYYY') });
+                             i++;
+-                        } else if (3 == line.idSupllier) {
++                        } else if (3 == line.idSupplier) {
+                             this.listSuppliers[1].isUsed = true;
+                             this.listSuppliers[1].timelines.push({ heightTimeline: heightTimeline, heightToBottom: heightToBottom, from: moment(line.from, 'YYYY-MM-DD').format('DD/MM/YYYY'), to: moment(line.to, 'YYYY-MM-DD').format('DD/MM/YYYY') });
+                             j++;
+-                        } else if (5 == line.idSupllier) {
++                        } else if (5 == line.idSupplier) {
+                             this.listSuppliers[2].isUsed = true;
+                             this.listSuppliers[2].timelines.push({ heightTimeline: heightTimeline, heightToBottom: heightToBottom, from: moment(line.from, 'YYYY-MM-DD').format('DD/MM/YYYY'), to: moment(line.to, 'YYYY-MM-DD').format('DD/MM/YYYY') });
+                             k++;
+-                        } else if (7 == line.idSupllier) {
++                        } else if (7 == line.idSupplier) {
+                             this.listSuppliers[3].isUsed = true;
+                             this.listSuppliers[3].timelines.push({ heightTimeline: heightTimeline, heightToBottom: heightToBottom, from: moment(line.from, 'YYYY-MM-DD').format('DD/MM/YYYY'), to: moment(line.to, 'YYYY-MM-DD').format('DD/MM/YYYY') });
+                             l++;
+-                        } else if (8 == line.idSupllier) {
++                        } else if (8 == line.idSupplier) {
+                             this.listSuppliers[4].isUsed = true;
+                             this.listSuppliers[4].timelines.push({ heightTimeline: heightTimeline, heightToBottom: heightToBottom, from: moment(line.from, 'YYYY-MM-DD').format('DD/MM/YYYY'), to: moment(line.to, 'YYYY-MM-DD').format('DD/MM/YYYY') });
+                             m++;
+-                        } else if (9 == line.idSupllier) {
++                        } else if (9 == line.idSupplier) {
+                             this.listSuppliers[5].isUsed = true;
+                             this.listSuppliers[5].timelines.push({ heightTimeline: heightTimeline, heightToBottom: heightToBottom, from: moment(line.from, 'YYYY-MM-DD').format('DD/MM/YYYY'), to: moment(line.to, 'YYYY-MM-DD').format('DD/MM/YYYY') });
+                             n++;
+-                        } else if (10 == line.idSupllier) {
++                        } else if (10 == line.idSupplier) {
+                             this.listSuppliers[6].isUsed = true;
+                             this.listSuppliers[6].timelines.push({ heightTimeline: heightTimeline, heightToBottom: heightToBottom, from: moment(line.from, 'YYYY-MM-DD').format('DD/MM/YYYY'), to: moment(line.to, 'YYYY-MM-DD').format('DD/MM/YYYY') });
+                             o++;
+@@ -390,6 +482,20 @@
+                     }
+                 },
+ 
++                getGuide(typeId) {
++                    this.guide = [];
++                    if (1 == typeId) {
++                        this.guide.push(['1/ Aller dans la section « Fournisseurs & Factures »', "{{ asset('img/import/total/01.png') }}"]);
++                        this.guide.push(['2/ Cliquez sur le bouton de téléchargement', "{{ asset('img/import/total/02.png') }}"]);
++                    } else if (5 == typeId) {
++                        this.guide.push(['Récupération des transactions', "{{ asset('img/import/leclerc/01.png') }}"]);
++                    } else if (8 == typeId) {
++                        this.guide.push(['1/ Aller dans la section « Factures & transactions »', "{{ asset('img/import/as24/01.png') }}"]);
++                        this.guide.push(['2/ Cliquez sur INFOSERVICE', "{{ asset('img/import/as24/02.png') }}"]);
++                        this.guide.push(['3/ Remplissez le formulaire et cliquez sur le bouton de téléchargement', "{{ asset('img/import/as24/03.png') }}"]);
++                    }
++                },
++
+                 convertDate(date) {
+                     return moment(date, 'YYYY-MM-DD').format('DD/MM/YYYY');
+                 },
+@@ -401,27 +507,104 @@
+                 convertDateForLink(date) {
+                     return moment(date, 'YYYY-MM-DD').format('YYYY/MM');
+                 },
++
++                handleFileInput: function(event) {
++                    this.file = event.target.files[0];
++                },
++
++                importFile: function(event) {
++                    const formData = new FormData();
++                    formData.append('file', this.file);
++                    this.waitingImportStart++;
++                    this.supplierForStaticListElements = this.supplier;
++
++                    let that = this;
++
++                    $.ajax({
++                        url: "{{ route('fleet.fuel.import.transactions', ['supplier' => '']) }}/" + that.supplier,
++                        type: 'POST',
++                        data: formData,
++                        processData: false,
++                        contentType: false,
++                        headers: {
++                            'X-CSRF-TOKEN': that.csrfToken
++                        },
++                        success: function(response) {
++                            that.waitingImportStart--;
++                            that.importStartSuccess++;
++                            that.shouldImportHistory = true;
++                            that.file = '';
++                            event.target.reset();
++                            that.limit++;
++                        },
++                        error: function(error) {
++                            that.waitingImportStart--;
++                            that.importStartError++;
++                            that.file = '';
++                            event.target.reset();
++                        }
++                    });
++                },
++
++                importHistory() {
++                    let that = this;
++                    if (that.shouldImportHistory) {
++                        $.ajax({
++                            url: "{{ route('api-gateway',['route' => 'park/fuel/transactions/history/']) }}",
++                            global : false,
++                            method : 'GET',
++                            success(response) {
++                                that.historyForBars = response.data;
++                                that.buildTimeline();
++                            },
++                            error(resultat, statut, erreur) {
++                                that.loader = false;
++                                console.log('ERROR');
++                            }
++                        });
++                        $.ajax({
++                            url: "{{ route('api-gateway',['route' => 'park/fuel/transactions/history/']) }}" + "?created_at=default&status[]=0&status[]=1&status[]=2&status[]=3&status[]=4&limit=" + that.limit,
++                            global : false,
++                            method : 'GET',
++                            success(response) {
++                                that.historyForList = response.data;
++
++                                that.loader = false;
++                                if (that.prevHistoryForListSize < that.historyForList.length) {
++                                    const diff = that.historyForList.length - that.prevHistoryForListSize;
++                                    that.importStartSuccess = that.importStartSuccess-diff >= 0 ? that.importStartSuccess-diff : 0;
++                                }
++                                that.prevHistoryForListSize = that.historyForList.length;
++                                that.checkRecentPendingImports();
++                            },
++                            error(resultat, statut, erreur) {
++                                that.loader = false;
++                                console.log('ERROR');
++                            }
++                        });
++                    }
++                },
++
++                checkRecentPendingImports() {
++                    const currentDate = new Date();
++                    const oneHourAgo = currentDate.getTime() - (60 * 60 * 1000);
++                    const recentPendingImports = this.historyForList.filter(function (item) {
++                                                const historyCreatedAt = new Date(item.date);
++                                                return item.status == 2 && historyCreatedAt.getTime() > oneHourAgo;
++                                            });
++                    this.shouldImportHistory = recentPendingImports.length > 0 ? true : false;
++                }
+             },
+ 
+             ready() {
+-                let that = this;
++
+                 this.loader = true;
+ 
+-                $.ajax({
+-                    url: "{{ route('api-gateway',['route' => 'park/fuel/transactions/history']) }}",
+-                    method : 'GET',
+-                    success(response) {
+-                        that.history = response.data;
++                this.importHistory();
+ 
+-                        that.buildTimeline();
++                let intervalId;
+ 
+-                        that.loader = false;
+-                    },
+-                    error(resultat, statut, erreur) {
+-                        that.loader = false;
+-                        console.log('ERROR');
+-                    }
+-                });
++                intervalId = setInterval(this.importHistory, 10000);
+ 
+                 this.dayDate = moment();
+ 
+@@ -433,6 +616,16 @@
+                 ];
+ 
+                 this.redTimeline = this.dayDate.diff(moment().subtract(2, 'month').startOf('month'), 'days') * 5;
++
++                $('body').on('click', '#btnGuide', function () {
++                    $('#modalGuide').modal('show');
++                });
++
++                this.csrfToken = "{{ csrf_token() }}";
++
++                setTimeout(() => {
++                    $('[data-toggle="tooltip"]').tooltip()
++                }, 10000)
+             },
+         });
+     });
+diff --git a/resources/assets/img/fleet/fuel/Leclerc Energie.png b/resources/assets/img/fleet/fuel/Leclerc Energie.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..72eefbb6bc96a0bef584c4a6da908f3742757ada
+Binary files /dev/null and b/resources/assets/img/fleet/fuel/Leclerc Energie.png differ
+diff --git a/resources/assets/img/fleet/fuel/lccc.png b/resources/assets/img/fleet/fuel/lccc.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..b357a9c6a21de3061513d383640aa100c5f61577
+Binary files /dev/null and b/resources/assets/img/fleet/fuel/lccc.png differ

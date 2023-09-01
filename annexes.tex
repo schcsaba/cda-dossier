@@ -69,4 +69,42 @@
         \label{code:upload-controller-test}
     \end{code}
 
+    \section{Frontend}
+
+    \begin{code}
+        \caption{La partie du fichier \Verb{.diff} téléchargé depuis GitLab qui montre le code du nouveau formulaire d'importation.}
+        \inputminted[firstline=61,lastline=107]{diff}{code/frontend.diff}
+        \label{code:frontend-diff-new-form}
+    \end{code}
+
+    \begin{code}
+        \caption{Le code de la nouvelle fenêtre modale.}
+        \inputminted[firstline=154,lastline=174]{html}{code/import.blade.php}
+        \label{code:frontend-modal}
+    \end{code}
+
+    \begin{code}
+        \caption{La fonction \Verb{getGuide}.}
+        \inputminted[firstline=485,lastline=497]{js}{code/import.blade.php}
+        \label{code:frontend-get-guide}
+    \end{code}
+
+    \begin{code}
+        \caption{La fonction \Verb{importFile}.}
+        \inputminted[firstline=515,lastline=547]{js}{code/import.blade.php}
+        \label{code:frontend-import-file}
+    \end{code}
+
+    \begin{code}
+        \caption{La fonction \Verb{importHistory}.}
+        \inputminted[firstline=549,lastline=586]{js}{code/import.blade.php}
+        \label{code:frontend-import-history}
+    \end{code}
+
+    \begin{code}
+        \caption{La fonction \Verb{checkRecentPendingImports}.}
+        \inputminted[firstline=588,lastline=596]{js}{code/import.blade.php}
+        \label{code:frontend-check-recent-pending-imports}
+    \end{code}
+
 \end{appendices}

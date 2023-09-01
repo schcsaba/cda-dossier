@@ -1,0 +1,634 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{err}{@}\PYG{k}{extends}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}layouts.default\PYGZsq{}}\PYG{p}{)}
+
+\PYG{err}{@}\PYG{n+nx}{section}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}head\PYGZsq{}}\PYG{p}{)}
+\PYG{+w}{    }\PYG{err}{@}\PYG{n+nx}{parent}
+\PYG{+w}{    }\PYG{err}{@}\PYG{n+nx}{include}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}package\PYGZhy{}fleet\PYGZhy{}fuel::parts.templates.fuelcard\PYGZhy{}template\PYGZsq{}}\PYG{p}{)}
+\PYG{+w}{    }\PYG{err}{@}\PYG{n+nx}{include}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}layouts.tooltip\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}title\PYGZsq{}}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}IMPORT FICHIER CARBURANT\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}body\PYGZsq{}}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZlt{}p\PYGZgt{}Retrouvez ici l’ensemble de vos Importations de fichiers de carburant.\PYGZlt{}/p\PYGZgt{}\PYGZsq{}}\PYG{p}{])}
+\PYG{+w}{    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{link}\PYG{+w}{ }\PYG{n+nx}{rel}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}stylesheet\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{href}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZob{}\PYGZob{} URL::asset(\PYGZsq{}css/jquery.fileupload.css\PYGZsq{}) \PYGZcb{}\PYGZcb{}\PYGZdq{}}\PYG{o}{/\PYGZgt{}}
+\PYG{err}{@}\PYG{n+nx}{endsection}
+
+\PYG{err}{@}\PYG{n+nx}{section}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}navigation\PYGZsq{}}\PYG{p}{)}
+\PYG{err}{@}\PYG{n+nx}{endsection}
+
+\PYG{err}{@}\PYG{n+nx}{section}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}content\PYGZsq{}}\PYG{p}{)}
+\PYG{+w}{    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{section}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}content refonte\PYGZhy{}parc fluid\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{        }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{article}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{            }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}row\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{section}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{id}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}card\PYGZhy{}page\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{v}\PYG{o}{\PYGZhy{}}\PYG{n+nx}{cloak}\PYG{o}{\PYGZgt{}}
+
+\PYG{+w}{                        }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{h1}\PYG{o}{\PYGZgt{}}\PYG{n+nx}{Import}\PYG{+w}{ }\PYG{n+nx}{fichier}\PYG{+w}{ }\PYG{n+nx}{carburant}\PYG{o}{\PYGZlt{}}\PYG{err}{/h1\PYGZgt{}}
+\PYG{+w}{                        }\PYG{err}{@}\PYG{k}{if}\PYG{p}{(}\PYG{n+nx}{session}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}success\PYGZsq{}}\PYG{p}{))}
+\PYG{+w}{                            }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}alert alert\PYGZhy{}success\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{role}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}alert\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{button}\PYG{+w}{ }\PYG{n+nx}{type}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}button\PYGZdq{}}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}close\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{data}\PYG{o}{\PYGZhy{}}\PYG{n+nx}{dismiss}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}alert\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{aria}\PYG{o}{\PYGZhy{}}\PYG{n+nx}{label}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Close\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{span}\PYG{+w}{ }\PYG{n+nx}{aria}\PYG{o}{\PYGZhy{}}\PYG{n+nx}{hidden}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}true\PYGZdq{}}\PYG{o}{\PYGZgt{}\PYGZam{}}\PYG{n+nx}{times}\PYG{p}{;}\PYG{o}{\PYGZlt{}}\PYG{err}{/span\PYGZgt{}}
+\PYG{+w}{                                }\PYG{o}{\PYGZlt{}}\PYG{err}{/button\PYGZgt{}}
+\PYG{+w}{                                }\PYG{p}{\PYGZob{}\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{session}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}success\PYGZsq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZcb{}\PYGZcb{}}
+\PYG{+w}{                            }\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{                        }\PYG{err}{@}\PYG{n+nx}{endif}
+
+\PYG{+w}{                        }\PYG{err}{@}\PYG{k}{if}\PYG{p}{(}\PYG{n+nx}{session}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}error\PYGZsq{}}\PYG{p}{))}
+\PYG{+w}{                            }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}alert alert\PYGZhy{}danger\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{role}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}alert\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{button}\PYG{+w}{ }\PYG{n+nx}{type}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}button\PYGZdq{}}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}close\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{data}\PYG{o}{\PYGZhy{}}\PYG{n+nx}{dismiss}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}alert\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{aria}\PYG{o}{\PYGZhy{}}\PYG{n+nx}{label}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Close\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{span}\PYG{+w}{ }\PYG{n+nx}{aria}\PYG{o}{\PYGZhy{}}\PYG{n+nx}{hidden}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}true\PYGZdq{}}\PYG{o}{\PYGZgt{}\PYGZam{}}\PYG{n+nx}{times}\PYG{p}{;}\PYG{o}{\PYGZlt{}}\PYG{err}{/span\PYGZgt{}}
+\PYG{+w}{                                }\PYG{o}{\PYGZlt{}}\PYG{err}{/button\PYGZgt{}}
+\PYG{+w}{                                }\PYG{p}{\PYGZob{}}\PYG{o}{!!}\PYG{n+nx}{session}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}error\PYGZsq{}}\PYG{p}{)}\PYG{o}{!!}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                            }\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{                        }\PYG{err}{@}\PYG{n+nx}{endif}
+
+\PYG{+w}{                        }\PYG{err}{@}\PYG{k}{if}\PYG{p}{(}\PYG{n+nx}{session}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}fuelSubscriptionError\PYGZsq{}}\PYG{p}{))}
+\PYG{+w}{                            }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}alert alert\PYGZhy{}danger\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{role}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}alert\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{button}\PYG{+w}{ }\PYG{n+nx}{type}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}button\PYGZdq{}}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}close\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{data}\PYG{o}{\PYGZhy{}}\PYG{n+nx}{dismiss}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}alert\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{aria}\PYG{o}{\PYGZhy{}}\PYG{n+nx}{label}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Close\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{span}\PYG{+w}{ }\PYG{n+nx}{aria}\PYG{o}{\PYGZhy{}}\PYG{n+nx}{hidden}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}true\PYGZdq{}}\PYG{o}{\PYGZgt{}\PYGZam{}}\PYG{n+nx}{times}\PYG{p}{;}\PYG{o}{\PYGZlt{}}\PYG{err}{/span\PYGZgt{}}
+\PYG{+w}{                                }\PYG{o}{\PYGZlt{}}\PYG{err}{/button\PYGZgt{}}
+\PYG{+w}{                                }\PYG{p}{\PYGZob{}}\PYG{o}{!!}\PYG{n+nx}{session}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}fuelSubscriptionError\PYGZsq{}}\PYG{p}{)}\PYG{o}{!!}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                            }\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{                        }\PYG{err}{@}\PYG{n+nx}{endif}
+
+\PYG{+w}{                        }\PYG{err}{@}\PYG{n+nx}{permission}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}park\PYGZhy{}export\PYGZhy{}fueltransactions\PYGZsq{}}\PYG{p}{)}
+
+\PYG{+w}{                            }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}card\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}card\PYGZhy{}header\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{h4}\PYG{o}{\PYGZgt{}}\PYG{n+nx}{Import}\PYG{o}{\PYGZlt{}}\PYG{err}{/h4\PYGZgt{}}
+\PYG{+w}{                                }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}card\PYGZhy{}block\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{form}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}form\PYGZhy{}inline import\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{action}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                        }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}form\PYGZhy{}group\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                            }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{span}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}label\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{n+nx}{Type}\PYG{+w}{ }\PYG{n+nx}{de}\PYG{+w}{ }\PYG{n+nx}{fichier}\PYG{o}{\PYGZlt{}}\PYG{err}{/span\PYGZgt{}}
+\PYG{+w}{                                            }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}btn\PYGZhy{}group\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{data}\PYG{o}{\PYGZhy{}}\PYG{n+nx}{toggle}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}buttons\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{label}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}btn btn\PYGZhy{}secondary\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{style}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}margin\PYGZhy{}bottom:0\PYGZdq{}}
+\PYG{+w}{                                                       }\PYG{err}{@}\PYG{n+nx}{click}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}supplier = 1\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{input}\PYG{+w}{ }\PYG{n+nx}{type}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}radio\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}supplier\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{autocomplete}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}off\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{value}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}1\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{img}\PYG{+w}{ }\PYG{n+nx}{src}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZob{}\PYGZob{} asset(\PYGZsq{}img/fleet/fuel/total\PYGZhy{}energie\PYGZhy{}icone.png\PYGZsq{}) \PYGZcb{}\PYGZcb{}\PYGZdq{}}
+\PYG{+w}{                                                         }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}img\PYGZhy{}responsive\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{style}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}height:13px\PYGZdq{}}\PYG{o}{/\PYGZgt{}}
+\PYG{+w}{                                                    }\PYG{n+nx}{Total}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n+nx}{nbsp}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{i}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}fa\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{aria}\PYG{o}{\PYGZhy{}}\PYG{n+nx}{hidden}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}true\PYGZdq{}}\PYG{o}{\PYGZgt{}\PYGZlt{}}\PYG{err}{/i\PYGZgt{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{err}{/label\PYGZgt{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{label}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}btn btn\PYGZhy{}secondary\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{style}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}margin\PYGZhy{}bottom:0\PYGZdq{}}
+\PYG{+w}{                                                       }\PYG{err}{@}\PYG{n+nx}{click}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}supplier = 3\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{input}\PYG{+w}{ }\PYG{n+nx}{type}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}radio\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}supplier\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{autocomplete}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}off\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{value}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}3\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{img}\PYG{+w}{ }\PYG{n+nx}{src}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZob{}\PYGZob{} asset(\PYGZsq{}img/fleet/fuel/shell.png\PYGZsq{}) \PYGZcb{}\PYGZcb{}\PYGZdq{}}
+\PYG{+w}{                                                         }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}img\PYGZhy{}responsive\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{style}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}height:13px\PYGZdq{}}\PYG{o}{/\PYGZgt{}}
+\PYG{+w}{                                                    }\PYG{n+nx}{Shell}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n+nx}{nbsp}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{i}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}fa\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{aria}\PYG{o}{\PYGZhy{}}\PYG{n+nx}{hidden}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}true\PYGZdq{}}\PYG{o}{\PYGZgt{}\PYGZlt{}}\PYG{err}{/i\PYGZgt{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{err}{/label\PYGZgt{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{label}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}btn btn\PYGZhy{}secondary\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{style}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}margin\PYGZhy{}bottom:0\PYGZdq{}}
+\PYG{+w}{                                                       }\PYG{err}{@}\PYG{n+nx}{click}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}supplier = 5\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{input}\PYG{+w}{ }\PYG{n+nx}{type}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}radio\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}supplier\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{autocomplete}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}off\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{value}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}5\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{img}\PYG{+w}{ }\PYG{n+nx}{src}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZob{}\PYGZob{} asset(\PYGZsq{}img/fleet/fuel/leclerc\PYGZhy{}energie\PYGZhy{}icone.png\PYGZsq{}) \PYGZcb{}\PYGZcb{}\PYGZdq{}}
+\PYG{+w}{                                                         }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}img\PYGZhy{}responsive\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{style}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}height:13px\PYGZdq{}}\PYG{o}{/\PYGZgt{}}
+\PYG{+w}{                                                    }\PYG{n+nx}{Leclerc}\PYG{+w}{ }\PYG{n+nx}{Energie}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n+nx}{nbsp}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{i}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}fa\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{aria}\PYG{o}{\PYGZhy{}}\PYG{n+nx}{hidden}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}true\PYGZdq{}}\PYG{o}{\PYGZgt{}\PYGZlt{}}\PYG{err}{/i\PYGZgt{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{err}{/label\PYGZgt{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{label}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}btn btn\PYGZhy{}secondary\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{style}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}margin\PYGZhy{}bottom:0\PYGZdq{}}
+\PYG{+w}{                                                       }\PYG{err}{@}\PYG{n+nx}{click}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}supplier = 7\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{input}\PYG{+w}{ }\PYG{n+nx}{type}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}radio\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}supplier\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{autocomplete}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}off\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{value}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}7\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{img}\PYG{+w}{ }\PYG{n+nx}{src}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZob{}\PYGZob{} asset(\PYGZsq{}img/fleet/fuel/dkv.png\PYGZsq{}) \PYGZcb{}\PYGZcb{}\PYGZdq{}}
+\PYG{+w}{                                                         }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}img\PYGZhy{}responsive\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{style}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}height:11px\PYGZdq{}}\PYG{o}{/\PYGZgt{}}
+\PYG{+w}{                                                    }\PYG{n+nx}{DKV}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n+nx}{nbsp}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{i}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}fa\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{aria}\PYG{o}{\PYGZhy{}}\PYG{n+nx}{hidden}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}true\PYGZdq{}}\PYG{o}{\PYGZgt{}\PYGZlt{}}\PYG{err}{/i\PYGZgt{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{err}{/label\PYGZgt{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{label}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}btn btn\PYGZhy{}secondary\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{style}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}margin\PYGZhy{}bottom:0\PYGZdq{}}
+\PYG{+w}{                                                       }\PYG{err}{@}\PYG{n+nx}{click}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}supplier = 8\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{input}\PYG{+w}{ }\PYG{n+nx}{type}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}radio\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}supplier\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{autocomplete}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}off\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{value}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}8\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{img}\PYG{+w}{ }\PYG{n+nx}{src}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZob{}\PYGZob{} asset(\PYGZsq{}img/fleet/fuel/AS24.png\PYGZsq{}) \PYGZcb{}\PYGZcb{}\PYGZdq{}}
+\PYG{+w}{                                                         }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}img\PYGZhy{}responsive\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{style}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}height:13px\PYGZdq{}}\PYG{o}{/\PYGZgt{}}
+\PYG{+w}{                                                    }\PYG{n+nx}{AS24}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n+nx}{nbsp}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{i}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}fa\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{aria}\PYG{o}{\PYGZhy{}}\PYG{n+nx}{hidden}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}true\PYGZdq{}}\PYG{o}{\PYGZgt{}\PYGZlt{}}\PYG{err}{/i\PYGZgt{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{err}{/label\PYGZgt{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{label}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}btn btn\PYGZhy{}secondary\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{style}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}margin\PYGZhy{}bottom:0\PYGZdq{}}
+\PYG{+w}{                                                       }\PYG{err}{@}\PYG{n+nx}{click}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}supplier = 9\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{input}\PYG{+w}{ }\PYG{n+nx}{type}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}radio\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}supplier\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{autocomplete}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}off\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{value}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}9\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{img}\PYG{+w}{ }\PYG{n+nx}{src}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZob{}\PYGZob{} asset(\PYGZsq{}img/fleet/fuel/c2a\PYGZhy{}icone.png\PYGZsq{}) \PYGZcb{}\PYGZcb{}\PYGZdq{}}
+\PYG{+w}{                                                         }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}img\PYGZhy{}responsive\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{style}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}height:13px\PYGZdq{}}\PYG{o}{/\PYGZgt{}}
+\PYG{+w}{                                                    }\PYG{n+nx}{C2A}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n+nx}{nbsp}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{i}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}fa\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{aria}\PYG{o}{\PYGZhy{}}\PYG{n+nx}{hidden}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}true\PYGZdq{}}\PYG{o}{\PYGZgt{}\PYGZlt{}}\PYG{err}{/i\PYGZgt{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{err}{/label\PYGZgt{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{label}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}btn btn\PYGZhy{}secondary\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{style}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}margin\PYGZhy{}bottom:0\PYGZdq{}}
+\PYG{+w}{                                                       }\PYG{err}{@}\PYG{n+nx}{click}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}supplier = 10\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{input}\PYG{+w}{ }\PYG{n+nx}{type}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}radio\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}supplier\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{autocomplete}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}off\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{value}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}10\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{img}\PYG{+w}{ }\PYG{n+nx}{src}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZob{}\PYGZob{} asset(\PYGZsq{}img/fleet/fuel/lccc\PYGZhy{}icone.png\PYGZsq{}) \PYGZcb{}\PYGZcb{}\PYGZdq{}}
+\PYG{+w}{                                                         }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}img\PYGZhy{}responsive\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{style}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}height:13px\PYGZdq{}}\PYG{o}{/\PYGZgt{}}
+\PYG{+w}{                                                    }\PYG{n+nx}{LCCC}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n+nx}{nbsp}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{i}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}fa\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{aria}\PYG{o}{\PYGZhy{}}\PYG{n+nx}{hidden}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}true\PYGZdq{}}\PYG{o}{\PYGZgt{}\PYGZlt{}}\PYG{err}{/i\PYGZgt{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{err}{/label\PYGZgt{}}
+\PYG{+w}{                                            }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                                        }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                                    }\PYG{o}{\PYGZlt{}}\PYG{err}{/form\PYGZgt{}}
+\PYG{+w}{                                }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                            }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                            }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{v}\PYG{o}{\PYGZhy{}}\PYG{n+nx}{show}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}supplier\PYGZdq{}}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}card\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}card\PYGZhy{}header\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{h4}\PYG{o}{\PYGZgt{}}\PYG{n+nx}{Téléchargez}\PYG{+w}{ }\PYG{n+nx}{un}\PYG{+w}{ }\PYG{n+nx}{fichier}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{span}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}capitalize\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{err}{@}\PYG{p}{\PYGZob{}\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{findBrand}\PYG{p}{(}\PYG{n+nx}{supplier}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZcb{}\PYGZcb{}}\PYG{o}{\PYGZlt{}}\PYG{err}{/span\PYGZgt{}\PYGZlt{}/h4\PYGZgt{}}
+\PYG{+w}{                                }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}card\PYGZhy{}block\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{form}\PYG{+w}{ }\PYG{err}{@}\PYG{n+nx}{submit}\PYG{p}{.}\PYG{n+nx}{prevent}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}importFile\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+
+\PYG{+w}{                                        }\PYG{p}{\PYGZob{}\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{csrf\PYGZus{}field}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZcb{}\PYGZcb{}}
+
+\PYG{+w}{                                        }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}form\PYGZhy{}inline form\PYGZhy{}group\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                            }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}form\PYGZhy{}group\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{span}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}label\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{l+m+mf}{1.}\PYG{+w}{ }\PYG{n+nx}{Téléchargez}\PYG{+w}{ }\PYG{n+nx}{un}\PYG{+w}{ }\PYG{n+nx}{fichier}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{span}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}capitalize\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{err}{@}\PYG{p}{\PYGZob{}\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{findBrand}\PYG{p}{(}\PYG{n+nx}{supplier}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZcb{}\PYGZcb{}}\PYG{o}{\PYGZlt{}}\PYG{err}{/span\PYGZgt{} de type \PYGZlt{}span v\PYGZhy{}if=\PYGZdq{}\PYGZsq{}\PYGZsq{} != fileUploadAcceptType()\PYGZdq{} v\PYGZhy{}html=\PYGZdq{}fileUploadAcceptType()\PYGZdq{}\PYGZgt{}\PYGZlt{}/span\PYGZgt{} : \PYGZlt{}/span\PYGZgt{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{span}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}btn btn\PYGZhy{}default fileinput\PYGZhy{}button\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{i}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}fa fa\PYGZhy{}plus\PYGZdq{}}\PYG{o}{\PYGZgt{}\PYGZlt{}}\PYG{err}{/i\PYGZgt{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{span}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}btn\PYGZhy{}file\PYGZhy{}upload\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{n+nx}{Ajouter}\PYG{+w}{ }\PYG{n+nx}{un}\PYG{+w}{ }\PYG{n+nx}{fichier}
+\PYG{+w}{                                                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{span}\PYG{+w}{ }\PYG{n+nx}{v}\PYG{o}{\PYGZhy{}}\PYG{k}{if}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZsq{}\PYGZsq{} != fileUploadAcceptType()\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{v}\PYG{o}{\PYGZhy{}}\PYG{n+nx}{html}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZsq{}(\PYGZsq{}+fileUploadAcceptType()+\PYGZsq{})\PYGZsq{}\PYGZdq{}}\PYG{o}{\PYGZgt{}\PYGZlt{}}\PYG{err}{/span\PYGZgt{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{err}{/span\PYGZgt{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{input}\PYG{+w}{ }\PYG{n+nx}{id}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}fileupload\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{type}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}file\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}file\PYGZdq{}}\PYG{+w}{ }\PYG{o}{:}\PYG{n+nx}{accept}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}fileUploadAcceptType()\PYGZdq{}}\PYG{+w}{ }\PYG{o}{:}\PYG{n+nx}{disabled}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}fileuploadDisabled == 1\PYGZdq{}}\PYG{+w}{ }\PYG{err}{@}\PYG{n+nx}{change}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}handleFileInput\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                            }\PYG{o}{\PYGZlt{}}\PYG{err}{/span\PYGZgt{}}
+\PYG{+w}{                                            }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                                            }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}form\PYGZhy{}group\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{v}\PYG{o}{\PYGZhy{}}\PYG{k}{if}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}file != \PYGZsq{}\PYGZsq{}\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}form\PYGZhy{}control\PYGZhy{}static\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{err}{@}\PYG{p}{\PYGZob{}\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{file}\PYG{p}{.}\PYG{n+nx}{name}\PYG{+w}{ }\PYG{p}{\PYGZcb{}\PYGZcb{}}\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{                                            }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                                        }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+
+\PYG{+w}{                                        }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}form\PYGZhy{}group\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                            }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{span}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}label\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{l+m+mf}{2.}\PYG{+w}{ }\PYG{n+nx}{Cliquez}\PYG{+w}{ }\PYG{n+nx}{sur}\PYG{+w}{ }\PYG{n+nx}{le}\PYG{+w}{ }\PYG{n+nx}{bouton}\PYG{+w}{ }\PYG{n+nx}{d}\PYG{l+s+s1}{\PYGZsq{}importation : \PYGZlt{}/span\PYGZgt{}}
+\PYG{l+s+s1}{                                            \PYGZlt{}button type=\PYGZdq{}submit\PYGZdq{} class=\PYGZdq{}btn btn\PYGZhy{}outline\PYGZhy{}primary\PYGZdq{}}
+\PYG{l+s+s1}{                                                    :disabled=\PYGZdq{}supplier == null || file == \PYGZsq{}\PYGZsq{} \PYGZdq{}\PYGZgt{}\PYGZlt{}i}
+\PYG{l+s+s1}{                                                    class=\PYGZdq{}fa fa\PYGZhy{}cloud\PYGZhy{}upload\PYGZdq{} aria\PYGZhy{}hidden=\PYGZdq{}true\PYGZdq{}\PYGZgt{}\PYGZlt{}/i\PYGZgt{} Importer}
+\PYG{l+s+s1}{                                            \PYGZlt{}/button\PYGZgt{}}
+\PYG{l+s+s1}{                                        \PYGZlt{}/div\PYGZgt{}}
+\PYG{l+s+s1}{                                    \PYGZlt{}/form\PYGZgt{}}
+\PYG{l+s+s1}{                                    \PYGZlt{}div v\PYGZhy{}if=\PYGZdq{}guide.length\PYGZdq{}\PYGZgt{}}
+\PYG{l+s+s1}{                                        \PYGZlt{}span class=\PYGZdq{}label\PYGZdq{}\PYGZgt{}Pour savoir comment récupérer un fichier \PYGZlt{}span class=\PYGZdq{}text\PYGZhy{}capitalize\PYGZdq{}\PYGZgt{}@\PYGZob{}\PYGZob{} findBrand(supplier) \PYGZcb{}\PYGZcb{}\PYGZlt{}/span\PYGZgt{}, cliquez sur le bouton info : \PYGZlt{}/span\PYGZgt{}}
+\PYG{l+s+s1}{                                        \PYGZlt{}span class=\PYGZdq{}btn btn\PYGZhy{}outline\PYGZhy{}info\PYGZdq{} id=\PYGZdq{}btnGuide\PYGZdq{}\PYGZgt{}}
+\PYG{l+s+s1}{                                                \PYGZlt{}i class=\PYGZdq{}fa fa\PYGZhy{}info\PYGZhy{}circle\PYGZdq{}\PYGZgt{}\PYGZlt{}/i\PYGZgt{} Guide de téléchargement}
+\PYG{l+s+s1}{                                            \PYGZlt{}/span\PYGZgt{}}
+\PYG{l+s+s1}{                                    \PYGZlt{}/div\PYGZgt{}}
+\PYG{l+s+s1}{                                \PYGZlt{}/div\PYGZgt{}}
+\PYG{l+s+s1}{                            \PYGZlt{}/div\PYGZgt{}}
+\PYG{l+s+s1}{                            \PYGZlt{}div class=\PYGZdq{}modal fade\PYGZdq{} id=\PYGZdq{}modalGuide\PYGZdq{} role=\PYGZdq{}dialog\PYGZdq{} aria\PYGZhy{}labelledby=\PYGZdq{}modalGuide\PYGZdq{} aria\PYGZhy{}hidden=\PYGZdq{}true\PYGZdq{}\PYGZgt{}}
+\PYG{l+s+s1}{                                \PYGZlt{}div class=\PYGZdq{}modal\PYGZhy{}dialog\PYGZdq{} role=\PYGZdq{}document\PYGZdq{} style=\PYGZdq{}max\PYGZhy{}width: 80\PYGZpc{}; display: flex; justify\PYGZhy{}content: center\PYGZdq{}\PYGZgt{}}
+\PYG{l+s+s1}{                                    \PYGZlt{}div class=\PYGZdq{}modal\PYGZhy{}content\PYGZdq{} style=\PYGZdq{}height: 690px; overflow\PYGZhy{}y: scroll\PYGZdq{}\PYGZgt{}}
+\PYG{l+s+s1}{                                        \PYGZlt{}div class=\PYGZdq{}modal\PYGZhy{}header\PYGZdq{}\PYGZgt{}}
+\PYG{l+s+s1}{                                            \PYGZlt{}button type=\PYGZdq{}button\PYGZdq{} class=\PYGZdq{}close\PYGZdq{} data\PYGZhy{}dismiss=\PYGZdq{}modal\PYGZdq{} aria\PYGZhy{}label=\PYGZdq{}Close\PYGZdq{}\PYGZgt{}}
+\PYG{l+s+s1}{                                                \PYGZlt{}span aria\PYGZhy{}hidden=\PYGZdq{}true\PYGZdq{}\PYGZgt{}\PYGZam{}times;\PYGZlt{}/span\PYGZgt{}}
+\PYG{l+s+s1}{                                            \PYGZlt{}/button\PYGZgt{}}
+
+\PYG{l+s+s1}{                                            \PYGZlt{}h4 class=\PYGZdq{}modal\PYGZhy{}title\PYGZdq{} id=\PYGZdq{}myModalLabel\PYGZdq{}\PYGZgt{}}
+\PYG{l+s+s1}{                                                Comment télécharger un fichier \PYGZlt{}span class=\PYGZdq{}text\PYGZhy{}capitalize\PYGZdq{}\PYGZgt{}@\PYGZob{}\PYGZob{} findBrand(supplier) \PYGZcb{}\PYGZcb{}\PYGZlt{}/span\PYGZgt{} ?}
+\PYG{l+s+s1}{                                            \PYGZlt{}/h4\PYGZgt{}}
+\PYG{l+s+s1}{                                        \PYGZlt{}/div\PYGZgt{}}
+\PYG{l+s+s1}{                                        \PYGZlt{}div class=\PYGZdq{}modal\PYGZhy{}body\PYGZdq{} style=\PYGZdq{}display: flex; flex\PYGZhy{}direction: column; row\PYGZhy{}gap: 15px\PYGZdq{}\PYGZgt{}}
+\PYG{l+s+s1}{                                            \PYGZlt{}div v\PYGZhy{}for=\PYGZdq{}guideStep in guide\PYGZdq{} style=\PYGZdq{}display: flex; flex\PYGZhy{}direction: column; align\PYGZhy{}items: center; row\PYGZhy{}gap: 10px\PYGZdq{}\PYGZgt{}}
+\PYG{l+s+s1}{                                                \PYGZlt{}h5\PYGZgt{}@\PYGZob{}\PYGZob{} guideStep[0] \PYGZcb{}\PYGZcb{}\PYGZlt{}/h5\PYGZgt{}}
+\PYG{l+s+s1}{                                                \PYGZlt{}img :src=\PYGZdq{}guideStep[1]\PYGZdq{} style=\PYGZdq{}width: 90\PYGZpc{}\PYGZdq{}\PYGZgt{}}
+\PYG{l+s+s1}{                                            \PYGZlt{}/div\PYGZgt{}}
+\PYG{l+s+s1}{                                        \PYGZlt{}/div\PYGZgt{}}
+\PYG{l+s+s1}{                                    \PYGZlt{}/div\PYGZgt{}}
+\PYG{l+s+s1}{                                \PYGZlt{}/div\PYGZgt{}}
+\PYG{l+s+s1}{                            \PYGZlt{}/div\PYGZgt{}}
+
+\PYG{l+s+s1}{                        @endpermission}
+\PYG{l+s+s1}{                        \PYGZlt{}div class=\PYGZdq{}card\PYGZdq{}\PYGZgt{}}
+\PYG{l+s+s1}{                            \PYGZlt{}div class=\PYGZdq{}card\PYGZhy{}header\PYGZdq{}\PYGZgt{}}
+\PYG{l+s+s1}{                                \PYGZlt{}h4\PYGZgt{}Historique\PYGZlt{}/h4\PYGZgt{}}
+\PYG{l+s+s1}{                            \PYGZlt{}/div\PYGZgt{}}
+\PYG{l+s+s1}{                            \PYGZlt{}div class=\PYGZdq{}card\PYGZhy{}block\PYGZdq{}\PYGZgt{}}
+\PYG{l+s+s1}{                                \PYGZlt{}div class=\PYGZdq{}col\PYGZhy{}lg\PYGZhy{}6 gauges body\PYGZhy{}histo\PYGZdq{}\PYGZgt{}}
+\PYG{l+s+s1}{                                    \PYGZlt{}div class=\PYGZdq{}monthes\PYGZhy{}label\PYGZdq{}\PYGZgt{}}
+\PYG{l+s+s1}{                                        \PYGZlt{}span class=\PYGZdq{}text\PYGZhy{}capitalize\PYGZdq{}\PYGZgt{}@\PYGZob{}\PYGZob{} months[0] \PYGZcb{}\PYGZcb{}\PYGZlt{}/span\PYGZgt{}}
+\PYG{l+s+s1}{                                        \PYGZlt{}span class=\PYGZdq{}text\PYGZhy{}capitalize\PYGZdq{}\PYGZgt{}@\PYGZob{}\PYGZob{} months[1] \PYGZcb{}\PYGZcb{}\PYGZlt{}/span\PYGZgt{}}
+\PYG{l+s+s1}{                                        \PYGZlt{}span class=\PYGZdq{}text\PYGZhy{}capitalize\PYGZdq{}\PYGZgt{}@\PYGZob{}\PYGZob{} months[2] \PYGZcb{}\PYGZcb{}\PYGZlt{}/span\PYGZgt{}}
+\PYG{l+s+s1}{                                        \PYGZlt{}span class=\PYGZdq{}text\PYGZhy{}capitalize\PYGZdq{}\PYGZgt{}@\PYGZob{}\PYGZob{} months[3] \PYGZcb{}\PYGZcb{}\PYGZlt{}/span\PYGZgt{}}
+\PYG{l+s+s1}{                                    \PYGZlt{}/div\PYGZgt{}}
+\PYG{l+s+s1}{                                    \PYGZlt{}div class=\PYGZdq{}gauge\PYGZdq{} v\PYGZhy{}for=\PYGZdq{}supplier in listSuppliers\PYGZdq{}\PYGZgt{}}
+\PYG{l+s+s1}{                                        \PYGZlt{}div class=\PYGZdq{}gauge\PYGZhy{}header\PYGZdq{}\PYGZgt{}}
+\PYG{l+s+s1}{                                            \PYGZlt{}img style=\PYGZdq{}width:95\PYGZpc{};height: 95\PYGZpc{}\PYGZdq{} :src=\PYGZdq{}\PYGZsq{}}\PYG{p}{..}\PYG{o}{/}\PYG{n+nx}{img}\PYG{o}{/}\PYG{n+nx}{fleet}\PYG{o}{/}\PYG{n+nx}{fuel}\PYG{o}{/}\PYG{l+s+s1}{\PYGZsq{}+ supplier.name+ \PYGZsq{}}\PYG{p}{.}\PYG{n+nx}{png}\PYG{l+s+s1}{\PYGZsq{}\PYGZdq{} :class=\PYGZdq{}!supplier.isUsed ? \PYGZsq{}}\PYG{n+nx}{grey}\PYG{o}{\PYGZhy{}}\PYG{n+nx}{header}\PYG{l+s+s1}{\PYGZsq{} : \PYGZsq{}\PYGZsq{}\PYGZdq{}/\PYGZgt{}}
+\PYG{l+s+s1}{                                        \PYGZlt{}/div\PYGZgt{}}
+\PYG{l+s+s1}{                                        \PYGZlt{}div class=\PYGZdq{}gauge\PYGZhy{}bg\PYGZdq{}\PYGZgt{}}
+\PYG{l+s+s1}{                                                \PYGZlt{}div class=\PYGZdq{}gauge\PYGZhy{}fill\PYGZhy{}ko\PYGZdq{} :style=\PYGZdq{}\PYGZob{}\PYGZsq{}}\PYG{n+nx}{height}\PYG{l+s+s1}{\PYGZsq{}:(supplier.isUsed ? redTimeline : \PYGZsq{}}\PYG{l+m+mf}{0}\PYG{l+s+s1}{\PYGZsq{}) + \PYGZsq{}}\PYG{n+nx}{px}\PYG{l+s+s1}{\PYGZsq{}, \PYGZsq{}}\PYG{n+nx}{bottom}\PYG{l+s+s1}{\PYGZsq{}:\PYGZsq{}}\PYG{l+m+mf}{0}\PYG{n+nx}{px}\PYG{l+s+s1}{\PYGZsq{}\PYGZcb{}\PYGZdq{}\PYGZgt{}\PYGZlt{}/div\PYGZgt{}}
+\PYG{l+s+s1}{                                                \PYGZlt{}div class=\PYGZdq{}gauge\PYGZhy{}fill\PYGZhy{}ok\PYGZdq{} v\PYGZhy{}for=\PYGZdq{}timeline in supplier.timelines\PYGZdq{}}
+\PYG{l+s+s1}{                                                     :style=\PYGZdq{}\PYGZob{}\PYGZsq{}}\PYG{n+nx}{height}\PYG{l+s+s1}{\PYGZsq{}:timeline.heightTimeline + \PYGZsq{}}\PYG{n+nx}{px}\PYG{l+s+s1}{\PYGZsq{}, \PYGZsq{}}\PYG{n+nx}{bottom}\PYG{l+s+s1}{\PYGZsq{}:timeline.heightToBottom + \PYGZsq{}}\PYG{n+nx}{px}\PYG{l+s+s1}{\PYGZsq{}\PYGZcb{}\PYGZdq{}}
+\PYG{l+s+s1}{                                                     data\PYGZhy{}toggle=\PYGZdq{}tooltip\PYGZdq{} data\PYGZhy{}placement=\PYGZdq{}right\PYGZdq{} title=\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+s1}{                                                     :data\PYGZhy{}original\PYGZhy{}title=\PYGZdq{}\PYGZsq{}}\PYG{n+nx}{Du}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{} +  timeline.from + \PYGZsq{}}\PYG{+w}{ }\PYG{n+nx}{Au}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{} + timeline.to\PYGZdq{}\PYGZgt{}\PYGZlt{}/div\PYGZgt{}}
+
+
+\PYG{l+s+s1}{                                        \PYGZlt{}/div\PYGZgt{}}
+\PYG{l+s+s1}{                                    \PYGZlt{}/div\PYGZgt{}}
+\PYG{l+s+s1}{                                \PYGZlt{}/div\PYGZgt{}}
+\PYG{l+s+s1}{                                \PYGZlt{}div class=\PYGZdq{}col\PYGZhy{}lg\PYGZhy{}6 table\PYGZhy{}container\PYGZdq{} \PYGZgt{}}
+
+\PYG{l+s+s1}{                                    \PYGZlt{}div class=\PYGZdq{}text\PYGZhy{}xs\PYGZhy{}center m\PYGZhy{}t\PYGZhy{}3\PYGZdq{} v\PYGZhy{}show=\PYGZdq{}loader\PYGZdq{}\PYGZgt{}}
+\PYG{l+s+s1}{                                        \PYGZlt{}i class=\PYGZdq{}fa fa\PYGZhy{}circle\PYGZhy{}o\PYGZhy{}notch fa\PYGZhy{}spin fa\PYGZhy{}3x text\PYGZhy{}muted\PYGZdq{}\PYGZgt{}\PYGZlt{}/i\PYGZgt{}}
+\PYG{l+s+s1}{                                    \PYGZlt{}/div\PYGZgt{}}
+
+\PYG{l+s+s1}{                                    \PYGZlt{}div class=\PYGZdq{}table\PYGZhy{}responsive\PYGZdq{} v\PYGZhy{}show=\PYGZdq{}historyForList.length \PYGZgt{} 0\PYGZdq{}\PYGZgt{}}
+\PYG{l+s+s1}{                                        \PYGZlt{}table class=\PYGZdq{}table table\PYGZhy{}striped table\PYGZhy{}hover table\PYGZhy{}sm\PYGZdq{}\PYGZgt{}}
+\PYG{l+s+s1}{                                            \PYGZlt{}thead class=\PYGZdq{}thead\PYGZhy{}inverse\PYGZdq{}\PYGZgt{}}
+\PYG{l+s+s1}{                                            \PYGZlt{}tr\PYGZgt{}}
+\PYG{l+s+s1}{                                                \PYGZlt{}th\PYGZgt{}Fournisseur\PYGZlt{}/th\PYGZgt{}}
+\PYG{l+s+s1}{                                                \PYGZlt{}th\PYGZgt{}Période\PYGZlt{}/th\PYGZgt{}}
+\PYG{l+s+s1}{                                                \PYGZlt{}th\PYGZgt{}Date\PYGZlt{}/th\PYGZgt{}}
+\PYG{l+s+s1}{                                                \PYGZlt{}th\PYGZgt{}Utilisateur\PYGZlt{}/th\PYGZgt{}}
+\PYG{l+s+s1}{                                                \PYGZlt{}th\PYGZgt{}\PYGZlt{}/th\PYGZgt{}}
+\PYG{l+s+s1}{                                            \PYGZlt{}/tr\PYGZgt{}}
+\PYG{l+s+s1}{                                            \PYGZlt{}/thead\PYGZgt{}}
+\PYG{l+s+s1}{                                            \PYGZlt{}tbody\PYGZgt{}}
+\PYG{l+s+s1}{                                            \PYGZlt{}tr v\PYGZhy{}for=\PYGZdq{}n in waitingImportStart\PYGZdq{}\PYGZgt{}}
+\PYG{l+s+s1}{                                                \PYGZlt{}td colspan=\PYGZdq{}5\PYGZdq{} style=\PYGZdq{}text\PYGZhy{}align: center;\PYGZdq{}\PYGZgt{}\PYGZlt{}i class=\PYGZdq{}fa fa\PYGZhy{}circle\PYGZhy{}o\PYGZhy{}notch fa\PYGZhy{}spin fa\PYGZhy{}3x text\PYGZhy{}muted\PYGZdq{}\PYGZgt{}\PYGZlt{}/i\PYGZgt{}\PYGZlt{}/td\PYGZgt{}}
+\PYG{l+s+s1}{                                            \PYGZlt{}/tr\PYGZgt{}}
+\PYG{l+s+s1}{                                            \PYGZlt{}tr v\PYGZhy{}for=\PYGZdq{}n in importStartError\PYGZdq{} style=\PYGZdq{}background\PYGZhy{}color: rgba(250, 80, 58, 0.25); color: rgb(255, 0, 0);\PYGZdq{}\PYGZgt{}}
+\PYG{l+s+s1}{                                                \PYGZlt{}td class=\PYGZdq{}display\PYGZhy{}flex align\PYGZhy{}items\PYGZhy{}center\PYGZdq{}}
+\PYG{l+s+s1}{                                                    style=\PYGZdq{}vertical\PYGZhy{}align: middle;\PYGZdq{}\PYGZgt{}}
+\PYG{l+s+s1}{                                                    \PYGZlt{}img :src=\PYGZdq{} \PYGZsq{}}\PYG{p}{..}\PYG{o}{/}\PYG{n+nx}{img}\PYG{o}{/}\PYG{n+nx}{fleet}\PYG{o}{/}\PYG{n+nx}{fuel}\PYG{o}{/}\PYG{l+s+s1}{\PYGZsq{} + findBrand(supplierForStaticListElements) +\PYGZsq{}}\PYG{p}{.}\PYG{n+nx}{png}\PYG{l+s+s1}{\PYGZsq{} \PYGZdq{}}
+\PYG{l+s+s1}{                                                         style=\PYGZdq{}width:40px; margin\PYGZhy{}right:5px;  margin\PYGZhy{}left:5px\PYGZdq{}/\PYGZgt{}}
+\PYG{l+s+s1}{                                                    \PYGZlt{}span class=\PYGZdq{}text\PYGZhy{}capitalize\PYGZdq{}\PYGZgt{}@\PYGZob{}\PYGZob{} findBrand(supplierForStaticListElements) \PYGZcb{}\PYGZcb{}\PYGZlt{}/span\PYGZgt{}}
+\PYG{l+s+s1}{                                                \PYGZlt{}/td\PYGZgt{}}
+\PYG{l+s+s1}{                                                \PYGZlt{}td colspan=\PYGZdq{}4\PYGZdq{} style=\PYGZdq{}text\PYGZhy{}align: left\PYGZdq{}\PYGZgt{}Le traitement du fichier n\PYGZsq{}}\PYG{n+nx}{a}\PYG{+w}{ }\PYG{n+nx}{pas}\PYG{+w}{ }\PYG{n+nx}{pu}\PYG{+w}{ }\PYG{n+nx}{démarrer}\PYG{o}{!\PYGZlt{}}\PYG{n+nx}{br}\PYG{o}{\PYGZgt{}}\PYG{n+nx}{Une}\PYG{+w}{ }\PYG{n+nx}{erreur}\PYG{+w}{ }\PYG{n+nx}{s}\PYG{l+s+s1}{\PYGZsq{}est produite}
+\PYG{l+s+s1}{                                                \PYGZlt{}/td\PYGZgt{}}
+\PYG{l+s+s1}{                                            \PYGZlt{}/tr\PYGZgt{}}
+\PYG{l+s+s1}{                                            \PYGZlt{}tr v\PYGZhy{}for=\PYGZdq{}n in importStartSuccess\PYGZdq{}\PYGZgt{}}
+\PYG{l+s+s1}{                                                \PYGZlt{}td class=\PYGZdq{}display\PYGZhy{}flex align\PYGZhy{}items\PYGZhy{}center\PYGZdq{}}
+\PYG{l+s+s1}{                                                    style=\PYGZdq{}vertical\PYGZhy{}align: middle\PYGZdq{}\PYGZgt{}}
+\PYG{l+s+s1}{                                                    \PYGZlt{}img :src=\PYGZdq{} \PYGZsq{}}\PYG{p}{..}\PYG{o}{/}\PYG{n+nx}{img}\PYG{o}{/}\PYG{n+nx}{fleet}\PYG{o}{/}\PYG{n+nx}{fuel}\PYG{o}{/}\PYG{l+s+s1}{\PYGZsq{} + findBrand(supplierForStaticListElements) +\PYGZsq{}}\PYG{p}{.}\PYG{n+nx}{png}\PYG{l+s+s1}{\PYGZsq{} \PYGZdq{}}
+\PYG{l+s+s1}{                                                         style=\PYGZdq{}width:40px; margin\PYGZhy{}right:5px;  margin\PYGZhy{}left:5px\PYGZdq{}/\PYGZgt{}}
+\PYG{l+s+s1}{                                                    \PYGZlt{}span class=\PYGZdq{}text\PYGZhy{}capitalize\PYGZdq{}\PYGZgt{}@\PYGZob{}\PYGZob{} findBrand(supplierForStaticListElements) \PYGZcb{}\PYGZcb{}\PYGZlt{}/span\PYGZgt{}}
+\PYG{l+s+s1}{                                                \PYGZlt{}/td\PYGZgt{}}
+\PYG{l+s+s1}{                                                \PYGZlt{}td colspan=\PYGZdq{}4\PYGZdq{} style=\PYGZdq{}text\PYGZhy{}align: left\PYGZdq{}\PYGZgt{}\PYGZlt{}span style=\PYGZdq{}color: rgb(18, 125, 0)\PYGZdq{}\PYGZgt{}Le traitement du fichier a démarré\PYGZlt{}/span\PYGZgt{}\PYGZlt{}br\PYGZgt{}\PYGZlt{}span style=\PYGZdq{}color: rgb(139, 145, 154)\PYGZdq{}\PYGZgt{}Le fichier est en cours de traitement \PYGZlt{}/span\PYGZgt{}\PYGZlt{}i class=\PYGZdq{}fa fa\PYGZhy{}circle\PYGZhy{}o\PYGZhy{}notch fa\PYGZhy{}spin text\PYGZhy{}muted\PYGZdq{}\PYGZgt{}\PYGZlt{}/i\PYGZgt{}}
+\PYG{l+s+s1}{                                                \PYGZlt{}/td\PYGZgt{}}
+\PYG{l+s+s1}{                                            \PYGZlt{}/tr\PYGZgt{}}
+\PYG{l+s+s1}{                                            \PYGZlt{}tr v\PYGZhy{}for=\PYGZdq{}item in historyForList\PYGZdq{} track\PYGZhy{}by=\PYGZdq{}idImport\PYGZdq{}\PYGZgt{}}
+\PYG{l+s+s1}{                                                \PYGZlt{}td v\PYGZhy{}if=\PYGZdq{}item.status == 3 || item.status == 1  || item.status == 2\PYGZdq{} class=\PYGZdq{}display\PYGZhy{}flex align\PYGZhy{}items\PYGZhy{}center\PYGZdq{}}
+\PYG{l+s+s1}{                                                    style=\PYGZdq{}vertical\PYGZhy{}align: middle\PYGZdq{}\PYGZgt{}}
+\PYG{l+s+s1}{                                                    \PYGZlt{}img :src=\PYGZdq{} \PYGZsq{}}\PYG{p}{..}\PYG{o}{/}\PYG{n+nx}{img}\PYG{o}{/}\PYG{n+nx}{fleet}\PYG{o}{/}\PYG{n+nx}{fuel}\PYG{o}{/}\PYG{l+s+s1}{\PYGZsq{} + findBrand(item.idSupplier) +\PYGZsq{}}\PYG{p}{.}\PYG{n+nx}{png}\PYG{l+s+s1}{\PYGZsq{} \PYGZdq{}}
+\PYG{l+s+s1}{                                                         style=\PYGZdq{}width:40px; margin\PYGZhy{}right:5px;  margin\PYGZhy{}left:5px\PYGZdq{}/\PYGZgt{}}
+\PYG{l+s+s1}{                                                    \PYGZlt{}span class=\PYGZdq{}text\PYGZhy{}capitalize\PYGZdq{}\PYGZgt{}@\PYGZob{}\PYGZob{} findBrand(item.idSupplier) \PYGZcb{}\PYGZcb{}\PYGZlt{}/span\PYGZgt{}}
+\PYG{l+s+s1}{                                                \PYGZlt{}/td\PYGZgt{}}
+\PYG{l+s+s1}{                                                \PYGZlt{}td v\PYGZhy{}if=\PYGZdq{}item.status == 4 || item.status == 0\PYGZdq{}}
+\PYG{l+s+s1}{                                                    style=\PYGZdq{}vertical\PYGZhy{}align: middle; background\PYGZhy{}color: rgba(250, 80, 58, 0.25);\PYGZdq{}\PYGZgt{}}
+\PYG{l+s+s1}{                                                    \PYGZlt{}img :src=\PYGZdq{} \PYGZsq{}}\PYG{p}{..}\PYG{o}{/}\PYG{n+nx}{img}\PYG{o}{/}\PYG{n+nx}{fleet}\PYG{o}{/}\PYG{n+nx}{fuel}\PYG{o}{/}\PYG{l+s+s1}{\PYGZsq{} + findBrand(item.idSupplier) +\PYGZsq{}}\PYG{p}{.}\PYG{n+nx}{png}\PYG{l+s+s1}{\PYGZsq{} \PYGZdq{}}
+\PYG{l+s+s1}{                                                         style=\PYGZdq{}width:40px; margin\PYGZhy{}right:5px;  margin\PYGZhy{}left:5px;\PYGZdq{}/\PYGZgt{}}
+\PYG{l+s+s1}{                                                    \PYGZlt{}span class=\PYGZdq{}text\PYGZhy{}capitalize\PYGZdq{}\PYGZgt{}@\PYGZob{}\PYGZob{} findBrand(item.idSupplier) \PYGZcb{}\PYGZcb{}\PYGZlt{}/span\PYGZgt{}}
+\PYG{l+s+s1}{                                                \PYGZlt{}/td\PYGZgt{}}
+\PYG{l+s+s1}{                                                \PYGZlt{}td v\PYGZhy{}if=\PYGZdq{}item.status == 2\PYGZdq{} colspan=\PYGZdq{}4\PYGZdq{} style=\PYGZdq{}text\PYGZhy{}align: left\PYGZdq{}\PYGZgt{}\PYGZlt{}span style=\PYGZdq{}color: rgb(18, 125, 0)\PYGZdq{}\PYGZgt{}Le traitement du fichier a démarré\PYGZlt{}/span\PYGZgt{}\PYGZlt{}br\PYGZgt{}\PYGZlt{}span style=\PYGZdq{}color: rgb(139, 145, 154)\PYGZdq{}\PYGZgt{}Le fichier est en cours de traitement \PYGZlt{}/span\PYGZgt{}\PYGZlt{}i class=\PYGZdq{}fa fa\PYGZhy{}circle\PYGZhy{}o\PYGZhy{}notch fa\PYGZhy{}spin text\PYGZhy{}muted\PYGZdq{}\PYGZgt{}\PYGZlt{}/i\PYGZgt{}}
+\PYG{l+s+s1}{                                                \PYGZlt{}/td\PYGZgt{}}
+\PYG{l+s+s1}{                                                \PYGZlt{}td v\PYGZhy{}if=\PYGZdq{}item.status == 4 || item.status == 0\PYGZdq{} colspan=\PYGZdq{}2\PYGZdq{} style=\PYGZdq{}text\PYGZhy{}align: left; background\PYGZhy{}color: rgba(250, 80, 58, 0.25);\PYGZdq{}\PYGZgt{}\PYGZlt{}span style=\PYGZdq{}color: rgb(18, 125, 0)\PYGZdq{}\PYGZgt{}Le traitement du fichier a démarré\PYGZlt{}/span\PYGZgt{}\PYGZlt{}br\PYGZgt{}\PYGZlt{}span style=\PYGZdq{}color: rgb(139, 145, 154)\PYGZdq{}\PYGZgt{}Le fichier est en cours de traitement\PYGZlt{}/span\PYGZgt{}\PYGZlt{}br\PYGZgt{}\PYGZlt{}span style=\PYGZdq{}color: rgb(255, 0, 0);\PYGZdq{}\PYGZgt{}Une erreur s\PYGZsq{}}\PYG{n+nx}{est}\PYG{+w}{ }\PYG{n+nx}{produite}\PYG{o}{\PYGZlt{}}\PYG{err}{/span\PYGZgt{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{err}{/td\PYGZgt{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{td}\PYG{+w}{ }\PYG{n+nx}{v}\PYG{o}{\PYGZhy{}}\PYG{k}{if}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}item.status == 3 || item.status == 1\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{style}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}vertical\PYGZhy{}align: middle\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                                    }\PYG{n+nx}{Du}\PYG{+w}{ }\PYG{err}{@}\PYG{p}{\PYGZob{}\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{convertDate}\PYG{p}{(}\PYG{n+nx}{item}\PYG{p}{.}\PYG{k+kr}{from}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZcb{}\PYGZcb{}}\PYG{o}{\PYGZlt{}}\PYG{n+nx}{br}\PYG{o}{\PYGZgt{}}\PYG{n+nx}{Au}\PYG{+w}{ }\PYG{err}{@}\PYG{p}{\PYGZob{}\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{convertDate}\PYG{p}{(}\PYG{n+nx}{item}\PYG{p}{.}\PYG{n+nx}{to}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZcb{}\PYGZcb{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{err}{/td\PYGZgt{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{td}\PYG{+w}{ }\PYG{n+nx}{v}\PYG{o}{\PYGZhy{}}\PYG{k}{if}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}item.status == 3 || item.status == 1\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{style}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}vertical\PYGZhy{}align: middle\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                                    }\PYG{err}{@}\PYG{p}{\PYGZob{}\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{convertDateTime}\PYG{p}{(}\PYG{n+nx}{item}\PYG{p}{.}\PYG{n+nx}{date}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZcb{}\PYGZcb{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{err}{/td\PYGZgt{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{td}\PYG{+w}{ }\PYG{n+nx}{v}\PYG{o}{\PYGZhy{}}\PYG{k}{if}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}item.status == 3 || item.status == 1\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{style}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}vertical\PYGZhy{}align: middle\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                                    }\PYG{err}{@}\PYG{p}{\PYGZob{}\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{item}\PYG{p}{.}\PYG{n+nx}{user}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{n+nx}{item}\PYG{p}{.}\PYG{n+nx}{user}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZhy{}\PYGZsq{}}\PYG{+w}{ }\PYG{p}{\PYGZcb{}\PYGZcb{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{err}{/td\PYGZgt{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{td}\PYG{+w}{ }\PYG{n+nx}{v}\PYG{o}{\PYGZhy{}}\PYG{k}{if}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}item.status == 4 || item.status == 0\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{style}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}vertical\PYGZhy{}align: middle; background\PYGZhy{}color: rgba(250, 80, 58, 0.25);\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                                    }\PYG{err}{@}\PYG{p}{\PYGZob{}\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{item}\PYG{p}{.}\PYG{n+nx}{user}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{n+nx}{item}\PYG{p}{.}\PYG{n+nx}{user}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZhy{}\PYGZsq{}}\PYG{+w}{ }\PYG{p}{\PYGZcb{}\PYGZcb{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{err}{/td\PYGZgt{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{td}\PYG{+w}{ }\PYG{n+nx}{v}\PYG{o}{\PYGZhy{}}\PYG{k}{if}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}(item.status == 4 || item.status == 0) \PYGZam{}\PYGZam{} !item.uploadError\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{style}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}vertical\PYGZhy{}align: middle; background\PYGZhy{}color: rgba(250, 80, 58, 0.25);\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                                    }\PYG{o}{\PYGZhy{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{err}{/td\PYGZgt{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{td}\PYG{+w}{ }\PYG{n+nx}{v}\PYG{o}{\PYGZhy{}}\PYG{k}{if}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}(item.status == 4 || item.status == 0) \PYGZam{}\PYGZam{} item.uploadError\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{style}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}vertical\PYGZhy{}align: middle; color: rgb(255, 0, 0); background\PYGZhy{}color: rgba(250, 80, 58, 0.25);\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{data}\PYG{o}{\PYGZhy{}}\PYG{n+nx}{toggle}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}tooltip\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{data}\PYG{o}{\PYGZhy{}}\PYG{n+nx}{placement}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}left\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{data}\PYG{o}{\PYGZhy{}}\PYG{n+nx}{html}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}true\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{data}\PYG{o}{\PYGZhy{}}\PYG{n+nx}{original}\PYG{o}{\PYGZhy{}}\PYG{n+nx}{title}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}@\PYGZob{}\PYGZob{} item.uploadError \PYGZcb{}\PYGZcb{}\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{i}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}fa fa\PYGZhy{}solid fa\PYGZhy{}exclamation\PYGZhy{}circle\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{style}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}cursor: pointer\PYGZdq{}}\PYG{o}{\PYGZgt{}\PYGZlt{}}\PYG{err}{/i\PYGZgt{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{err}{/td\PYGZgt{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{td}\PYG{+w}{ }\PYG{n+nx}{v}\PYG{o}{\PYGZhy{}}\PYG{k}{if}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}item.status == 3 || item.status == 1\PYGZdq{}}\PYG{+w}{ }\PYG{n+nx}{style}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}vertical\PYGZhy{}align: middle\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{a}\PYG{+w}{ }\PYG{o}{:}\PYG{n+nx}{href}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZsq{}\PYGZob{}\PYGZob{} route(\PYGZsq{}fleet.fuel.transactions\PYGZsq{}) \PYGZcb{}\PYGZcb{}?period=\PYGZsq{} + convertDateForLink(item.from)\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                                        }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{i}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}fa fa\PYGZhy{}list\PYGZhy{}ul\PYGZdq{}}\PYG{o}{\PYGZgt{}\PYGZlt{}}\PYG{err}{/i\PYGZgt{}}
+\PYG{+w}{                                                    }\PYG{o}{\PYGZlt{}}\PYG{err}{/a\PYGZgt{}}
+\PYG{+w}{                                                }\PYG{o}{\PYGZlt{}}\PYG{err}{/td\PYGZgt{}}
+\PYG{+w}{                                            }\PYG{o}{\PYGZlt{}}\PYG{err}{/tr\PYGZgt{}}
+
+\PYG{+w}{                                            }\PYG{o}{\PYGZlt{}}\PYG{err}{/tbody\PYGZgt{}}
+\PYG{+w}{                                        }\PYG{o}{\PYGZlt{}}\PYG{err}{/table\PYGZgt{}}
+\PYG{+w}{                                    }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+
+\PYG{+w}{                                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{v}\PYG{o}{\PYGZhy{}}\PYG{n+nx}{show}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}historyForList.length == 0 \PYGZam{}\PYGZam{} loader == false\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                        }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{h2}\PYG{+w}{ }\PYG{k+kd}{class}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}muted text\PYGZhy{}xs\PYGZhy{}center m\PYGZhy{}t\PYGZhy{}3\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                            }\PYG{n+nx}{Aucun}\PYG{+w}{ }\PYG{n+nx}{historique}
+\PYG{+w}{                                        }\PYG{o}{\PYGZlt{}}\PYG{err}{/h2\PYGZgt{}}
+\PYG{+w}{                                    }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+
+\PYG{+w}{                                }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                            }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                        }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+
+\PYG{+w}{                    }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{err}{/section\PYGZgt{}}
+\PYG{+w}{            }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{        }\PYG{o}{\PYGZlt{}}\PYG{err}{/article\PYGZgt{}}
+\PYG{+w}{    }\PYG{o}{\PYGZlt{}}\PYG{err}{/section\PYGZgt{}}
+\PYG{err}{@}\PYG{n+nx}{endsection}
+
+\PYG{err}{@}\PYG{n+nx}{section}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}script\PYGZsq{}}\PYG{p}{)}
+\PYG{+w}{    }\PYG{err}{@}\PYG{n+nx}{parent}
+\PYG{+w}{    }\PYG{err}{@}\PYG{n+nx}{include}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}utils.require.js\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}js\PYGZsq{}}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}sdfFuelCard.vue.js\PYGZsq{}}\PYG{p}{])}
+\PYG{err}{@}\PYG{n+nx}{endsection}
+
+\PYG{err}{@}\PYG{n+nx}{section}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}requireReady\PYGZsq{}}\PYG{p}{)}
+\PYG{+w}{    }\PYG{err}{@}\PYG{n+nx}{parent}
+\PYG{+w}{    }\PYG{n+nx}{require}\PYG{p}{([}\PYG{l+s+s1}{\PYGZsq{}vue\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}fuelCard.vue\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}jquery\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}moment\PYGZsq{}}\PYG{p}{],}\PYG{+w}{ }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{Vue}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{FuelCard}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{\PYGZdl{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{moment}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n+nx}{Vue}\PYG{p}{.}\PYG{n+nx}{component}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}sdf\PYGZhy{}fuelcard\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{FuelCard}\PYG{p}{);}
+
+\PYG{+w}{        }\PYG{o+ow}{new}\PYG{+w}{ }\PYG{n+nx}{Vue}\PYG{p}{(\PYGZob{}}
+\PYG{+w}{            }\PYG{n+nx}{el}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsh{}card\PYGZhy{}page\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{            }\PYG{n+nx}{data}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{k}{return}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                    }\PYG{n+nx}{loader}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}
+\PYG{+w}{                    }\PYG{n+nx}{supplier}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{null}\PYG{p}{,}
+\PYG{+w}{                    }\PYG{n+nx}{fileuploadDisabled}\PYG{o}{:}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{,}
+\PYG{+w}{                    }\PYG{n+nx}{file}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{                    }\PYG{n+nx}{csrfToken}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{                    }\PYG{n+nx}{dayDate}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{null}\PYG{p}{,}
+\PYG{+w}{                    }\PYG{n+nx}{months}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{                    }\PYG{n+nx}{historyForBars}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{                    }\PYG{n+nx}{historyForList}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{                    }\PYG{n+nx}{prevHistoryForListSize}\PYG{o}{:}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{,}
+\PYG{+w}{                    }\PYG{n+nx}{limit}\PYG{o}{:}\PYG{+w}{ }\PYG{l+m+mf}{300}\PYG{p}{,}
+\PYG{+w}{                    }\PYG{n+nx}{guide}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{                    }\PYG{n+nx}{waitingImportStart}\PYG{o}{:}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{,}
+\PYG{+w}{                    }\PYG{n+nx}{importStartSuccess}\PYG{o}{:}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{,}
+\PYG{+w}{                    }\PYG{n+nx}{importStartError}\PYG{o}{:}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{,}
+\PYG{+w}{                    }\PYG{n+nx}{shouldImportHistory}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{,}
+\PYG{+w}{                    }\PYG{n+nx}{supplierForStaticListElements}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{null}\PYG{p}{,}
+\PYG{+w}{                    }\PYG{n+nx}{listSuppliers}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{                        }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                            }\PYG{n+nx}{name}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}total\PYGZhy{}energie\PYGZhy{}icone\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{                            }\PYG{n+nx}{isUsed}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}
+\PYG{+w}{                            }\PYG{n+nx}{timelines}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[]}
+\PYG{+w}{                        }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{                        }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                            }\PYG{n+nx}{name}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}shell\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{                            }\PYG{n+nx}{isUsed}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}
+\PYG{+w}{                            }\PYG{n+nx}{timelines}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[]}
+\PYG{+w}{                        }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{                        }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                            }\PYG{n+nx}{name}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}leclerc\PYGZhy{}energie\PYGZhy{}icone\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{                            }\PYG{n+nx}{isUsed}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}
+\PYG{+w}{                            }\PYG{n+nx}{timelines}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[]}
+\PYG{+w}{                        }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{                        }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                            }\PYG{n+nx}{name}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}dkv\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{                            }\PYG{n+nx}{isUsed}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}
+\PYG{+w}{                            }\PYG{n+nx}{timelines}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[]}
+\PYG{+w}{                        }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{                        }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                            }\PYG{n+nx}{name}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}AS24\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{                            }\PYG{n+nx}{isUsed}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}
+\PYG{+w}{                            }\PYG{n+nx}{timelines}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[]}
+\PYG{+w}{                        }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{                        }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                            }\PYG{n+nx}{name}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}c2a\PYGZhy{}icone\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{                            }\PYG{n+nx}{isUsed}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}
+\PYG{+w}{                            }\PYG{n+nx}{timelines}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[]}
+\PYG{+w}{                        }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{                        }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                            }\PYG{n+nx}{name}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}lccc\PYGZhy{}icone\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{                            }\PYG{n+nx}{isUsed}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}
+\PYG{+w}{                            }\PYG{n+nx}{timelines}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[]}
+\PYG{+w}{                        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                    }\PYG{p}{],}
+\PYG{+w}{                    }\PYG{n+nx}{redTimeline}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                        }\PYG{n+nx}{heightTimeline}\PYG{o}{:}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{,}
+\PYG{+w}{                        }\PYG{n+nx}{heightToBottom}\PYG{o}{:}\PYG{+w}{ }\PYG{l+m+mf}{0}
+\PYG{+w}{                    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{};}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{},}
+
+\PYG{+w}{            }\PYG{n+nx}{watch}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nx}{supplier}\PYG{p}{(}\PYG{n+nx}{newSupplier}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{oldSupplier}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kc}{null}\PYG{+w}{ }\PYG{o}{!==}\PYG{+w}{ }\PYG{n+nx}{newSupplier}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                        }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{fileuploadDisabled}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}
+\PYG{+w}{                        }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{getGuide}\PYG{p}{(}\PYG{n+nx}{newSupplier}\PYG{p}{);}
+\PYG{+w}{                    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{},}
+
+\PYG{+w}{            }\PYG{n+nx}{methods}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nx}{fileUploadAcceptType}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                    }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{format}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{;}
+
+\PYG{+w}{                    }\PYG{k}{if}\PYG{p}{([}\PYG{l+m+mf}{1}\PYG{p}{,}\PYG{l+m+mf}{3}\PYG{p}{].}\PYG{n+nx}{includes}\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{supplier}\PYG{p}{))}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                        }\PYG{n+nx}{format}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}.txt\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{                    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{p}{([}\PYG{l+m+mf}{5}\PYG{p}{,}\PYG{l+m+mf}{7}\PYG{p}{,}\PYG{l+m+mf}{9}\PYG{p}{,}\PYG{l+m+mf}{10}\PYG{p}{].}\PYG{n+nx}{includes}\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{supplier}\PYG{p}{))}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                        }\PYG{n+nx}{format}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}.csv\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{                    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{p}{([}\PYG{l+m+mf}{8}\PYG{p}{].}\PYG{n+nx}{includes}\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{supplier}\PYG{p}{))}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                        }\PYG{n+nx}{format}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}.dat\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{                    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{                    }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{format}\PYG{p}{;}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{},}
+
+\PYG{+w}{                }\PYG{n+nx}{buildTimeline}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                    }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{differenceDay}\PYG{p}{;}
+\PYG{+w}{                    }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{differenceDayToStart}\PYG{p}{;}
+\PYG{+w}{                    }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{k+kr}{from}\PYG{p}{;}
+\PYG{+w}{                    }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{to}\PYG{p}{;}
+\PYG{+w}{                    }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{j}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{k}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{l}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{m}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{n}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{o}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}
+\PYG{+w}{                    }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{numberOfDay}\PYG{p}{;}
+\PYG{+w}{                    }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{dayHeight}\PYG{p}{;}
+
+\PYG{+w}{                    }\PYG{n+nx}{numberOfDay}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{moment}\PYG{p}{().}\PYG{n+nx}{endOf}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}month\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{diff}\PYG{p}{(}\PYG{n+nx}{moment}\PYG{p}{().}\PYG{n+nx}{subtract}\PYG{p}{(}\PYG{l+m+mf}{2}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}month\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{startOf}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}month\PYGZsq{}}\PYG{p}{),}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}days\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{                    }\PYG{n+nx}{dayHeight}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{450}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{n+nx}{numberOfDay}\PYG{p}{;}
+
+\PYG{+w}{                    }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{historyForBars}\PYG{p}{.}\PYG{n+nx}{forEach}\PYG{p}{((}\PYG{n+nx}{line}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                        }\PYG{k+kr}{from}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{moment}\PYG{p}{(}\PYG{n+nx}{line}\PYG{p}{.}\PYG{k+kr}{from}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{                        }\PYG{n+nx}{to}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{moment}\PYG{p}{(}\PYG{n+nx}{line}\PYG{p}{.}\PYG{n+nx}{to}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{}}\PYG{p}{);}
+
+\PYG{+w}{                        }\PYG{n+nx}{differenceDay}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{to}\PYG{p}{.}\PYG{n+nx}{diff}\PYG{p}{(}\PYG{k+kr}{from}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}days\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{                        }\PYG{n+nx}{differenceDayToStart}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kr}{from}\PYG{p}{.}\PYG{n+nx}{diff}\PYG{p}{(}\PYG{n+nx}{moment}\PYG{p}{().}\PYG{n+nx}{subtract}\PYG{p}{(}\PYG{l+m+mf}{2}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}month\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{startOf}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}month\PYGZsq{}}\PYG{p}{),}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}days\PYGZsq{}}\PYG{p}{);}
+
+\PYG{+w}{                        }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{heightTimeline}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{differenceDay}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nx}{dayHeight}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{dayHeight}\PYG{p}{;}
+\PYG{+w}{                        }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{heightToBottom}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{differenceDayToStart}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nx}{dayHeight}\PYG{p}{;}
+
+\PYG{+w}{                        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{l+m+mf}{1}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n+nx}{line}\PYG{p}{.}\PYG{n+nx}{idSupplier}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{listSuppliers}\PYG{p}{[}\PYG{l+m+mf}{0}\PYG{p}{].}\PYG{n+nx}{isUsed}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{;}
+\PYG{+w}{                            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{listSuppliers}\PYG{p}{[}\PYG{l+m+mf}{0}\PYG{p}{].}\PYG{n+nx}{timelines}\PYG{p}{.}\PYG{n+nx}{push}\PYG{p}{(\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{heightTimeline}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{heightTimeline}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{heightToBottom}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{heightToBottom}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kr}{from}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{moment}\PYG{p}{(}\PYG{n+nx}{line}\PYG{p}{.}\PYG{k+kr}{from}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{format}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}DD/MM/YYYY\PYGZsq{}}\PYG{p}{),}\PYG{+w}{ }\PYG{n+nx}{to}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{moment}\PYG{p}{(}\PYG{n+nx}{line}\PYG{p}{.}\PYG{n+nx}{to}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{format}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}DD/MM/YYYY\PYGZsq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZcb{});}
+\PYG{+w}{                            }\PYG{n+nx}{i}\PYG{o}{++}\PYG{p}{;}
+\PYG{+w}{                        }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{l+m+mf}{3}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n+nx}{line}\PYG{p}{.}\PYG{n+nx}{idSupplier}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{listSuppliers}\PYG{p}{[}\PYG{l+m+mf}{1}\PYG{p}{].}\PYG{n+nx}{isUsed}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{;}
+\PYG{+w}{                            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{listSuppliers}\PYG{p}{[}\PYG{l+m+mf}{1}\PYG{p}{].}\PYG{n+nx}{timelines}\PYG{p}{.}\PYG{n+nx}{push}\PYG{p}{(\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{heightTimeline}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{heightTimeline}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{heightToBottom}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{heightToBottom}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kr}{from}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{moment}\PYG{p}{(}\PYG{n+nx}{line}\PYG{p}{.}\PYG{k+kr}{from}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{format}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}DD/MM/YYYY\PYGZsq{}}\PYG{p}{),}\PYG{+w}{ }\PYG{n+nx}{to}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{moment}\PYG{p}{(}\PYG{n+nx}{line}\PYG{p}{.}\PYG{n+nx}{to}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{format}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}DD/MM/YYYY\PYGZsq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZcb{});}
+\PYG{+w}{                            }\PYG{n+nx}{j}\PYG{o}{++}\PYG{p}{;}
+\PYG{+w}{                        }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{l+m+mf}{5}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n+nx}{line}\PYG{p}{.}\PYG{n+nx}{idSupplier}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{listSuppliers}\PYG{p}{[}\PYG{l+m+mf}{2}\PYG{p}{].}\PYG{n+nx}{isUsed}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{;}
+\PYG{+w}{                            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{listSuppliers}\PYG{p}{[}\PYG{l+m+mf}{2}\PYG{p}{].}\PYG{n+nx}{timelines}\PYG{p}{.}\PYG{n+nx}{push}\PYG{p}{(\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{heightTimeline}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{heightTimeline}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{heightToBottom}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{heightToBottom}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kr}{from}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{moment}\PYG{p}{(}\PYG{n+nx}{line}\PYG{p}{.}\PYG{k+kr}{from}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{format}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}DD/MM/YYYY\PYGZsq{}}\PYG{p}{),}\PYG{+w}{ }\PYG{n+nx}{to}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{moment}\PYG{p}{(}\PYG{n+nx}{line}\PYG{p}{.}\PYG{n+nx}{to}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{format}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}DD/MM/YYYY\PYGZsq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZcb{});}
+\PYG{+w}{                            }\PYG{n+nx}{k}\PYG{o}{++}\PYG{p}{;}
+\PYG{+w}{                        }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{l+m+mf}{7}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n+nx}{line}\PYG{p}{.}\PYG{n+nx}{idSupplier}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{listSuppliers}\PYG{p}{[}\PYG{l+m+mf}{3}\PYG{p}{].}\PYG{n+nx}{isUsed}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{;}
+\PYG{+w}{                            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{listSuppliers}\PYG{p}{[}\PYG{l+m+mf}{3}\PYG{p}{].}\PYG{n+nx}{timelines}\PYG{p}{.}\PYG{n+nx}{push}\PYG{p}{(\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{heightTimeline}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{heightTimeline}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{heightToBottom}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{heightToBottom}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kr}{from}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{moment}\PYG{p}{(}\PYG{n+nx}{line}\PYG{p}{.}\PYG{k+kr}{from}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{format}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}DD/MM/YYYY\PYGZsq{}}\PYG{p}{),}\PYG{+w}{ }\PYG{n+nx}{to}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{moment}\PYG{p}{(}\PYG{n+nx}{line}\PYG{p}{.}\PYG{n+nx}{to}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{format}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}DD/MM/YYYY\PYGZsq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZcb{});}
+\PYG{+w}{                            }\PYG{n+nx}{l}\PYG{o}{++}\PYG{p}{;}
+\PYG{+w}{                        }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{l+m+mf}{8}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n+nx}{line}\PYG{p}{.}\PYG{n+nx}{idSupplier}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{listSuppliers}\PYG{p}{[}\PYG{l+m+mf}{4}\PYG{p}{].}\PYG{n+nx}{isUsed}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{;}
+\PYG{+w}{                            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{listSuppliers}\PYG{p}{[}\PYG{l+m+mf}{4}\PYG{p}{].}\PYG{n+nx}{timelines}\PYG{p}{.}\PYG{n+nx}{push}\PYG{p}{(\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{heightTimeline}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{heightTimeline}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{heightToBottom}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{heightToBottom}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kr}{from}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{moment}\PYG{p}{(}\PYG{n+nx}{line}\PYG{p}{.}\PYG{k+kr}{from}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{format}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}DD/MM/YYYY\PYGZsq{}}\PYG{p}{),}\PYG{+w}{ }\PYG{n+nx}{to}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{moment}\PYG{p}{(}\PYG{n+nx}{line}\PYG{p}{.}\PYG{n+nx}{to}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{format}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}DD/MM/YYYY\PYGZsq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZcb{});}
+\PYG{+w}{                            }\PYG{n+nx}{m}\PYG{o}{++}\PYG{p}{;}
+\PYG{+w}{                        }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{l+m+mf}{9}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n+nx}{line}\PYG{p}{.}\PYG{n+nx}{idSupplier}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{listSuppliers}\PYG{p}{[}\PYG{l+m+mf}{5}\PYG{p}{].}\PYG{n+nx}{isUsed}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{;}
+\PYG{+w}{                            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{listSuppliers}\PYG{p}{[}\PYG{l+m+mf}{5}\PYG{p}{].}\PYG{n+nx}{timelines}\PYG{p}{.}\PYG{n+nx}{push}\PYG{p}{(\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{heightTimeline}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{heightTimeline}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{heightToBottom}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{heightToBottom}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kr}{from}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{moment}\PYG{p}{(}\PYG{n+nx}{line}\PYG{p}{.}\PYG{k+kr}{from}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{format}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}DD/MM/YYYY\PYGZsq{}}\PYG{p}{),}\PYG{+w}{ }\PYG{n+nx}{to}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{moment}\PYG{p}{(}\PYG{n+nx}{line}\PYG{p}{.}\PYG{n+nx}{to}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{format}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}DD/MM/YYYY\PYGZsq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZcb{});}
+\PYG{+w}{                            }\PYG{n+nx}{n}\PYG{o}{++}\PYG{p}{;}
+\PYG{+w}{                        }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{l+m+mf}{10}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n+nx}{line}\PYG{p}{.}\PYG{n+nx}{idSupplier}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{listSuppliers}\PYG{p}{[}\PYG{l+m+mf}{6}\PYG{p}{].}\PYG{n+nx}{isUsed}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{;}
+\PYG{+w}{                            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{listSuppliers}\PYG{p}{[}\PYG{l+m+mf}{6}\PYG{p}{].}\PYG{n+nx}{timelines}\PYG{p}{.}\PYG{n+nx}{push}\PYG{p}{(\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{heightTimeline}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{heightTimeline}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{heightToBottom}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{heightToBottom}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kr}{from}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{moment}\PYG{p}{(}\PYG{n+nx}{line}\PYG{p}{.}\PYG{k+kr}{from}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{format}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}DD/MM/YYYY\PYGZsq{}}\PYG{p}{),}\PYG{+w}{ }\PYG{n+nx}{to}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{moment}\PYG{p}{(}\PYG{n+nx}{line}\PYG{p}{.}\PYG{n+nx}{to}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{format}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}DD/MM/YYYY\PYGZsq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZcb{});}
+\PYG{+w}{                            }\PYG{n+nx}{o}\PYG{o}{++}\PYG{p}{;}
+\PYG{+w}{                        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                    }\PYG{p}{\PYGZcb{},}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{);}
+
+\PYG{+w}{                    }\PYG{n+nx}{setTimeout}\PYG{p}{(()}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                        }\PYG{n+nx}{\PYGZdl{}}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}[data\PYGZhy{}toggle=\PYGZdq{}tooltip\PYGZdq{}]\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{tooltip}\PYG{p}{();}
+\PYG{+w}{                    }\PYG{p}{\PYGZcb{},}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{);}
+
+\PYG{+w}{                }\PYG{p}{\PYGZcb{},}
+
+\PYG{+w}{                }\PYG{n+nx}{findBrand}\PYG{p}{(}\PYG{n+nx}{typeId}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{l+m+mf}{1}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n+nx}{typeId}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                        }\PYG{k}{return}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}total\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{                    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{l+m+mf}{5}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n+nx}{typeId}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                        }\PYG{k}{return}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Leclerc Energie\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{                    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{l+m+mf}{3}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n+nx}{typeId}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                        }\PYG{k}{return}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}shell\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{                    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{l+m+mf}{7}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n+nx}{typeId}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                        }\PYG{k}{return}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}dkv\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{                    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{l+m+mf}{8}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n+nx}{typeId}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                        }\PYG{k}{return}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}AS24\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{                    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{+w}{ }\PYG{l+m+mf}{9}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n+nx}{typeId}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                        }\PYG{k}{return}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}c2a\PYGZsq{}}
+\PYG{+w}{                    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{+w}{ }\PYG{l+m+mf}{10}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n+nx}{typeId}\PYG{+w}{ }\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                        }\PYG{k}{return}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}lccc\PYGZsq{}}
+\PYG{+w}{                    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{},}
+
+\PYG{+w}{                }\PYG{n+nx}{getGuide}\PYG{p}{(}\PYG{n+nx}{typeId}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                    }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{guide}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{[];}
+\PYG{+w}{                    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{l+m+mf}{1}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n+nx}{typeId}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                        }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{guide}\PYG{p}{.}\PYG{n+nx}{push}\PYG{p}{([}\PYG{l+s+s1}{\PYGZsq{}1/ Aller dans la section « Fournisseurs \PYGZam{} Factures »\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZob{}\PYGZob{} asset(\PYGZsq{}img/import/total/01.png\PYGZsq{}) \PYGZcb{}\PYGZcb{}\PYGZdq{}}\PYG{p}{]);}
+\PYG{+w}{                        }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{guide}\PYG{p}{.}\PYG{n+nx}{push}\PYG{p}{([}\PYG{l+s+s1}{\PYGZsq{}2/ Cliquez sur le bouton de téléchargement\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZob{}\PYGZob{} asset(\PYGZsq{}img/import/total/02.png\PYGZsq{}) \PYGZcb{}\PYGZcb{}\PYGZdq{}}\PYG{p}{]);}
+\PYG{+w}{                    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{l+m+mf}{5}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n+nx}{typeId}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                        }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{guide}\PYG{p}{.}\PYG{n+nx}{push}\PYG{p}{([}\PYG{l+s+s1}{\PYGZsq{}Récupération des transactions\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZob{}\PYGZob{} asset(\PYGZsq{}img/import/leclerc/01.png\PYGZsq{}) \PYGZcb{}\PYGZcb{}\PYGZdq{}}\PYG{p}{]);}
+\PYG{+w}{                    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{l+m+mf}{8}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n+nx}{typeId}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                        }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{guide}\PYG{p}{.}\PYG{n+nx}{push}\PYG{p}{([}\PYG{l+s+s1}{\PYGZsq{}1/ Aller dans la section « Factures \PYGZam{} transactions »\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZob{}\PYGZob{} asset(\PYGZsq{}img/import/as24/01.png\PYGZsq{}) \PYGZcb{}\PYGZcb{}\PYGZdq{}}\PYG{p}{]);}
+\PYG{+w}{                        }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{guide}\PYG{p}{.}\PYG{n+nx}{push}\PYG{p}{([}\PYG{l+s+s1}{\PYGZsq{}2/ Cliquez sur INFOSERVICE\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZob{}\PYGZob{} asset(\PYGZsq{}img/import/as24/02.png\PYGZsq{}) \PYGZcb{}\PYGZcb{}\PYGZdq{}}\PYG{p}{]);}
+\PYG{+w}{                        }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{guide}\PYG{p}{.}\PYG{n+nx}{push}\PYG{p}{([}\PYG{l+s+s1}{\PYGZsq{}3/ Remplissez le formulaire et cliquez sur le bouton de téléchargement\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZob{}\PYGZob{} asset(\PYGZsq{}img/import/as24/03.png\PYGZsq{}) \PYGZcb{}\PYGZcb{}\PYGZdq{}}\PYG{p}{]);}
+\PYG{+w}{                    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{},}
+
+\PYG{+w}{                }\PYG{n+nx}{convertDate}\PYG{p}{(}\PYG{n+nx}{date}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                    }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{moment}\PYG{p}{(}\PYG{n+nx}{date}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{format}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}DD/MM/YYYY\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{},}
+
+\PYG{+w}{                }\PYG{n+nx}{convertDateTime}\PYG{p}{(}\PYG{n+nx}{datetime}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                    }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{moment}\PYG{p}{(}\PYG{n+nx}{datetime}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD HH:mm\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{format}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}DD/MM/YYYY HH:mm\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{},}
+
+\PYG{+w}{                }\PYG{n+nx}{convertDateForLink}\PYG{p}{(}\PYG{n+nx}{date}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                    }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{moment}\PYG{p}{(}\PYG{n+nx}{date}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{format}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}YYYY/MM\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{},}
+
+\PYG{+w}{                }\PYG{n+nx}{handleFileInput}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kd}{function}\PYG{p}{(}\PYG{n+nx}{event}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                    }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{file}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{event}\PYG{p}{.}\PYG{n+nx}{target}\PYG{p}{.}\PYG{n+nx}{files}\PYG{p}{[}\PYG{l+m+mf}{0}\PYG{p}{];}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{},}
+
+\PYG{+w}{                }\PYG{n+nx}{importFile}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kd}{function}\PYG{p}{(}\PYG{n+nx}{event}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{formData}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{o+ow}{new}\PYG{+w}{ }\PYG{n+nx}{FormData}\PYG{p}{();}
+\PYG{+w}{                    }\PYG{n+nx}{formData}\PYG{p}{.}\PYG{n+nx}{append}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}file\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{file}\PYG{p}{);}
+\PYG{+w}{                    }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{waitingImportStart}\PYG{o}{++}\PYG{p}{;}
+\PYG{+w}{                    }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{supplierForStaticListElements}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{supplier}\PYG{p}{;}
+
+\PYG{+w}{                    }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{that}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{;}
+
+\PYG{+w}{                    }\PYG{n+nx}{\PYGZdl{}}\PYG{p}{.}\PYG{n+nx}{ajax}\PYG{p}{(\PYGZob{}}
+\PYG{+w}{                        }\PYG{n+nx}{url}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZob{}\PYGZob{} route(\PYGZsq{}fleet.fuel.import.transactions\PYGZsq{}, [\PYGZsq{}supplier\PYGZsq{} =\PYGZgt{} \PYGZsq{}\PYGZsq{}]) \PYGZcb{}\PYGZcb{}/\PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{that}\PYG{p}{.}\PYG{n+nx}{supplier}\PYG{p}{,}
+\PYG{+w}{                        }\PYG{n+nx}{type}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}POST\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{                        }\PYG{n+nx}{data}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{formData}\PYG{p}{,}
+\PYG{+w}{                        }\PYG{n+nx}{processData}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}
+\PYG{+w}{                        }\PYG{n+nx}{contentType}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}
+\PYG{+w}{                        }\PYG{n+nx}{headers}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                            }\PYG{l+s+s1}{\PYGZsq{}X\PYGZhy{}CSRF\PYGZhy{}TOKEN\PYGZsq{}}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{that}\PYG{p}{.}\PYG{n+nx}{csrfToken}
+\PYG{+w}{                        }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{                        }\PYG{n+nx}{success}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kd}{function}\PYG{p}{(}\PYG{n+nx}{response}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                            }\PYG{n+nx}{that}\PYG{p}{.}\PYG{n+nx}{waitingImportStart}\PYG{o}{\PYGZhy{}\PYGZhy{}}\PYG{p}{;}
+\PYG{+w}{                            }\PYG{n+nx}{that}\PYG{p}{.}\PYG{n+nx}{importStartSuccess}\PYG{o}{++}\PYG{p}{;}
+\PYG{+w}{                            }\PYG{n+nx}{that}\PYG{p}{.}\PYG{n+nx}{shouldImportHistory}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{;}
+\PYG{+w}{                            }\PYG{n+nx}{that}\PYG{p}{.}\PYG{n+nx}{file}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{                            }\PYG{n+nx}{event}\PYG{p}{.}\PYG{n+nx}{target}\PYG{p}{.}\PYG{n+nx}{reset}\PYG{p}{();}
+\PYG{+w}{                            }\PYG{n+nx}{that}\PYG{p}{.}\PYG{n+nx}{limit}\PYG{o}{++}\PYG{p}{;}
+\PYG{+w}{                        }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{                        }\PYG{n+nx}{error}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kd}{function}\PYG{p}{(}\PYG{n+nx}{error}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                            }\PYG{n+nx}{that}\PYG{p}{.}\PYG{n+nx}{waitingImportStart}\PYG{o}{\PYGZhy{}\PYGZhy{}}\PYG{p}{;}
+\PYG{+w}{                            }\PYG{n+nx}{that}\PYG{p}{.}\PYG{n+nx}{importStartError}\PYG{o}{++}\PYG{p}{;}
+\PYG{+w}{                            }\PYG{n+nx}{that}\PYG{p}{.}\PYG{n+nx}{file}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{                            }\PYG{n+nx}{event}\PYG{p}{.}\PYG{n+nx}{target}\PYG{p}{.}\PYG{n+nx}{reset}\PYG{p}{();}
+\PYG{+w}{                        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                    }\PYG{p}{\PYGZcb{});}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{},}
+
+\PYG{+w}{                }\PYG{n+nx}{importHistory}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                    }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{that}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{;}
+\PYG{+w}{                    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{that}\PYG{p}{.}\PYG{n+nx}{shouldImportHistory}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                        }\PYG{n+nx}{\PYGZdl{}}\PYG{p}{.}\PYG{n+nx}{ajax}\PYG{p}{(\PYGZob{}}
+\PYG{+w}{                            }\PYG{n+nx}{url}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZob{}\PYGZob{} route(\PYGZsq{}api\PYGZhy{}gateway\PYGZsq{},[\PYGZsq{}route\PYGZsq{} =\PYGZgt{} \PYGZsq{}park/fuel/transactions/history/\PYGZsq{}]) \PYGZcb{}\PYGZcb{}\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{                            }\PYG{n+nb}{global}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}
+\PYG{+w}{                            }\PYG{n+nx}{method}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}GET\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{                            }\PYG{n+nx}{success}\PYG{p}{(}\PYG{n+nx}{response}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                                }\PYG{n+nx}{that}\PYG{p}{.}\PYG{n+nx}{historyForBars}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{response}\PYG{p}{.}\PYG{n+nx}{data}\PYG{p}{;}
+\PYG{+w}{                                }\PYG{n+nx}{that}\PYG{p}{.}\PYG{n+nx}{buildTimeline}\PYG{p}{();}
+\PYG{+w}{                            }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{                            }\PYG{n+nx}{error}\PYG{p}{(}\PYG{n+nx}{resultat}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{statut}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{erreur}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                                }\PYG{n+nx}{that}\PYG{p}{.}\PYG{n+nx}{loader}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{;}
+\PYG{+w}{                            }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                        }\PYG{p}{\PYGZcb{});}
+\PYG{+w}{                        }\PYG{n+nx}{\PYGZdl{}}\PYG{p}{.}\PYG{n+nx}{ajax}\PYG{p}{(\PYGZob{}}
+\PYG{+w}{                            }\PYG{n+nx}{url}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZob{}\PYGZob{} route(}
+\PYG{l+s+s2}{                                \PYGZsq{}api\PYGZhy{}gateway\PYGZsq{},}
+\PYG{l+s+s2}{                                [\PYGZsq{}route\PYGZsq{} =\PYGZgt{} \PYGZsq{}park/fuel/transactions/history/\PYGZsq{}]) \PYGZcb{}\PYGZcb{}\PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}?created\PYGZus{}at=default\PYGZam{}status[]=0\PYGZam{}status[]=1\PYGZam{}status[]=2\PYGZam{}status[]=3\PYGZam{}status[]=4\PYGZam{}limit=\PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{that}\PYG{p}{.}\PYG{n+nx}{limit}\PYG{p}{,}
+\PYG{+w}{                            }\PYG{n+nb}{global}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}
+\PYG{+w}{                            }\PYG{n+nx}{method}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}GET\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{                            }\PYG{n+nx}{success}\PYG{p}{(}\PYG{n+nx}{response}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                                }\PYG{n+nx}{that}\PYG{p}{.}\PYG{n+nx}{historyForList}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{response}\PYG{p}{.}\PYG{n+nx}{data}\PYG{p}{;}
+
+\PYG{+w}{                                }\PYG{n+nx}{that}\PYG{p}{.}\PYG{n+nx}{loader}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{;}
+\PYG{+w}{                                }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{that}\PYG{p}{.}\PYG{n+nx}{prevHistoryForListSize}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{that}\PYG{p}{.}\PYG{n+nx}{historyForList}\PYG{p}{.}\PYG{n+nx}{length}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                                    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{diff}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{that}\PYG{p}{.}\PYG{n+nx}{historyForList}\PYG{p}{.}\PYG{n+nx}{length}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nx}{that}\PYG{p}{.}\PYG{n+nx}{prevHistoryForListSize}\PYG{p}{;}
+\PYG{+w}{                                    }\PYG{n+nx}{that}\PYG{p}{.}\PYG{n+nx}{importStartSuccess}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{that}\PYG{p}{.}\PYG{n+nx}{importStartSuccess}\PYG{o}{\PYGZhy{}}\PYG{n+nx}{diff}\PYG{+w}{ }\PYG{o}{\PYGZgt{}=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{n+nx}{that}\PYG{p}{.}\PYG{n+nx}{importStartSuccess}\PYG{o}{\PYGZhy{}}\PYG{n+nx}{diff}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}
+\PYG{+w}{                                }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                                }\PYG{n+nx}{that}\PYG{p}{.}\PYG{n+nx}{prevHistoryForListSize}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{that}\PYG{p}{.}\PYG{n+nx}{historyForList}\PYG{p}{.}\PYG{n+nx}{length}\PYG{p}{;}
+\PYG{+w}{                                }\PYG{n+nx}{that}\PYG{p}{.}\PYG{n+nx}{checkRecentPendingImports}\PYG{p}{();}
+\PYG{+w}{                            }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{                            }\PYG{n+nx}{error}\PYG{p}{(}\PYG{n+nx}{resultat}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{statut}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{erreur}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                                }\PYG{n+nx}{that}\PYG{p}{.}\PYG{n+nx}{loader}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{;}
+\PYG{+w}{                            }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                        }\PYG{p}{\PYGZcb{});}
+\PYG{+w}{                    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{},}
+
+\PYG{+w}{                }\PYG{n+nx}{checkRecentPendingImports}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{currentDate}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{o+ow}{new}\PYG{+w}{ }\PYG{n+nb}{Date}\PYG{p}{();}
+\PYG{+w}{                    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{oneHourAgo}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{currentDate}\PYG{p}{.}\PYG{n+nx}{getTime}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{p}{(}\PYG{l+m+mf}{60}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mf}{60}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mf}{1000}\PYG{p}{);}
+\PYG{+w}{                    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{recentPendingImports}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{historyForList}\PYG{p}{.}\PYG{n+nx}{filter}\PYG{p}{(}\PYG{k+kd}{function}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{item}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                                                }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{historyCreatedAt}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{o+ow}{new}\PYG{+w}{ }\PYG{n+nb}{Date}\PYG{p}{(}\PYG{n+nx}{item}\PYG{p}{.}\PYG{n+nx}{date}\PYG{p}{);}
+\PYG{+w}{                                                }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{item}\PYG{p}{.}\PYG{n+nx}{status}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n+nx}{historyCreatedAt}\PYG{p}{.}\PYG{n+nx}{getTime}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n+nx}{oneHourAgo}\PYG{p}{;}
+\PYG{+w}{                                            }\PYG{p}{\PYGZcb{});}
+\PYG{+w}{                    }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{shouldImportHistory}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{recentPendingImports}\PYG{p}{.}\PYG{n+nx}{length}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{;}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{},}
+
+\PYG{+w}{            }\PYG{n+nx}{ready}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+
+\PYG{+w}{                }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{loader}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{;}
+
+\PYG{+w}{                }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{importHistory}\PYG{p}{();}
+
+\PYG{+w}{                }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{intervalId}\PYG{p}{;}
+
+\PYG{+w}{                }\PYG{n+nx}{intervalId}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{setInterval}\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{importHistory}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{10000}\PYG{p}{);}
+
+\PYG{+w}{                }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{dayDate}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{moment}\PYG{p}{();}
+
+\PYG{+w}{                }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{months}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{                    }\PYG{n+nx}{moment}\PYG{p}{().}\PYG{n+nx}{add}\PYG{p}{(}\PYG{l+m+mf}{1}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}month\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{format}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}MMMM\PYGZdq{}}\PYG{p}{),}
+\PYG{+w}{                    }\PYG{n+nx}{moment}\PYG{p}{().}\PYG{n+nx}{format}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}MMMM\PYGZdq{}}\PYG{p}{),}
+\PYG{+w}{                    }\PYG{n+nx}{moment}\PYG{p}{().}\PYG{n+nx}{subtract}\PYG{p}{(}\PYG{l+m+mf}{1}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}month\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{format}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}MMMM\PYGZdq{}}\PYG{p}{),}
+\PYG{+w}{                    }\PYG{n+nx}{moment}\PYG{p}{().}\PYG{n+nx}{subtract}\PYG{p}{(}\PYG{l+m+mf}{2}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}month\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{format}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}MMMM\PYGZdq{}}\PYG{p}{),}
+\PYG{+w}{                }\PYG{p}{];}
+
+\PYG{+w}{                }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{redTimeline}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{dayDate}\PYG{p}{.}\PYG{n+nx}{diff}\PYG{p}{(}\PYG{n+nx}{moment}\PYG{p}{().}\PYG{n+nx}{subtract}\PYG{p}{(}\PYG{l+m+mf}{2}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}month\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{startOf}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}month\PYGZsq{}}\PYG{p}{),}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}days\PYGZsq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mf}{5}\PYG{p}{;}
+
+\PYG{+w}{                }\PYG{n+nx}{\PYGZdl{}}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}body\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{on}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}click\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsh{}btnGuide\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                    }\PYG{n+nx}{\PYGZdl{}}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZsh{}modalGuide\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{modal}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}show\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{});}
+
+\PYG{+w}{                }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{csrfToken}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZob{}\PYGZob{} csrf\PYGZus{}token() \PYGZcb{}\PYGZcb{}\PYGZdq{}}\PYG{p}{;}
+
+\PYG{+w}{                }\PYG{n+nx}{setTimeout}\PYG{p}{(()}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                    }\PYG{n+nx}{\PYGZdl{}}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}[data\PYGZhy{}toggle=\PYGZdq{}tooltip\PYGZdq{}]\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{tooltip}\PYG{p}{()}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{},}\PYG{+w}{ }\PYG{l+m+mf}{10000}\PYG{p}{)}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{});}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{});}
+\PYG{err}{@}\PYG{n+nx}{endsection}
+\end{Verbatim}

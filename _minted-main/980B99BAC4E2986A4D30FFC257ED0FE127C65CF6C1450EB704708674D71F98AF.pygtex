@@ -1,0 +1,467 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{g+gh}{diff \PYGZhy{}\PYGZhy{}git a/Suivideflotte/Fleet/Packages/Fuel/App/Requests/ImportFuelTransactionsRequest.php b/Suivideflotte/Fleet/Packages/Fuel/App/Requests/ImportFuelTransactionsRequest.php}
+\PYG{g+gh}{index c1931b7f7e45d7c06c77707848887a294225ee2d..842ef8274270a29888ab80d0614e99c3632a41a2 100644}
+\PYG{g+gd}{\PYGZhy{}\PYGZhy{}\PYGZhy{} a/Suivideflotte/Fleet/Packages/Fuel/App/Requests/ImportFuelTransactionsRequest.php}
+\PYG{g+gi}{+++ b/Suivideflotte/Fleet/Packages/Fuel/App/Requests/ImportFuelTransactionsRequest.php}
+\PYG{g+gu}{@@ \PYGZhy{}11,6 +11,19 @@ class ImportFuelTransactionsRequest extends FormRequest}
+\PYG{+w}{ }        return true;
+\PYG{+w}{ }    \PYGZcb{}
+\PYG{+w}{ }
+\PYG{g+gi}{+    /**}
+\PYG{g+gi}{+     * Préparer les données pour la validation}
+\PYG{g+gi}{+     *}
+\PYG{g+gi}{+     * @return void}
+\PYG{g+gi}{+     */}
+\PYG{g+gi}{+    protected function prepareForValidation()}
+\PYG{g+gi}{+    \PYGZob{}}
+\PYG{g+gi}{+        \PYGZdl{}this\PYGZhy{}\PYGZgt{}merge([}
+\PYG{g+gi}{+            \PYGZsq{}supplier\PYGZsq{} =\PYGZgt{} \PYGZdl{}this\PYGZhy{}\PYGZgt{}route()\PYGZhy{}\PYGZgt{}parameter(\PYGZsq{}supplier\PYGZsq{})}
+\PYG{g+gi}{+        ]);}
+\PYG{g+gi}{+    \PYGZcb{}}
+\PYG{g+gi}{+}
+\PYG{g+gi}{+}
+\PYG{+w}{ }    /**
+\PYG{+w}{ }     * règles de validation
+\PYG{+w}{ }     *
+\PYG{g+gh}{diff \PYGZhy{}\PYGZhy{}git a/Suivideflotte/Fleet/Packages/Fuel/resources/views/import.blade.php b/Suivideflotte/Fleet/Packages/Fuel/resources/views/import.blade.php}
+\PYG{g+gh}{index 1d33fe4e56df574e21264ebc8abc8ea58a545e5d..2c39d58330c2d50e5114780590454dfdeaab256b 100644}
+\PYG{g+gd}{\PYGZhy{}\PYGZhy{}\PYGZhy{} a/Suivideflotte/Fleet/Packages/Fuel/resources/views/import.blade.php}
+\PYG{g+gi}{+++ b/Suivideflotte/Fleet/Packages/Fuel/resources/views/import.blade.php}
+\PYG{g+gu}{@@ \PYGZhy{}3,6 +3,7 @@}
+\PYG{+w}{ }@section(\PYGZsq{}head\PYGZsq{})
+\PYG{+w}{ }    @parent
+\PYG{+w}{ }    @include(\PYGZsq{}package\PYGZhy{}fleet\PYGZhy{}fuel::parts.templates.fuelcard\PYGZhy{}template\PYGZsq{})
+\PYG{g+gi}{+    @include(\PYGZsq{}layouts.tooltip\PYGZsq{}, [\PYGZsq{}title\PYGZsq{} =\PYGZgt{} \PYGZsq{}IMPORT FICHIER CARBURANT\PYGZsq{}, \PYGZsq{}body\PYGZsq{} =\PYGZgt{} \PYGZsq{}\PYGZlt{}p\PYGZgt{}Retrouvez ici l’ensemble de vos Importations de fichiers de carburant.\PYGZlt{}/p\PYGZgt{}\PYGZsq{}])}
+\PYG{+w}{ }    \PYGZlt{}link rel=\PYGZdq{}stylesheet\PYGZdq{} href=\PYGZdq{}\PYGZob{}\PYGZob{} URL::asset(\PYGZsq{}css/jquery.fileupload.css\PYGZsq{}) \PYGZcb{}\PYGZcb{}\PYGZdq{}/\PYGZgt{}
+\PYG{+w}{ }@endsection
+\PYG{+w}{ }
+\PYG{g+gu}{@@ \PYGZhy{}51,12 +52,7 @@}
+\PYG{+w}{ }                                    \PYGZlt{}h4\PYGZgt{}Import\PYGZlt{}/h4\PYGZgt{}
+\PYG{+w}{ }                                \PYGZlt{}/div\PYGZgt{}
+\PYG{+w}{ }                                \PYGZlt{}div class=\PYGZdq{}card\PYGZhy{}block\PYGZdq{}\PYGZgt{}
+\PYG{g+gd}{\PYGZhy{}                                    \PYGZlt{}form class=\PYGZdq{}form\PYGZhy{}inline import\PYGZdq{}}
+\PYG{g+gd}{\PYGZhy{}                                          action=\PYGZdq{}\PYGZob{}\PYGZob{} route(\PYGZsq{}fleet.fuel.import.transactions\PYGZsq{},[\PYGZsq{}supplier\PYGZsq{} =\PYGZgt{} \PYGZsq{}\PYGZsq{}]) \PYGZcb{}\PYGZcb{}/@\PYGZob{}\PYGZob{} supplier \PYGZcb{}\PYGZcb{} \PYGZdq{}}
+\PYG{g+gd}{\PYGZhy{}                                          method=\PYGZdq{}post\PYGZdq{} enctype=\PYGZdq{}multipart/form\PYGZhy{}data\PYGZdq{}\PYGZgt{}}
+\PYG{g+gd}{\PYGZhy{}}
+\PYG{g+gd}{\PYGZhy{}                                        \PYGZob{}\PYGZob{} csrf\PYGZus{}field() \PYGZcb{}\PYGZcb{}}
+\PYG{g+gd}{\PYGZhy{}}
+\PYG{g+gi}{+                                    \PYGZlt{}form class=\PYGZdq{}form\PYGZhy{}inline import\PYGZdq{} action=\PYGZdq{}\PYGZdq{}\PYGZgt{}}
+\PYG{+w}{ }                                        \PYGZlt{}div class=\PYGZdq{}form\PYGZhy{}group\PYGZdq{}\PYGZgt{}
+\PYG{+w}{ }                                            \PYGZlt{}span class=\PYGZdq{}label\PYGZdq{}\PYGZgt{}Type de fichier\PYGZlt{}/span\PYGZgt{}
+\PYG{+w}{ }                                            \PYGZlt{}div class=\PYGZdq{}btn\PYGZhy{}group\PYGZdq{} data\PYGZhy{}toggle=\PYGZdq{}buttons\PYGZdq{}\PYGZgt{}
+\PYG{g+gu}{@@ \PYGZhy{}111,26 +107,69 @@}
+\PYG{+w}{ }                                                \PYGZlt{}/label\PYGZgt{}
+\PYG{+w}{ }                                            \PYGZlt{}/div\PYGZgt{}
+\PYG{+w}{ }                                        \PYGZlt{}/div\PYGZgt{}
+\PYG{g+gd}{\PYGZhy{}                                        \PYGZlt{}div class=\PYGZdq{}form\PYGZhy{}group\PYGZdq{}\PYGZgt{}}
+\PYG{g+gd}{\PYGZhy{}                                            \PYGZlt{}span class=\PYGZdq{}label\PYGZdq{}\PYGZgt{}Fichier\PYGZlt{}/span\PYGZgt{}}
+\PYG{g+gd}{\PYGZhy{}                                            \PYGZlt{}span class=\PYGZdq{}btn btn\PYGZhy{}default fileinput\PYGZhy{}button\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                    \PYGZlt{}/form\PYGZgt{}}
+\PYG{g+gi}{+                                \PYGZlt{}/div\PYGZgt{}}
+\PYG{g+gi}{+                            \PYGZlt{}/div\PYGZgt{}}
+\PYG{g+gi}{+                            \PYGZlt{}div v\PYGZhy{}show=\PYGZdq{}supplier\PYGZdq{} class=\PYGZdq{}card\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                \PYGZlt{}div class=\PYGZdq{}card\PYGZhy{}header\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                    \PYGZlt{}h4\PYGZgt{}Téléchargez un fichier \PYGZlt{}span class=\PYGZdq{}text\PYGZhy{}capitalize\PYGZdq{}\PYGZgt{}@\PYGZob{}\PYGZob{} findBrand(supplier) \PYGZcb{}\PYGZcb{}\PYGZlt{}/span\PYGZgt{}\PYGZlt{}/h4\PYGZgt{}}
+\PYG{g+gi}{+                                \PYGZlt{}/div\PYGZgt{}}
+\PYG{g+gi}{+                                \PYGZlt{}div class=\PYGZdq{}card\PYGZhy{}block\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                    \PYGZlt{}form @submit.prevent=\PYGZdq{}importFile\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+}
+\PYG{g+gi}{+                                        \PYGZob{}\PYGZob{} csrf\PYGZus{}field() \PYGZcb{}\PYGZcb{}}
+\PYG{g+gi}{+}
+\PYG{g+gi}{+                                        \PYGZlt{}div class=\PYGZdq{}form\PYGZhy{}inline form\PYGZhy{}group\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                            \PYGZlt{}div class=\PYGZdq{}form\PYGZhy{}group\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                                \PYGZlt{}span class=\PYGZdq{}label\PYGZdq{}\PYGZgt{}1. Téléchargez un fichier \PYGZlt{}span class=\PYGZdq{}text\PYGZhy{}capitalize\PYGZdq{}\PYGZgt{}@\PYGZob{}\PYGZob{} findBrand(supplier) \PYGZcb{}\PYGZcb{}\PYGZlt{}/span\PYGZgt{} de type \PYGZlt{}span v\PYGZhy{}if=\PYGZdq{}\PYGZsq{}\PYGZsq{} != fileUploadAcceptType()\PYGZdq{} v\PYGZhy{}html=\PYGZdq{}fileUploadAcceptType()\PYGZdq{}\PYGZgt{}\PYGZlt{}/span\PYGZgt{} : \PYGZlt{}/span\PYGZgt{}}
+\PYG{g+gi}{+                                                \PYGZlt{}span class=\PYGZdq{}btn btn\PYGZhy{}default fileinput\PYGZhy{}button\PYGZdq{}\PYGZgt{}}
+\PYG{+w}{ }                                                \PYGZlt{}i class=\PYGZdq{}fa fa\PYGZhy{}plus\PYGZdq{}\PYGZgt{}\PYGZlt{}/i\PYGZgt{}
+\PYG{+w}{ }                                                \PYGZlt{}span class=\PYGZdq{}btn\PYGZhy{}file\PYGZhy{}upload\PYGZdq{}\PYGZgt{}Ajouter un fichier
+\PYG{+w}{ }                                                    \PYGZlt{}span v\PYGZhy{}if=\PYGZdq{}\PYGZsq{}\PYGZsq{} != fileUploadAcceptType()\PYGZdq{} v\PYGZhy{}html=\PYGZdq{}\PYGZsq{}(\PYGZsq{}+fileUploadAcceptType()+\PYGZsq{})\PYGZsq{}\PYGZdq{}\PYGZgt{}\PYGZlt{}/span\PYGZgt{}
+\PYG{+w}{ }                                                \PYGZlt{}/span\PYGZgt{}
+\PYG{g+gd}{\PYGZhy{}                                                \PYGZlt{}input id=\PYGZdq{}fileupload\PYGZdq{} type=\PYGZdq{}file\PYGZdq{} name=\PYGZdq{}file\PYGZdq{} :accept=\PYGZdq{}fileUploadAcceptType()\PYGZdq{} :disabled=\PYGZdq{}fileuploadDisabled == 1\PYGZdq{} v\PYGZhy{}model=\PYGZdq{}file\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                                \PYGZlt{}input id=\PYGZdq{}fileupload\PYGZdq{} type=\PYGZdq{}file\PYGZdq{} name=\PYGZdq{}file\PYGZdq{} :accept=\PYGZdq{}fileUploadAcceptType()\PYGZdq{} :disabled=\PYGZdq{}fileuploadDisabled == 1\PYGZdq{} @change=\PYGZdq{}handleFileInput\PYGZdq{}\PYGZgt{}}
+\PYG{+w}{ }                                            \PYGZlt{}/span\PYGZgt{}
+\PYG{g+gi}{+                                            \PYGZlt{}/div\PYGZgt{}}
+\PYG{g+gi}{+                                            \PYGZlt{}div class=\PYGZdq{}form\PYGZhy{}group\PYGZdq{} v\PYGZhy{}if=\PYGZdq{}file != \PYGZsq{}\PYGZsq{}\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                                \PYGZlt{}p class=\PYGZdq{}form\PYGZhy{}control\PYGZhy{}static\PYGZdq{}\PYGZgt{}@\PYGZob{}\PYGZob{} file.name \PYGZcb{}\PYGZcb{}\PYGZlt{}/p\PYGZgt{}}
+\PYG{g+gi}{+                                            \PYGZlt{}/div\PYGZgt{}}
+\PYG{+w}{ }                                        \PYGZlt{}/div\PYGZgt{}
+\PYG{g+gd}{\PYGZhy{}                                        \PYGZlt{}div class=\PYGZdq{}form\PYGZhy{}group\PYGZdq{} v\PYGZhy{}if=\PYGZdq{}file != \PYGZsq{}\PYGZsq{}\PYGZdq{}\PYGZgt{}}
+\PYG{g+gd}{\PYGZhy{}                                            \PYGZlt{}p class=\PYGZdq{}form\PYGZhy{}control\PYGZhy{}static\PYGZdq{}\PYGZgt{}@\PYGZob{}\PYGZob{} file \PYGZcb{}\PYGZcb{}\PYGZlt{}/p\PYGZgt{}}
+\PYG{g+gd}{\PYGZhy{}                                        \PYGZlt{}/div\PYGZgt{}}
+\PYG{g+gd}{\PYGZhy{}                                        \PYGZlt{}div class=\PYGZdq{}form\PYGZhy{}group pull\PYGZhy{}right\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+}
+\PYG{g+gi}{+                                        \PYGZlt{}div class=\PYGZdq{}form\PYGZhy{}group\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                            \PYGZlt{}span class=\PYGZdq{}label\PYGZdq{}\PYGZgt{}2. Cliquez sur le bouton d\PYGZsq{}importation : \PYGZlt{}/span\PYGZgt{}}
+\PYG{+w}{ }                                            \PYGZlt{}button type=\PYGZdq{}submit\PYGZdq{} class=\PYGZdq{}btn btn\PYGZhy{}outline\PYGZhy{}primary\PYGZdq{}
+\PYG{+w}{ }                                                    :disabled=\PYGZdq{}supplier == null || file == \PYGZsq{}\PYGZsq{} \PYGZdq{}\PYGZgt{}\PYGZlt{}i
+\PYG{g+gd}{\PYGZhy{}                                                        class=\PYGZdq{}fa fa\PYGZhy{}cloud\PYGZhy{}upload\PYGZdq{} aria\PYGZhy{}hidden=\PYGZdq{}true\PYGZdq{}\PYGZgt{}\PYGZlt{}/i\PYGZgt{} Importer}
+\PYG{g+gi}{+                                                    class=\PYGZdq{}fa fa\PYGZhy{}cloud\PYGZhy{}upload\PYGZdq{} aria\PYGZhy{}hidden=\PYGZdq{}true\PYGZdq{}\PYGZgt{}\PYGZlt{}/i\PYGZgt{} Importer}
+\PYG{+w}{ }                                            \PYGZlt{}/button\PYGZgt{}
+\PYG{+w}{ }                                        \PYGZlt{}/div\PYGZgt{}
+\PYG{+w}{ }                                    \PYGZlt{}/form\PYGZgt{}
+\PYG{g+gi}{+                                    \PYGZlt{}div v\PYGZhy{}if=\PYGZdq{}guide.length\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                        \PYGZlt{}span class=\PYGZdq{}label\PYGZdq{}\PYGZgt{}Pour savoir comment récupérer un fichier \PYGZlt{}span class=\PYGZdq{}text\PYGZhy{}capitalize\PYGZdq{}\PYGZgt{}@\PYGZob{}\PYGZob{} findBrand(supplier) \PYGZcb{}\PYGZcb{}\PYGZlt{}/span\PYGZgt{}, cliquez sur le bouton info : \PYGZlt{}/span\PYGZgt{}}
+\PYG{g+gi}{+                                        \PYGZlt{}span class=\PYGZdq{}btn btn\PYGZhy{}outline\PYGZhy{}info\PYGZdq{} id=\PYGZdq{}btnGuide\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                                \PYGZlt{}i class=\PYGZdq{}fa fa\PYGZhy{}info\PYGZhy{}circle\PYGZdq{}\PYGZgt{}\PYGZlt{}/i\PYGZgt{} Guide de téléchargement}
+\PYG{g+gi}{+                                            \PYGZlt{}/span\PYGZgt{}}
+\PYG{g+gi}{+                                    \PYGZlt{}/div\PYGZgt{}}
+\PYG{g+gi}{+                                \PYGZlt{}/div\PYGZgt{}}
+\PYG{g+gi}{+                            \PYGZlt{}/div\PYGZgt{}}
+\PYG{g+gi}{+                            \PYGZlt{}div class=\PYGZdq{}modal fade\PYGZdq{} id=\PYGZdq{}modalGuide\PYGZdq{} role=\PYGZdq{}dialog\PYGZdq{} aria\PYGZhy{}labelledby=\PYGZdq{}modalGuide\PYGZdq{} aria\PYGZhy{}hidden=\PYGZdq{}true\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                \PYGZlt{}div class=\PYGZdq{}modal\PYGZhy{}dialog\PYGZdq{} role=\PYGZdq{}document\PYGZdq{} style=\PYGZdq{}max\PYGZhy{}width: 80\PYGZpc{}; display: flex; justify\PYGZhy{}content: center\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                    \PYGZlt{}div class=\PYGZdq{}modal\PYGZhy{}content\PYGZdq{} style=\PYGZdq{}height: 690px; overflow\PYGZhy{}y: scroll\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                        \PYGZlt{}div class=\PYGZdq{}modal\PYGZhy{}header\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                            \PYGZlt{}button type=\PYGZdq{}button\PYGZdq{} class=\PYGZdq{}close\PYGZdq{} data\PYGZhy{}dismiss=\PYGZdq{}modal\PYGZdq{} aria\PYGZhy{}label=\PYGZdq{}Close\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                                \PYGZlt{}span aria\PYGZhy{}hidden=\PYGZdq{}true\PYGZdq{}\PYGZgt{}\PYGZam{}times;\PYGZlt{}/span\PYGZgt{}}
+\PYG{g+gi}{+                                            \PYGZlt{}/button\PYGZgt{}}
+\PYG{g+gi}{+}
+\PYG{g+gi}{+                                            \PYGZlt{}h4 class=\PYGZdq{}modal\PYGZhy{}title\PYGZdq{} id=\PYGZdq{}myModalLabel\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                                Comment télécharger un fichier \PYGZlt{}span class=\PYGZdq{}text\PYGZhy{}capitalize\PYGZdq{}\PYGZgt{}@\PYGZob{}\PYGZob{} findBrand(supplier) \PYGZcb{}\PYGZcb{}\PYGZlt{}/span\PYGZgt{} ?}
+\PYG{g+gi}{+                                            \PYGZlt{}/h4\PYGZgt{}}
+\PYG{g+gi}{+                                        \PYGZlt{}/div\PYGZgt{}}
+\PYG{g+gi}{+                                        \PYGZlt{}div class=\PYGZdq{}modal\PYGZhy{}body\PYGZdq{} style=\PYGZdq{}display: flex; flex\PYGZhy{}direction: column; row\PYGZhy{}gap: 15px\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                            \PYGZlt{}div v\PYGZhy{}for=\PYGZdq{}guideStep in guide\PYGZdq{} style=\PYGZdq{}display: flex; flex\PYGZhy{}direction: column; align\PYGZhy{}items: center; row\PYGZhy{}gap: 10px\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                                \PYGZlt{}h5\PYGZgt{}@\PYGZob{}\PYGZob{} guideStep[0] \PYGZcb{}\PYGZcb{}\PYGZlt{}/h5\PYGZgt{}}
+\PYG{g+gi}{+                                                \PYGZlt{}img :src=\PYGZdq{}guideStep[1]\PYGZdq{} style=\PYGZdq{}width: 90\PYGZpc{}\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                            \PYGZlt{}/div\PYGZgt{}}
+\PYG{g+gi}{+                                        \PYGZlt{}/div\PYGZgt{}}
+\PYG{g+gi}{+                                    \PYGZlt{}/div\PYGZgt{}}
+\PYG{+w}{ }                                \PYGZlt{}/div\PYGZgt{}
+\PYG{+w}{ }                            \PYGZlt{}/div\PYGZgt{}
+\PYG{+w}{ }                        @endif
+\PYG{g+gu}{@@ \PYGZhy{}168,7 +207,7 @@}
+\PYG{+w}{ }                                        \PYGZlt{}i class=\PYGZdq{}fa fa\PYGZhy{}circle\PYGZhy{}o\PYGZhy{}notch fa\PYGZhy{}spin fa\PYGZhy{}3x text\PYGZhy{}muted\PYGZdq{}\PYGZgt{}\PYGZlt{}/i\PYGZgt{}
+\PYG{+w}{ }                                    \PYGZlt{}/div\PYGZgt{}
+\PYG{+w}{ }
+\PYG{g+gd}{\PYGZhy{}                                    \PYGZlt{}div class=\PYGZdq{}table\PYGZhy{}responsive\PYGZdq{} v\PYGZhy{}show=\PYGZdq{}history.length \PYGZgt{} 0\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                    \PYGZlt{}div class=\PYGZdq{}table\PYGZhy{}responsive\PYGZdq{} v\PYGZhy{}show=\PYGZdq{}historyForList.length \PYGZgt{} 0\PYGZdq{}\PYGZgt{}}
+\PYG{+w}{ }                                        \PYGZlt{}table class=\PYGZdq{}table table\PYGZhy{}striped table\PYGZhy{}hover table\PYGZhy{}sm\PYGZdq{}\PYGZgt{}
+\PYG{+w}{ }                                            \PYGZlt{}thead class=\PYGZdq{}thead\PYGZhy{}inverse\PYGZdq{}\PYGZgt{}
+\PYG{+w}{ }                                            \PYGZlt{}tr\PYGZgt{}
+\PYG{g+gu}{@@ \PYGZhy{}180,23 +219,65 @@}
+\PYG{+w}{ }                                            \PYGZlt{}/tr\PYGZgt{}
+\PYG{+w}{ }                                            \PYGZlt{}/thead\PYGZgt{}
+\PYG{+w}{ }                                            \PYGZlt{}tbody\PYGZgt{}
+\PYG{g+gd}{\PYGZhy{}                                            \PYGZlt{}tr v\PYGZhy{}for=\PYGZdq{}item in history\PYGZdq{}\PYGZgt{}}
+\PYG{g+gd}{\PYGZhy{}                                                \PYGZlt{}td class=\PYGZdq{}display\PYGZhy{}flexalign\PYGZhy{}items\PYGZhy{}center\PYGZdq{}}
+\PYG{g+gi}{+                                            \PYGZlt{}tr v\PYGZhy{}for=\PYGZdq{}n in waitingImportStart\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                                \PYGZlt{}td colspan=\PYGZdq{}5\PYGZdq{} style=\PYGZdq{}text\PYGZhy{}align: center;\PYGZdq{}\PYGZgt{}\PYGZlt{}i class=\PYGZdq{}fa fa\PYGZhy{}circle\PYGZhy{}o\PYGZhy{}notch fa\PYGZhy{}spin fa\PYGZhy{}3x text\PYGZhy{}muted\PYGZdq{}\PYGZgt{}\PYGZlt{}/i\PYGZgt{}\PYGZlt{}/td\PYGZgt{}}
+\PYG{g+gi}{+                                            \PYGZlt{}/tr\PYGZgt{}}
+\PYG{g+gi}{+                                            \PYGZlt{}tr v\PYGZhy{}for=\PYGZdq{}n in importStartError\PYGZdq{} style=\PYGZdq{}background\PYGZhy{}color: rgba(250, 80, 58, 0.25); color: rgb(255, 0, 0);\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                                \PYGZlt{}td class=\PYGZdq{}display\PYGZhy{}flex align\PYGZhy{}items\PYGZhy{}center\PYGZdq{}}
+\PYG{g+gi}{+                                                    style=\PYGZdq{}vertical\PYGZhy{}align: middle;\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                                    \PYGZlt{}img :src=\PYGZdq{} \PYGZsq{}../img/fleet/fuel/\PYGZsq{} + findBrand(supplierForStaticListElements) +\PYGZsq{}.png\PYGZsq{} \PYGZdq{}}
+\PYG{g+gi}{+                                                         style=\PYGZdq{}width:40px; margin\PYGZhy{}right:5px;  margin\PYGZhy{}left:5px\PYGZdq{}/\PYGZgt{}}
+\PYG{g+gi}{+                                                    \PYGZlt{}span class=\PYGZdq{}text\PYGZhy{}capitalize\PYGZdq{}\PYGZgt{}@\PYGZob{}\PYGZob{} findBrand(supplierForStaticListElements) \PYGZcb{}\PYGZcb{}\PYGZlt{}/span\PYGZgt{}}
+\PYG{g+gi}{+                                                \PYGZlt{}/td\PYGZgt{}}
+\PYG{g+gi}{+                                                \PYGZlt{}td colspan=\PYGZdq{}4\PYGZdq{} style=\PYGZdq{}text\PYGZhy{}align: left\PYGZdq{}\PYGZgt{}Le traitement du fichier n\PYGZsq{}a pas pu démarrer!\PYGZlt{}br\PYGZgt{}Une erreur s\PYGZsq{}est produite}
+\PYG{g+gi}{+                                                \PYGZlt{}/td\PYGZgt{}}
+\PYG{g+gi}{+                                            \PYGZlt{}/tr\PYGZgt{}}
+\PYG{g+gi}{+                                            \PYGZlt{}tr v\PYGZhy{}for=\PYGZdq{}n in importStartSuccess\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                                \PYGZlt{}td class=\PYGZdq{}display\PYGZhy{}flex align\PYGZhy{}items\PYGZhy{}center\PYGZdq{}}
+\PYG{+w}{ }                                                    style=\PYGZdq{}vertical\PYGZhy{}align: middle\PYGZdq{}\PYGZgt{}
+\PYG{g+gd}{\PYGZhy{}                                                    \PYGZlt{}img :src=\PYGZdq{} \PYGZsq{}../img/fleet/fuel/\PYGZsq{} + findBrand(item.idSupllier) +\PYGZsq{}.png\PYGZsq{} \PYGZdq{}}
+\PYG{g+gi}{+                                                    \PYGZlt{}img :src=\PYGZdq{} \PYGZsq{}../img/fleet/fuel/\PYGZsq{} + findBrand(supplierForStaticListElements) +\PYGZsq{}.png\PYGZsq{} \PYGZdq{}}
+\PYG{+w}{ }                                                         style=\PYGZdq{}width:40px; margin\PYGZhy{}right:5px;  margin\PYGZhy{}left:5px\PYGZdq{}/\PYGZgt{}
+\PYG{g+gd}{\PYGZhy{}                                                    \PYGZlt{}span class=\PYGZdq{}text\PYGZhy{}capitalize\PYGZdq{}\PYGZgt{}@\PYGZob{}\PYGZob{} findBrand(item.idSupllier) \PYGZcb{}\PYGZcb{}\PYGZlt{}/span\PYGZgt{}}
+\PYG{g+gi}{+                                                    \PYGZlt{}span class=\PYGZdq{}text\PYGZhy{}capitalize\PYGZdq{}\PYGZgt{}@\PYGZob{}\PYGZob{} findBrand(supplierForStaticListElements) \PYGZcb{}\PYGZcb{}\PYGZlt{}/span\PYGZgt{}}
+\PYG{+w}{ }                                                \PYGZlt{}/td\PYGZgt{}
+\PYG{g+gd}{\PYGZhy{}                                                \PYGZlt{}td style=\PYGZdq{}vertical\PYGZhy{}align: middle\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                                \PYGZlt{}td colspan=\PYGZdq{}4\PYGZdq{} style=\PYGZdq{}text\PYGZhy{}align: left\PYGZdq{}\PYGZgt{}\PYGZlt{}span style=\PYGZdq{}color: rgb(18, 125, 0)\PYGZdq{}\PYGZgt{}Le traitement du fichier a démarré\PYGZlt{}/span\PYGZgt{}\PYGZlt{}br\PYGZgt{}\PYGZlt{}span style=\PYGZdq{}color: rgb(139, 145, 154)\PYGZdq{}\PYGZgt{}Le fichier est en cours de traitement \PYGZlt{}/span\PYGZgt{}\PYGZlt{}i class=\PYGZdq{}fa fa\PYGZhy{}circle\PYGZhy{}o\PYGZhy{}notch fa\PYGZhy{}spin text\PYGZhy{}muted\PYGZdq{}\PYGZgt{}\PYGZlt{}/i\PYGZgt{}}
+\PYG{g+gi}{+                                                \PYGZlt{}/td\PYGZgt{}}
+\PYG{g+gi}{+                                            \PYGZlt{}/tr\PYGZgt{}}
+\PYG{g+gi}{+                                            \PYGZlt{}tr v\PYGZhy{}for=\PYGZdq{}item in historyForList\PYGZdq{} track\PYGZhy{}by=\PYGZdq{}idImport\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                                \PYGZlt{}td v\PYGZhy{}if=\PYGZdq{}item.status == 3 || item.status == 1  || item.status == 2\PYGZdq{} class=\PYGZdq{}display\PYGZhy{}flex align\PYGZhy{}items\PYGZhy{}center\PYGZdq{}}
+\PYG{g+gi}{+                                                    style=\PYGZdq{}vertical\PYGZhy{}align: middle\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                                    \PYGZlt{}img :src=\PYGZdq{} \PYGZsq{}../img/fleet/fuel/\PYGZsq{} + findBrand(item.idSupplier) +\PYGZsq{}.png\PYGZsq{} \PYGZdq{}}
+\PYG{g+gi}{+                                                         style=\PYGZdq{}width:40px; margin\PYGZhy{}right:5px;  margin\PYGZhy{}left:5px\PYGZdq{}/\PYGZgt{}}
+\PYG{g+gi}{+                                                    \PYGZlt{}span class=\PYGZdq{}text\PYGZhy{}capitalize\PYGZdq{}\PYGZgt{}@\PYGZob{}\PYGZob{} findBrand(item.idSupplier) \PYGZcb{}\PYGZcb{}\PYGZlt{}/span\PYGZgt{}}
+\PYG{g+gi}{+                                                \PYGZlt{}/td\PYGZgt{}}
+\PYG{g+gi}{+                                                \PYGZlt{}td v\PYGZhy{}if=\PYGZdq{}item.status == 4 || item.status == 0\PYGZdq{}}
+\PYG{g+gi}{+                                                    style=\PYGZdq{}vertical\PYGZhy{}align: middle; background\PYGZhy{}color: rgba(250, 80, 58, 0.25);\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                                    \PYGZlt{}img :src=\PYGZdq{} \PYGZsq{}../img/fleet/fuel/\PYGZsq{} + findBrand(item.idSupplier) +\PYGZsq{}.png\PYGZsq{} \PYGZdq{}}
+\PYG{g+gi}{+                                                         style=\PYGZdq{}width:40px; margin\PYGZhy{}right:5px;  margin\PYGZhy{}left:5px;\PYGZdq{}/\PYGZgt{}}
+\PYG{g+gi}{+                                                    \PYGZlt{}span class=\PYGZdq{}text\PYGZhy{}capitalize\PYGZdq{}\PYGZgt{}@\PYGZob{}\PYGZob{} findBrand(item.idSupplier) \PYGZcb{}\PYGZcb{}\PYGZlt{}/span\PYGZgt{}}
+\PYG{g+gi}{+                                                \PYGZlt{}/td\PYGZgt{}}
+\PYG{g+gi}{+                                                \PYGZlt{}td v\PYGZhy{}if=\PYGZdq{}item.status == 2\PYGZdq{} colspan=\PYGZdq{}4\PYGZdq{} style=\PYGZdq{}text\PYGZhy{}align: left\PYGZdq{}\PYGZgt{}\PYGZlt{}span style=\PYGZdq{}color: rgb(18, 125, 0)\PYGZdq{}\PYGZgt{}Le traitement du fichier a démarré\PYGZlt{}/span\PYGZgt{}\PYGZlt{}br\PYGZgt{}\PYGZlt{}span style=\PYGZdq{}color: rgb(139, 145, 154)\PYGZdq{}\PYGZgt{}Le fichier est en cours de traitement \PYGZlt{}/span\PYGZgt{}\PYGZlt{}i class=\PYGZdq{}fa fa\PYGZhy{}circle\PYGZhy{}o\PYGZhy{}notch fa\PYGZhy{}spin text\PYGZhy{}muted\PYGZdq{}\PYGZgt{}\PYGZlt{}/i\PYGZgt{}}
+\PYG{g+gi}{+                                                \PYGZlt{}/td\PYGZgt{}}
+\PYG{g+gi}{+                                                \PYGZlt{}td v\PYGZhy{}if=\PYGZdq{}item.status == 4 || item.status == 0\PYGZdq{} colspan=\PYGZdq{}2\PYGZdq{} style=\PYGZdq{}text\PYGZhy{}align: left; background\PYGZhy{}color: rgba(250, 80, 58, 0.25);\PYGZdq{}\PYGZgt{}\PYGZlt{}span style=\PYGZdq{}color: rgb(18, 125, 0)\PYGZdq{}\PYGZgt{}Le traitement du fichier a démarré\PYGZlt{}/span\PYGZgt{}\PYGZlt{}br\PYGZgt{}\PYGZlt{}span style=\PYGZdq{}color: rgb(139, 145, 154)\PYGZdq{}\PYGZgt{}Le fichier est en cours de traitement\PYGZlt{}/span\PYGZgt{}\PYGZlt{}br\PYGZgt{}\PYGZlt{}span style=\PYGZdq{}color: rgb(255, 0, 0);\PYGZdq{}\PYGZgt{}Une erreur s\PYGZsq{}est produite\PYGZlt{}/span\PYGZgt{}}
+\PYG{g+gi}{+                                                \PYGZlt{}/td\PYGZgt{}}
+\PYG{g+gi}{+                                                \PYGZlt{}td v\PYGZhy{}if=\PYGZdq{}item.status == 3 || item.status == 1\PYGZdq{} style=\PYGZdq{}vertical\PYGZhy{}align: middle\PYGZdq{}\PYGZgt{}}
+\PYG{+w}{ }                                                    Du @\PYGZob{}\PYGZob{} convertDate(item.from) \PYGZcb{}\PYGZcb{}\PYGZlt{}br\PYGZgt{}Au @\PYGZob{}\PYGZob{} convertDate(item.to) \PYGZcb{}\PYGZcb{}
+\PYG{+w}{ }                                                \PYGZlt{}/td\PYGZgt{}
+\PYG{g+gd}{\PYGZhy{}                                                \PYGZlt{}td style=\PYGZdq{}vertical\PYGZhy{}align: middle\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                                \PYGZlt{}td v\PYGZhy{}if=\PYGZdq{}item.status == 3 || item.status == 1\PYGZdq{} style=\PYGZdq{}vertical\PYGZhy{}align: middle\PYGZdq{}\PYGZgt{}}
+\PYG{+w}{ }                                                    @\PYGZob{}\PYGZob{} convertDateTime(item.date) \PYGZcb{}\PYGZcb{}
+\PYG{+w}{ }                                                \PYGZlt{}/td\PYGZgt{}
+\PYG{g+gd}{\PYGZhy{}                                                \PYGZlt{}td style=\PYGZdq{}vertical\PYGZhy{}align: middle\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                                \PYGZlt{}td v\PYGZhy{}if=\PYGZdq{}item.status == 3 || item.status == 1\PYGZdq{} style=\PYGZdq{}vertical\PYGZhy{}align: middle\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                                    @\PYGZob{}\PYGZob{} item.user ? item.user : \PYGZsq{}\PYGZhy{}\PYGZsq{} \PYGZcb{}\PYGZcb{}}
+\PYG{g+gi}{+                                                \PYGZlt{}/td\PYGZgt{}}
+\PYG{g+gi}{+                                                \PYGZlt{}td v\PYGZhy{}if=\PYGZdq{}item.status == 4 || item.status == 0\PYGZdq{} style=\PYGZdq{}vertical\PYGZhy{}align: middle; background\PYGZhy{}color: rgba(250, 80, 58, 0.25);\PYGZdq{}\PYGZgt{}}
+\PYG{+w}{ }                                                    @\PYGZob{}\PYGZob{} item.user ? item.user : \PYGZsq{}\PYGZhy{}\PYGZsq{} \PYGZcb{}\PYGZcb{}
+\PYG{+w}{ }                                                \PYGZlt{}/td\PYGZgt{}
+\PYG{g+gd}{\PYGZhy{}                                                \PYGZlt{}td style=\PYGZdq{}vertical\PYGZhy{}align: middle\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                                \PYGZlt{}td v\PYGZhy{}if=\PYGZdq{}(item.status == 4 || item.status == 0) \PYGZam{}\PYGZam{} !item.uploadError\PYGZdq{} style=\PYGZdq{}vertical\PYGZhy{}align: middle; background\PYGZhy{}color: rgba(250, 80, 58, 0.25);\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                                    \PYGZhy{}}
+\PYG{g+gi}{+                                                \PYGZlt{}/td\PYGZgt{}}
+\PYG{g+gi}{+                                                \PYGZlt{}td v\PYGZhy{}if=\PYGZdq{}(item.status == 4 || item.status == 0) \PYGZam{}\PYGZam{} item.uploadError\PYGZdq{} style=\PYGZdq{}vertical\PYGZhy{}align: middle; color: rgb(255, 0, 0); background\PYGZhy{}color: rgba(250, 80, 58, 0.25);\PYGZdq{} data\PYGZhy{}toggle=\PYGZdq{}tooltip\PYGZdq{} data\PYGZhy{}placement=\PYGZdq{}left\PYGZdq{} data\PYGZhy{}html=\PYGZdq{}true\PYGZdq{} data\PYGZhy{}original\PYGZhy{}title=\PYGZdq{}@\PYGZob{}\PYGZob{} item.uploadError \PYGZcb{}\PYGZcb{}\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                                    \PYGZlt{}i class=\PYGZdq{}fa fa\PYGZhy{}solid fa\PYGZhy{}exclamation\PYGZhy{}circle\PYGZdq{} style=\PYGZdq{}cursor: pointer\PYGZdq{}\PYGZgt{}\PYGZlt{}/i\PYGZgt{}}
+\PYG{g+gi}{+                                                \PYGZlt{}/td\PYGZgt{}}
+\PYG{g+gi}{+                                                \PYGZlt{}td v\PYGZhy{}if=\PYGZdq{}item.status == 3 || item.status == 1\PYGZdq{} style=\PYGZdq{}vertical\PYGZhy{}align: middle\PYGZdq{}\PYGZgt{}}
+\PYG{+w}{ }                                                    \PYGZlt{}a :href=\PYGZdq{}\PYGZsq{}\PYGZob{}\PYGZob{} route(\PYGZsq{}fleet.fuel.transactions\PYGZsq{}) \PYGZcb{}\PYGZcb{}?period=\PYGZsq{} + convertDateForLink(item.from)\PYGZdq{}\PYGZgt{}
+\PYG{+w}{ }                                                        \PYGZlt{}i class=\PYGZdq{}fa fa\PYGZhy{}list\PYGZhy{}ul\PYGZdq{}\PYGZgt{}\PYGZlt{}/i\PYGZgt{}
+\PYG{+w}{ }                                                    \PYGZlt{}/a\PYGZgt{}
+\PYG{g+gu}{@@ \PYGZhy{}207,7 +288,7 @@}
+\PYG{+w}{ }                                        \PYGZlt{}/table\PYGZgt{}
+\PYG{+w}{ }                                    \PYGZlt{}/div\PYGZgt{}
+\PYG{+w}{ }
+\PYG{g+gd}{\PYGZhy{}                                    \PYGZlt{}div v\PYGZhy{}show=\PYGZdq{}history.length == 0 \PYGZam{}\PYGZam{} loader == false\PYGZdq{}\PYGZgt{}}
+\PYG{g+gi}{+                                    \PYGZlt{}div v\PYGZhy{}show=\PYGZdq{}historyForList.length == 0 \PYGZam{}\PYGZam{} loader == false\PYGZdq{}\PYGZgt{}}
+\PYG{+w}{ }                                        \PYGZlt{}h2 class=\PYGZdq{}text\PYGZhy{}muted text\PYGZhy{}xs\PYGZhy{}center m\PYGZhy{}t\PYGZhy{}3\PYGZdq{}\PYGZgt{}
+\PYG{+w}{ }                                            Aucun historique
+\PYG{+w}{ }                                        \PYGZlt{}/h2\PYGZgt{}
+\PYG{g+gu}{@@ \PYGZhy{}243,9 +324,19 @@}
+\PYG{+w}{ }                    supplier: null,
+\PYG{+w}{ }                    fileuploadDisabled: 1,
+\PYG{+w}{ }                    file: \PYGZsq{}\PYGZsq{},
+\PYG{g+gi}{+                    csrfToken: \PYGZsq{}\PYGZsq{},}
+\PYG{+w}{ }                    dayDate: null,
+\PYG{+w}{ }                    months: [],
+\PYG{g+gd}{\PYGZhy{}                    history: [],}
+\PYG{g+gi}{+                    historyForBars: [],}
+\PYG{g+gi}{+                    historyForList: [],}
+\PYG{g+gi}{+                    prevHistoryForListSize: 0,}
+\PYG{g+gi}{+                    limit: 300,}
+\PYG{g+gi}{+                    guide: [],}
+\PYG{g+gi}{+                    waitingImportStart: 0,}
+\PYG{g+gi}{+                    importStartSuccess: 0,}
+\PYG{g+gi}{+                    importStartError: 0,}
+\PYG{g+gi}{+                    shouldImportHistory: true,}
+\PYG{g+gi}{+                    supplierForStaticListElements: null,}
+\PYG{+w}{ }                    listSuppliers: [
+\PYG{+w}{ }                        \PYGZob{}
+\PYG{+w}{ }                            name: \PYGZsq{}total\PYGZhy{}energie\PYGZhy{}icone\PYGZsq{},
+\PYG{g+gu}{@@ \PYGZhy{}293,7 +384,8 @@}
+\PYG{+w}{ }            watch: \PYGZob{}
+\PYG{+w}{ }                supplier(newSupplier, oldSupplier) \PYGZob{}
+\PYG{+w}{ }                    if (null !== newSupplier) \PYGZob{}
+\PYG{g+gd}{\PYGZhy{}                        this.fileuploadDisabled = 0}
+\PYG{g+gi}{+                        this.fileuploadDisabled = 0;}
+\PYG{g+gi}{+                        this.getGuide(newSupplier);}
+\PYG{+w}{ }                    \PYGZcb{}
+\PYG{+w}{ }                \PYGZcb{},
+\PYG{+w}{ }            \PYGZcb{},
+\PYG{g+gu}{@@ \PYGZhy{}325,7 +417,7 @@}
+\PYG{+w}{ }                    numberOfDay = moment().endOf(\PYGZsq{}month\PYGZsq{}).diff(moment().subtract(2, \PYGZsq{}month\PYGZsq{}).startOf(\PYGZsq{}month\PYGZsq{}), \PYGZsq{}days\PYGZsq{});
+\PYG{+w}{ }                    dayHeight = 450 / numberOfDay;
+\PYG{+w}{ }
+\PYG{g+gd}{\PYGZhy{}                    this.history.forEach((line) =\PYGZgt{} \PYGZob{}}
+\PYG{g+gi}{+                    this.historyForBars.forEach((line) =\PYGZgt{} \PYGZob{}}
+\PYG{+w}{ }                        from = moment(line.from, \PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{});
+\PYG{+w}{ }                        to = moment(line.to, \PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{});
+\PYG{+w}{ }
+\PYG{g+gu}{@@ \PYGZhy{}335,31 +427,31 @@}
+\PYG{+w}{ }                        let heightTimeline = (differenceDay * dayHeight) + dayHeight;
+\PYG{+w}{ }                        let heightToBottom = differenceDayToStart * dayHeight;
+\PYG{+w}{ }
+\PYG{g+gd}{\PYGZhy{}                        if (1 == line.idSupllier) \PYGZob{}}
+\PYG{g+gi}{+                        if (1 == line.idSupplier) \PYGZob{}}
+\PYG{+w}{ }                            this.listSuppliers[0].isUsed = true;
+\PYG{+w}{ }                            this.listSuppliers[0].timelines.push(\PYGZob{} heightTimeline: heightTimeline, heightToBottom: heightToBottom, from: moment(line.from, \PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{}).format(\PYGZsq{}DD/MM/YYYY\PYGZsq{}), to: moment(line.to, \PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{}).format(\PYGZsq{}DD/MM/YYYY\PYGZsq{}) \PYGZcb{});
+\PYG{+w}{ }                            i++;
+\PYG{g+gd}{\PYGZhy{}                        \PYGZcb{} else if (3 == line.idSupllier) \PYGZob{}}
+\PYG{g+gi}{+                        \PYGZcb{} else if (3 == line.idSupplier) \PYGZob{}}
+\PYG{+w}{ }                            this.listSuppliers[1].isUsed = true;
+\PYG{+w}{ }                            this.listSuppliers[1].timelines.push(\PYGZob{} heightTimeline: heightTimeline, heightToBottom: heightToBottom, from: moment(line.from, \PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{}).format(\PYGZsq{}DD/MM/YYYY\PYGZsq{}), to: moment(line.to, \PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{}).format(\PYGZsq{}DD/MM/YYYY\PYGZsq{}) \PYGZcb{});
+\PYG{+w}{ }                            j++;
+\PYG{g+gd}{\PYGZhy{}                        \PYGZcb{} else if (5 == line.idSupllier) \PYGZob{}}
+\PYG{g+gi}{+                        \PYGZcb{} else if (5 == line.idSupplier) \PYGZob{}}
+\PYG{+w}{ }                            this.listSuppliers[2].isUsed = true;
+\PYG{+w}{ }                            this.listSuppliers[2].timelines.push(\PYGZob{} heightTimeline: heightTimeline, heightToBottom: heightToBottom, from: moment(line.from, \PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{}).format(\PYGZsq{}DD/MM/YYYY\PYGZsq{}), to: moment(line.to, \PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{}).format(\PYGZsq{}DD/MM/YYYY\PYGZsq{}) \PYGZcb{});
+\PYG{+w}{ }                            k++;
+\PYG{g+gd}{\PYGZhy{}                        \PYGZcb{} else if (7 == line.idSupllier) \PYGZob{}}
+\PYG{g+gi}{+                        \PYGZcb{} else if (7 == line.idSupplier) \PYGZob{}}
+\PYG{+w}{ }                            this.listSuppliers[3].isUsed = true;
+\PYG{+w}{ }                            this.listSuppliers[3].timelines.push(\PYGZob{} heightTimeline: heightTimeline, heightToBottom: heightToBottom, from: moment(line.from, \PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{}).format(\PYGZsq{}DD/MM/YYYY\PYGZsq{}), to: moment(line.to, \PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{}).format(\PYGZsq{}DD/MM/YYYY\PYGZsq{}) \PYGZcb{});
+\PYG{+w}{ }                            l++;
+\PYG{g+gd}{\PYGZhy{}                        \PYGZcb{} else if (8 == line.idSupllier) \PYGZob{}}
+\PYG{g+gi}{+                        \PYGZcb{} else if (8 == line.idSupplier) \PYGZob{}}
+\PYG{+w}{ }                            this.listSuppliers[4].isUsed = true;
+\PYG{+w}{ }                            this.listSuppliers[4].timelines.push(\PYGZob{} heightTimeline: heightTimeline, heightToBottom: heightToBottom, from: moment(line.from, \PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{}).format(\PYGZsq{}DD/MM/YYYY\PYGZsq{}), to: moment(line.to, \PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{}).format(\PYGZsq{}DD/MM/YYYY\PYGZsq{}) \PYGZcb{});
+\PYG{+w}{ }                            m++;
+\PYG{g+gd}{\PYGZhy{}                        \PYGZcb{} else if (9 == line.idSupllier) \PYGZob{}}
+\PYG{g+gi}{+                        \PYGZcb{} else if (9 == line.idSupplier) \PYGZob{}}
+\PYG{+w}{ }                            this.listSuppliers[5].isUsed = true;
+\PYG{+w}{ }                            this.listSuppliers[5].timelines.push(\PYGZob{} heightTimeline: heightTimeline, heightToBottom: heightToBottom, from: moment(line.from, \PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{}).format(\PYGZsq{}DD/MM/YYYY\PYGZsq{}), to: moment(line.to, \PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{}).format(\PYGZsq{}DD/MM/YYYY\PYGZsq{}) \PYGZcb{});
+\PYG{+w}{ }                            n++;
+\PYG{g+gd}{\PYGZhy{}                        \PYGZcb{} else if (10 == line.idSupllier) \PYGZob{}}
+\PYG{g+gi}{+                        \PYGZcb{} else if (10 == line.idSupplier) \PYGZob{}}
+\PYG{+w}{ }                            this.listSuppliers[6].isUsed = true;
+\PYG{+w}{ }                            this.listSuppliers[6].timelines.push(\PYGZob{} heightTimeline: heightTimeline, heightToBottom: heightToBottom, from: moment(line.from, \PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{}).format(\PYGZsq{}DD/MM/YYYY\PYGZsq{}), to: moment(line.to, \PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{}).format(\PYGZsq{}DD/MM/YYYY\PYGZsq{}) \PYGZcb{});
+\PYG{+w}{ }                            o++;
+\PYG{g+gu}{@@ \PYGZhy{}390,6 +482,20 @@}
+\PYG{+w}{ }                    \PYGZcb{}
+\PYG{+w}{ }                \PYGZcb{},
+\PYG{+w}{ }
+\PYG{g+gi}{+                getGuide(typeId) \PYGZob{}}
+\PYG{g+gi}{+                    this.guide = [];}
+\PYG{g+gi}{+                    if (1 == typeId) \PYGZob{}}
+\PYG{g+gi}{+                        this.guide.push([\PYGZsq{}1/ Aller dans la section « Fournisseurs \PYGZam{} Factures »\PYGZsq{}, \PYGZdq{}\PYGZob{}\PYGZob{} asset(\PYGZsq{}img/import/total/01.png\PYGZsq{}) \PYGZcb{}\PYGZcb{}\PYGZdq{}]);}
+\PYG{g+gi}{+                        this.guide.push([\PYGZsq{}2/ Cliquez sur le bouton de téléchargement\PYGZsq{}, \PYGZdq{}\PYGZob{}\PYGZob{} asset(\PYGZsq{}img/import/total/02.png\PYGZsq{}) \PYGZcb{}\PYGZcb{}\PYGZdq{}]);}
+\PYG{g+gi}{+                    \PYGZcb{} else if (5 == typeId) \PYGZob{}}
+\PYG{g+gi}{+                        this.guide.push([\PYGZsq{}Récupération des transactions\PYGZsq{}, \PYGZdq{}\PYGZob{}\PYGZob{} asset(\PYGZsq{}img/import/leclerc/01.png\PYGZsq{}) \PYGZcb{}\PYGZcb{}\PYGZdq{}]);}
+\PYG{g+gi}{+                    \PYGZcb{} else if (8 == typeId) \PYGZob{}}
+\PYG{g+gi}{+                        this.guide.push([\PYGZsq{}1/ Aller dans la section « Factures \PYGZam{} transactions »\PYGZsq{}, \PYGZdq{}\PYGZob{}\PYGZob{} asset(\PYGZsq{}img/import/as24/01.png\PYGZsq{}) \PYGZcb{}\PYGZcb{}\PYGZdq{}]);}
+\PYG{g+gi}{+                        this.guide.push([\PYGZsq{}2/ Cliquez sur INFOSERVICE\PYGZsq{}, \PYGZdq{}\PYGZob{}\PYGZob{} asset(\PYGZsq{}img/import/as24/02.png\PYGZsq{}) \PYGZcb{}\PYGZcb{}\PYGZdq{}]);}
+\PYG{g+gi}{+                        this.guide.push([\PYGZsq{}3/ Remplissez le formulaire et cliquez sur le bouton de téléchargement\PYGZsq{}, \PYGZdq{}\PYGZob{}\PYGZob{} asset(\PYGZsq{}img/import/as24/03.png\PYGZsq{}) \PYGZcb{}\PYGZcb{}\PYGZdq{}]);}
+\PYG{g+gi}{+                    \PYGZcb{}}
+\PYG{g+gi}{+                \PYGZcb{},}
+\PYG{g+gi}{+}
+\PYG{+w}{ }                convertDate(date) \PYGZob{}
+\PYG{+w}{ }                    return moment(date, \PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{}).format(\PYGZsq{}DD/MM/YYYY\PYGZsq{});
+\PYG{+w}{ }                \PYGZcb{},
+\PYG{g+gu}{@@ \PYGZhy{}401,27 +507,104 @@}
+\PYG{+w}{ }                convertDateForLink(date) \PYGZob{}
+\PYG{+w}{ }                    return moment(date, \PYGZsq{}YYYY\PYGZhy{}MM\PYGZhy{}DD\PYGZsq{}).format(\PYGZsq{}YYYY/MM\PYGZsq{});
+\PYG{+w}{ }                \PYGZcb{},
+\PYG{g+gi}{+}
+\PYG{g+gi}{+                handleFileInput: function(event) \PYGZob{}}
+\PYG{g+gi}{+                    this.file = event.target.files[0];}
+\PYG{g+gi}{+                \PYGZcb{},}
+\PYG{g+gi}{+}
+\PYG{g+gi}{+                importFile: function(event) \PYGZob{}}
+\PYG{g+gi}{+                    const formData = new FormData();}
+\PYG{g+gi}{+                    formData.append(\PYGZsq{}file\PYGZsq{}, this.file);}
+\PYG{g+gi}{+                    this.waitingImportStart++;}
+\PYG{g+gi}{+                    this.supplierForStaticListElements = this.supplier;}
+\PYG{g+gi}{+}
+\PYG{g+gi}{+                    let that = this;}
+\PYG{g+gi}{+}
+\PYG{g+gi}{+                    \PYGZdl{}.ajax(\PYGZob{}}
+\PYG{g+gi}{+                        url: \PYGZdq{}\PYGZob{}\PYGZob{} route(\PYGZsq{}fleet.fuel.import.transactions\PYGZsq{}, [\PYGZsq{}supplier\PYGZsq{} =\PYGZgt{} \PYGZsq{}\PYGZsq{}]) \PYGZcb{}\PYGZcb{}/\PYGZdq{} + that.supplier,}
+\PYG{g+gi}{+                        type: \PYGZsq{}POST\PYGZsq{},}
+\PYG{g+gi}{+                        data: formData,}
+\PYG{g+gi}{+                        processData: false,}
+\PYG{g+gi}{+                        contentType: false,}
+\PYG{g+gi}{+                        headers: \PYGZob{}}
+\PYG{g+gi}{+                            \PYGZsq{}X\PYGZhy{}CSRF\PYGZhy{}TOKEN\PYGZsq{}: that.csrfToken}
+\PYG{g+gi}{+                        \PYGZcb{},}
+\PYG{g+gi}{+                        success: function(response) \PYGZob{}}
+\PYG{g+gi}{+                            that.waitingImportStart\PYGZhy{}\PYGZhy{};}
+\PYG{g+gi}{+                            that.importStartSuccess++;}
+\PYG{g+gi}{+                            that.shouldImportHistory = true;}
+\PYG{g+gi}{+                            that.file = \PYGZsq{}\PYGZsq{};}
+\PYG{g+gi}{+                            event.target.reset();}
+\PYG{g+gi}{+                            that.limit++;}
+\PYG{g+gi}{+                        \PYGZcb{},}
+\PYG{g+gi}{+                        error: function(error) \PYGZob{}}
+\PYG{g+gi}{+                            that.waitingImportStart\PYGZhy{}\PYGZhy{};}
+\PYG{g+gi}{+                            that.importStartError++;}
+\PYG{g+gi}{+                            that.file = \PYGZsq{}\PYGZsq{};}
+\PYG{g+gi}{+                            event.target.reset();}
+\PYG{g+gi}{+                        \PYGZcb{}}
+\PYG{g+gi}{+                    \PYGZcb{});}
+\PYG{g+gi}{+                \PYGZcb{},}
+\PYG{g+gi}{+}
+\PYG{g+gi}{+                importHistory() \PYGZob{}}
+\PYG{g+gi}{+                    let that = this;}
+\PYG{g+gi}{+                    if (that.shouldImportHistory) \PYGZob{}}
+\PYG{g+gi}{+                        \PYGZdl{}.ajax(\PYGZob{}}
+\PYG{g+gi}{+                            url: \PYGZdq{}\PYGZob{}\PYGZob{} route(\PYGZsq{}api\PYGZhy{}gateway\PYGZsq{},[\PYGZsq{}route\PYGZsq{} =\PYGZgt{} \PYGZsq{}park/fuel/transactions/history/\PYGZsq{}]) \PYGZcb{}\PYGZcb{}\PYGZdq{},}
+\PYG{g+gi}{+                            global : false,}
+\PYG{g+gi}{+                            method : \PYGZsq{}GET\PYGZsq{},}
+\PYG{g+gi}{+                            success(response) \PYGZob{}}
+\PYG{g+gi}{+                                that.historyForBars = response.data;}
+\PYG{g+gi}{+                                that.buildTimeline();}
+\PYG{g+gi}{+                            \PYGZcb{},}
+\PYG{g+gi}{+                            error(resultat, statut, erreur) \PYGZob{}}
+\PYG{g+gi}{+                                that.loader = false;}
+\PYG{g+gi}{+                                console.log(\PYGZsq{}ERROR\PYGZsq{});}
+\PYG{g+gi}{+                            \PYGZcb{}}
+\PYG{g+gi}{+                        \PYGZcb{});}
+\PYG{g+gi}{+                        \PYGZdl{}.ajax(\PYGZob{}}
+\PYG{g+gi}{+                            url: \PYGZdq{}\PYGZob{}\PYGZob{} route(\PYGZsq{}api\PYGZhy{}gateway\PYGZsq{},[\PYGZsq{}route\PYGZsq{} =\PYGZgt{} \PYGZsq{}park/fuel/transactions/history/\PYGZsq{}]) \PYGZcb{}\PYGZcb{}\PYGZdq{} + \PYGZdq{}?created\PYGZus{}at=default\PYGZam{}status[]=0\PYGZam{}status[]=1\PYGZam{}status[]=2\PYGZam{}status[]=3\PYGZam{}status[]=4\PYGZam{}limit=\PYGZdq{} + that.limit,}
+\PYG{g+gi}{+                            global : false,}
+\PYG{g+gi}{+                            method : \PYGZsq{}GET\PYGZsq{},}
+\PYG{g+gi}{+                            success(response) \PYGZob{}}
+\PYG{g+gi}{+                                that.historyForList = response.data;}
+\PYG{g+gi}{+}
+\PYG{g+gi}{+                                that.loader = false;}
+\PYG{g+gi}{+                                if (that.prevHistoryForListSize \PYGZlt{} that.historyForList.length) \PYGZob{}}
+\PYG{g+gi}{+                                    const diff = that.historyForList.length \PYGZhy{} that.prevHistoryForListSize;}
+\PYG{g+gi}{+                                    that.importStartSuccess = that.importStartSuccess\PYGZhy{}diff \PYGZgt{}= 0 ? that.importStartSuccess\PYGZhy{}diff : 0;}
+\PYG{g+gi}{+                                \PYGZcb{}}
+\PYG{g+gi}{+                                that.prevHistoryForListSize = that.historyForList.length;}
+\PYG{g+gi}{+                                that.checkRecentPendingImports();}
+\PYG{g+gi}{+                            \PYGZcb{},}
+\PYG{g+gi}{+                            error(resultat, statut, erreur) \PYGZob{}}
+\PYG{g+gi}{+                                that.loader = false;}
+\PYG{g+gi}{+                                console.log(\PYGZsq{}ERROR\PYGZsq{});}
+\PYG{g+gi}{+                            \PYGZcb{}}
+\PYG{g+gi}{+                        \PYGZcb{});}
+\PYG{g+gi}{+                    \PYGZcb{}}
+\PYG{g+gi}{+                \PYGZcb{},}
+\PYG{g+gi}{+}
+\PYG{g+gi}{+                checkRecentPendingImports() \PYGZob{}}
+\PYG{g+gi}{+                    const currentDate = new Date();}
+\PYG{g+gi}{+                    const oneHourAgo = currentDate.getTime() \PYGZhy{} (60 * 60 * 1000);}
+\PYG{g+gi}{+                    const recentPendingImports = this.historyForList.filter(function (item) \PYGZob{}}
+\PYG{g+gi}{+                                                const historyCreatedAt = new Date(item.date);}
+\PYG{g+gi}{+                                                return item.status == 2 \PYGZam{}\PYGZam{} historyCreatedAt.getTime() \PYGZgt{} oneHourAgo;}
+\PYG{g+gi}{+                                            \PYGZcb{});}
+\PYG{g+gi}{+                    this.shouldImportHistory = recentPendingImports.length \PYGZgt{} 0 ? true : false;}
+\PYG{g+gi}{+                \PYGZcb{}}
+\PYG{+w}{ }            \PYGZcb{},
+\PYG{+w}{ }
+\PYG{+w}{ }            ready() \PYGZob{}
+\PYG{g+gd}{\PYGZhy{}                let that = this;}
+\PYG{g+gi}{+}
+\PYG{+w}{ }                this.loader = true;
+\PYG{+w}{ }
+\PYG{g+gd}{\PYGZhy{}                \PYGZdl{}.ajax(\PYGZob{}}
+\PYG{g+gd}{\PYGZhy{}                    url: \PYGZdq{}\PYGZob{}\PYGZob{} route(\PYGZsq{}api\PYGZhy{}gateway\PYGZsq{},[\PYGZsq{}route\PYGZsq{} =\PYGZgt{} \PYGZsq{}park/fuel/transactions/history\PYGZsq{}]) \PYGZcb{}\PYGZcb{}\PYGZdq{},}
+\PYG{g+gd}{\PYGZhy{}                    method : \PYGZsq{}GET\PYGZsq{},}
+\PYG{g+gd}{\PYGZhy{}                    success(response) \PYGZob{}}
+\PYG{g+gd}{\PYGZhy{}                        that.history = response.data;}
+\PYG{g+gi}{+                this.importHistory();}
+\PYG{+w}{ }
+\PYG{g+gd}{\PYGZhy{}                        that.buildTimeline();}
+\PYG{g+gi}{+                let intervalId;}
+\PYG{+w}{ }
+\PYG{g+gd}{\PYGZhy{}                        that.loader = false;}
+\PYG{g+gd}{\PYGZhy{}                    \PYGZcb{},}
+\PYG{g+gd}{\PYGZhy{}                    error(resultat, statut, erreur) \PYGZob{}}
+\PYG{g+gd}{\PYGZhy{}                        that.loader = false;}
+\PYG{g+gd}{\PYGZhy{}                        console.log(\PYGZsq{}ERROR\PYGZsq{});}
+\PYG{g+gd}{\PYGZhy{}                    \PYGZcb{}}
+\PYG{g+gd}{\PYGZhy{}                \PYGZcb{});}
+\PYG{g+gi}{+                intervalId = setInterval(this.importHistory, 10000);}
+\PYG{+w}{ }
+\PYG{+w}{ }                this.dayDate = moment();
+\PYG{+w}{ }
+\PYG{g+gu}{@@ \PYGZhy{}433,6 +616,16 @@}
+\PYG{+w}{ }                ];
+\PYG{+w}{ }
+\PYG{+w}{ }                this.redTimeline = this.dayDate.diff(moment().subtract(2, \PYGZsq{}month\PYGZsq{}).startOf(\PYGZsq{}month\PYGZsq{}), \PYGZsq{}days\PYGZsq{}) * 5;
+\PYG{g+gi}{+}
+\PYG{g+gi}{+                \PYGZdl{}(\PYGZsq{}body\PYGZsq{}).on(\PYGZsq{}click\PYGZsq{}, \PYGZsq{}\PYGZsh{}btnGuide\PYGZsq{}, function () \PYGZob{}}
+\PYG{g+gi}{+                    \PYGZdl{}(\PYGZsq{}\PYGZsh{}modalGuide\PYGZsq{}).modal(\PYGZsq{}show\PYGZsq{});}
+\PYG{g+gi}{+                \PYGZcb{});}
+\PYG{g+gi}{+}
+\PYG{g+gi}{+                this.csrfToken = \PYGZdq{}\PYGZob{}\PYGZob{} csrf\PYGZus{}token() \PYGZcb{}\PYGZcb{}\PYGZdq{};}
+\PYG{g+gi}{+}
+\PYG{g+gi}{+                setTimeout(() =\PYGZgt{} \PYGZob{}}
+\PYG{g+gi}{+                    \PYGZdl{}(\PYGZsq{}[data\PYGZhy{}toggle=\PYGZdq{}tooltip\PYGZdq{}]\PYGZsq{}).tooltip()}
+\PYG{g+gi}{+                \PYGZcb{}, 10000)}
+\PYG{+w}{ }            \PYGZcb{},
+\PYG{+w}{ }        \PYGZcb{});
+\PYG{+w}{ }    \PYGZcb{});
+\PYG{g+gh}{diff \PYGZhy{}\PYGZhy{}git a/resources/assets/img/fleet/fuel/Leclerc Energie.png b/resources/assets/img/fleet/fuel/Leclerc Energie.png}
+new file mode 100644
+\PYG{g+gh}{index 0000000000000000000000000000000000000000..72eefbb6bc96a0bef584c4a6da908f3742757ada}
+Binary files /dev/null and b/resources/assets/img/fleet/fuel/Leclerc Energie.png differ
+\PYG{g+gh}{diff \PYGZhy{}\PYGZhy{}git a/resources/assets/img/fleet/fuel/lccc.png b/resources/assets/img/fleet/fuel/lccc.png}
+new file mode 100644
+\PYG{g+gh}{index 0000000000000000000000000000000000000000..b357a9c6a21de3061513d383640aa100c5f61577}
+Binary files /dev/null and b/resources/assets/img/fleet/fuel/lccc.png differ
+\end{Verbatim}

@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+        \PYG{n+nx}{DB}\PYG{o}{::}\PYG{n+na}{connection}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}mysql\PYGZus{}sdf\PYGZsq{}}\PYG{p}{)}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{transaction}\PYG{p}{()}
+\end{Verbatim}

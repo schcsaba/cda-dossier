@@ -1,1 +1,55 @@
-\chapter{Description d'une situation de travail ayant nécessité des travaux de recherches}\label{ch:recherche}
+\chapter[Travaux de recherches]{Description d'une situations de travail ayant nécessité des travaux de recherches}\label{ch:recherche}
+
+Au cours de mon alternance, à un moment donné, lorsque le projet Pipeline Documentaire était opérationnel et mis en production, le propriétaire du produit m'a confié la tâche de trouver des solutions pour documenter une API créée sous Laravel. Cette documentation serait utile non seulement pour Pipeline Documentaire, mais également pour d'autres APIs de l'entreprise qui étaient développées en Laravel.
+
+J'ai commencé mes recherches et j'ai découvert trois packages prometteurs spécialement conçus à cet effet : \Verb{mpociot/laravel-apidoc-generator}, \Verb{rakutentech/laravel-request-docs} et \Verb{darkaonline/l5-swagger}. Après les avoir installés et testés, j'ai créé une documentation complète de Pipeline Documentaire en utilisant \Verb{darkaonline/l5-swagger} et \Verb{rakutentech/laravel-request-docs}. Ensuite, j'ai rédigé un rapport dans lequel je les ai comparés en détail.
+
+Vous trouverez ci-dessous les résultats de mes recherches.
+
+\subsubsection{Comparaison}
+
+\paragraph{\Verb{mpociot/laravel-apidoc-generator}}
+
+\begin{itemize}
+    \item \Verb{mpociot/laravel-apidoc-generator} est un package populaire pour générer une documentation d'API dans Laravel.
+    \item Il utilise des \emph{annotations} dans le code Laravel pour générer automatiquement la documentation.
+    \item Le package fournit un ensemble de \emph{commandes Artisan} qui analysent le code source et génèrent une documentation \Verb{HTML} ou \Verb{Markdown}.
+    \item Il prend en charge la documentation des \emph{routes}, des \emph{structures de requêtes/réponses}, de \emph{l'authentification}, et bien plus encore.
+    \item La documentation générée est \emph{personnalisable} à l'aide de modèles, ce qui nous permet de modifier l'apparence et la structure.
+    \item Il prend en charge plusieurs formats de sortie tels que \Verb{HTML}, \Verb{Markdown}, les collections Postman et les spécifications \emph{Swagger/OpenAPI}.
+    \item \Verb{mpociot/laravel-apidoc-generator} bénéficie d'une \emph{bonne communauté} de soutien et \emph{il a été régulièrement mis à jour jusqu'au 12/11/2020}.
+\end{itemize}
+
+\paragraph{\Verb{darkaonline/l5-swagger}}
+
+\begin{itemize}
+    \item \Verb{darkaonline/l5-swagger} est un autre package Laravel \emph{populaire} pour générer une documentation d'API.
+    \item Il utilise la spécification \emph{Swagger/OpenAPI} pour documenter les APIs Laravel.
+    \item Le package s'intègre aux \emph{routes}, \emph{contrôleurs} et \emph{modèles} Laravel pour générer automatiquement la documentation de l'API.
+    \item Il fournit une \emph{interface Swagger UI} où nous pouvons consulter et interagir avec la documentation générée.
+    \item \Verb{darkaonline/l5-swagger} prend en charge les \emph{annotations Swagger} pour un contrôle précis du processus de génération de la documentation (Code source~\ref{code:l5swagger}).
+    \item Il nous permet de \emph{personnaliser l'apparence de la documentation} en utilisant des thèmes et des options de configuration.
+    \item Le package prend en charge l'exportation de la documentation au format \Verb{JSON} ou \Verb{YAML}, qui peut être utilisée avec d'autres outils ou services prenant en charge les spécifications Swagger/OpenAPI.
+    \item \Verb{darkaonline/l5-swagger} est \emph{régulièrement mis à jour} et bénéficie d'une \emph{base d'utilisateurs importante}.
+\end{itemize}
+
+\paragraph{\Verb{rakutentech/laravel-request-docs}}
+
+\begin{itemize}
+    \item \Verb{rakutentech/laravel-request-docs} est un package Laravel spécialement conçu pour \emph{documenter les règles de validation des requêtes}.
+    \item Il extrait \emph{automatiquement} les règles de validation des requêtes à partir des contrôleurs Laravel et génère la documentation.
+    \item Le package fournit \emph{une commande Artisan} pour analyser le code source et générer une documentation en \Verb{Markdown} ou en \Verb{JSON}.
+    \item Il prend en charge la documentation des paramètres de requête (\emph{request parameters}, \emph{query parameters}), des \emph{en-têtes de requêt}e et des \emph{structures de réponse}.
+    \item La documentation générée comprend des \emph{exemples de requêtes et de réponses} basés sur les règles de validation.
+    \item \Verb{rakutentech/laravel-request-docs} nous permet de \emph{personnaliser} la structure et l'apparence de la documentation à l'aide de modèles.
+    \item Il prend en charge l'exportation de la documentation au format \Verb{JSON} pour son intégration avec d'autres outils ou services.
+    \item Le package est \emph{régulièrement mis à jour} mais a une \emph{base d'utilisateurs plus réduite} par rapport aux deux autres.
+\end{itemize}
+
+En résumé, \Verb{mpociot/laravel-apidoc-generator} et \Verb{darkaonline/l5-swagger} sont des solutions plus complètes pour générer une documentation d'API dans Laravel. Ils s'intègrent aux /emph{routes}, aux /emph{contrôleurs} et aux \emph{modèles}, et prennent en charge \emph{plusieurs formats de sortie}. En revanche, \Verb{rakutentech/laravel-request-docs} est un package spécialisé qui se concentre sur la documentation des \emph{règles de validation des requêtes}.
+
+\begin{code}
+    \caption{La fonction \Verb{upload} de la classe \Verb{UploadController} avec des attributs qui peuvent être utilisés par le package \Verb{darkaonline/l5-swagger} pour générer la documentation de l'API.}
+    \inputminted[startinline,firstnumber=309]{php}{code/upload-function-L5Swagger.php}
+    \label{code:l5swagger}
+\end{code}

@@ -1,0 +1,17 @@
+\chapter{Description des situations de travail ayant nécessité des travaux de recherches}\label{ch:recherche}
+
+Dans certains maillons de l'application Pipeline Documentaire, j'avais le besoin d'utiliser des transactions de base de données afin que les commandes SQL puissent être annulées en cas d'erreur pendant leur exécution. Pour ce faire, j'ai suivi la documentation de Laravel,\cprotect\footnote{\url{https://laravel.com/docs/10.x/database#database-transactions}} qui détaillait comment mettre en œuvre ces transactions. Cependant, les transactions ne semblaient pas fonctionner comme prévu. J'ai délibérément généré des erreurs pour vérifier si les modifications étaient annulées, mais cela n'a pas été le cas, ce qui signifiait que quelque chose ne fonctionnait pas correctement.
+
+De plus, j'ai essayé différentes approches, notamment l'utilisation de \Verb|DB::transaction| et \Verb|DB::beginTransaction|, mais le problème persistait. J'ai passé en revue mon code plusieurs fois, en le comparant à la documentation officielle de Laravel ainsi qu'à d'autres exemples de tutoriels sur Internet, mais je n'ai pas trouvé d'erreur évidente. La situation devenait de plus en plus mystérieuse, et je ne comprenais pas pourquoi les transactions ne fonctionnaient pas comme elles le devraient.
+
+Après avoir effectué des recherches sur Internet pendant un certain temps, je suis tombé sur une discussion sur StackOverflow\footnote{\url{https://stackoverflow.com/questions/50720341/laravel-database-transactions-arent-working}} où j'ai trouvé la solution à mon problème. Il s'est avéré que si nous avons plusieurs connexions de base de données configurées dans notre application, et pour nous c'était le cas, nous devons sélectionner une connexion avant d'appeler les méthodes de transaction (Code source~\ref{code:db-transactions-multiple-connections}).
+
+\begin{code}
+    \caption{Si nous avons plusieurs connexions de base de données configurées dans notre application Laravel, nous devons en sélectionner une avant d'invoquer les méthodes de transaction.}
+    \begin{minted}[startinline]{php}
+        DB::connection('mysql_sdf')->transaction()
+    \end{minted}
+    \label{code:db-transactions-multiple-connections}
+\end{code}
+
+J'ai essayé cette approche, en sélectionnant la connexion appropriée, et cela a fonctionné comme un charme. J'ai testé les deux méthodes (\Verb|DB::transaction| et \Verb|DB::beginTransaction|), et les deux ont fonctionné sans problème. Après avoir trouvé cette solution, elle m'a semblé assez évidente, et je me suis demandé pourquoi je n'avais pas eu cette idée plus tôt.

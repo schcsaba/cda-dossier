@@ -16,7 +16,7 @@ Cette migration crée une table nommée \Verb|uploads| avec plusieurs colonnes :
     \item \textbf{\Verb|id|} : Une clé primaire unique générée à l'aide d'ULID (Universally Unique Lexicographically Sortable Identifier).
     \item \textbf{\Verb|parameters|} : Une colonne de type JSON pour stocker des paramètres au format JSON.
     \item \textbf{\Verb|client_app|} : Une colonne de type entier pour enregistrer l'application cliente.
-    \item \textbf{\Verb|upload_type|} : Une colonne de type chaîne de caractères (string) pour spécifier le type de téléchargement.
+    \item \textbf{\Verb|upload_type|} : Une colonne de type chaîne de caractères (\Verb{string}) pour spécifier le type de téléchargement.
     \item \textbf{\Verb|status|} : Une colonne de type entier avec une valeur par défaut de 0, représentant l'état du téléchargement (0 : reçu, 1 : démarré, 2 : en attente, 3 : terminé, 4 : abandonné).
     \item \textbf{\Verb|timestamps|} : Deux colonnes pour enregistrer les horodatages de création et de mise à jour des enregistrements.
     \item \textbf{\Verb|deleted_at|} : Une colonne pour prendre en charge la suppression douce (soft delete) avec une précision temporelle de 0.

@@ -1,10 +1,10 @@
 server {
-    server_name pp-pipelinedoc.corp.suivideflotte.net;
+    server_name xxxxxxxxxxxxxxxxxx.suivideflotte.net;
     listen              80;
-    return      301 https://pp-pipelinedoc.corp.suivideflotte.net$request_uri;
+    return      301 https://xxxxxxxxxxxxxxxxxx.suivideflotte.net$request_uri;
 }
 server {
-    server_name pp-pipelinedoc.corp.suivideflotte.net;
+    server_name xxxxxxxxxxxxxxxxxx.suivideflotte.net;
     listen              443 ssl;
     ssl_certificate /etc/nginx/certs/fullchain.pem;
     ssl_certificate_key /etc/nginx/certs/privkey.pem;
@@ -13,8 +13,8 @@ server {
     index index.php index.html;
     error_log  /var/log/nginx/app-error.log;
     access_log /var/log/nginx/app-access.log;
-    if ($host = 'www.pp-pipelinedoc.corp.suivideflotte.net' ) {
-       rewrite  ^/(.*)$  https://pp-pipelinedoc.corp.suivideflotte.net/$1  permanent;
+    if ($host = 'www.xxxxxxxxxxxxxxxxxx.suivideflotte.net' ) {
+       rewrite  ^/(.*)$  https://xxxxxxxxxxxxxxxxxx.suivideflotte.net/$1  permanent;
     }
     root /var/www/apps/pipelinedoc-source/public;
     client_max_body_size 25m;

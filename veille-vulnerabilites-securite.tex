@@ -1,0 +1,29 @@
+\chapter{Veille sur les vulnérabilités de sécurité}\label{ch:veille-vulnerabilites-securite}
+
+Laravel, en tant que framework PHP populaire, intègre plusieurs mécanismes de sécurité pour aider les développeurs à atténuer les vulnérabilités courantes. Ainsi, pour moi, la documentation officielle de Laravel a été la principale source d'information concernant ces mécanismes de sécurité. Parmi les mécanismes de sécurité importants dans le contexte d'une API sans interface utilisateur, nous pouvons citer les suivants :
+
+\begin{itemize}
+    \item \textbf{Authentification et autorisation}: Laravel offre un système d'authentification robuste, y compris l'API d'authentification Passport pour les API. Nous pouvons gérer l'authentification des utilisateurs et définir des autorisations granulaires pour les actions de l'API.
+    \item \textbf{Validation des données d'entrée}: Laravel offre une validation de données puissante grâce à des règles de validation. Pour une API, il est essentiel de valider toutes les données d'entrée pour éviter les attaques par injection ou les données incorrectes.
+    \item \textbf{Protection CSRF}: Bien que CSRF (Cross-Site Request Forgery) soit moins pertinent dans le cas d'une API, Laravel fournit toujours des mécanismes pour le prévenir, notamment via des jetons CSRF. Cela peut être utile si nous interagissons avec l'API via des formulaires.
+    \item \textbf{Middleware}: Les middleware Laravel permettent de filtrer et de traiter les requêtes entrantes et sortantes. Nous pouvons utiliser des middleware pour gérer l'authentification, l'autorisation et d'autres aspects de sécurité.
+    \item \textbf{Protection XSS}: Laravel échappe automatiquement les données lors de leur affichage dans des vues. Bien que cela soit moins applicable à une API, cela reste important si des données sensibles doivent être renvoyées dans des réponses JSON.
+    \item \textbf{Sécurité de la base de données}: Le générateur de requêtes de Laravel et Eloquent ORM utilisent des instructions préparées, qui protègent contre les attaques par injection SQL. Les développeurs sont encouragés à utiliser ces outils pour interagir avec la base de données en toute sécurité.
+    \item \textbf{Protection contre les erreurs et exceptions}: Laravel masque généralement les informations d'erreur pour les utilisateurs, mais il les enregistre de manière sécurisée. Cela empêche les attaquants d'obtenir des détails sensibles sur notre application.
+    \item \textbf{File Storage Security}: Laravel propose des mécanismes de stockage de fichiers sécurisés, notamment pour la gestion des téléchargements de fichiers. Nous pouvons définir des règles pour contrôler qui peut accéder aux fichiers téléchargés.
+    \item \textbf{Mises à jour régulières}: Enfin, Laravel bénéficie de mises à jour fréquentes qui corrigent les vulnérabilités connues, il est donc essentiel de maintenir la version du framework à jour.
+\end{itemize}
+
+Dans le contexte d'une API, la validation des données d'entrée, l'authentification et l'autorisation, ainsi que la gestion des erreurs et des exceptions restent parmi les mécanismes les plus critiques pour garantir la sécurité. Cependant, chaque projet est unique, et d'autres mécanismes peuvent être pertinents en fonction des besoins spécifiques de l'API.
+
+En plus de la documentation officielle de Laravel, j'ai également consulté diverses ressources en ligne, telles que des articles et des tutoriels, afin d'approfondir ma compréhension de la sécurisation des applications Laravel.\footnote{\url{https://laravel-news.com/laravel-security-middleware},\\
+    \url{https://laravel-news.com/top-10-laravel-audit-security-issues},\\
+    \url{https://adevait.com/laravel/security-in-laravel},\\
+    \url{https://redberry.international/a-guide-to-laravel-security-best-practices/},\\
+    \url{https://benjamincrozat.com/laravel-security-best-practices},\\
+    \url{https://cheatsheetseries.owasp.org/cheatsheets/Laravel_Cheat_Sheet.html},\\
+    \url{https://www.cloudways.com/blog/laravel-security/}}
+
+Au cours du projet, parmi les éléments de sécurité listés ci-dessus, j'ai par exemple travaillé sur la validation des entrées. Comme cela a été décrit dans la sous-section \ref{subsec:file-import-process} (page \pageref{subsec:file-import-process}), j'ai créé la classe \Verb{UploadStoreRequest} (Code source~\ref{code:upload-store-request}, page \pageref{code:upload-store-request}), qui valide les données d'entrée pour la méthode upload du contrôleur \Verb{UploadController}. Des classes de validation similaires ont également été créées pour les méthodes \Verb{index} et \Verb{show} du contrôleur.
+
+Pour évaluer l'efficacité des règles de validation, j'ai élaboré des tests fonctionnels à l'aide de la classe \Verb{UploadControllerTest}, comme décrit dans la sous-section \ref{subsubsec:functional-tests} (page \pageref{subsubsec:functional-tests}). Ces tests garantissent que les mécanismes de sécurité fonctionnent de manière fiable.

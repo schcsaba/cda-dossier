@@ -23,4 +23,6 @@ RUN tlmgr install babel-french && \
     tlmgr install caption && \
     tlmgr install tocbibind && \
     tlmgr install csquotes && \
-    tlmgr install placeins
+    tlmgr install placeins && \
+    tlmgr install pgf && \
+    tlmgr install tikzsymbols

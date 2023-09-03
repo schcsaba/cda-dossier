@@ -1,0 +1,104 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+    \PYG{p}{\PYGZsh{}[}\PYG{n+nd}{OA\PYGZbs{}Post}\PYG{p}{(}
+        \PYG{n+nx}{path}\PYG{o}{:} \PYG{l+s+s1}{\PYGZsq{}/api/command/uploads/\PYGZob{}category\PYGZcb{}/\PYGZob{}type\PYGZcb{}\PYGZsq{}}\PYG{p}{,}
+        \PYG{n+nx}{operationId}\PYG{o}{:} \PYG{l+s+s1}{\PYGZsq{}postUpload\PYGZsq{}}\PYG{p}{,}
+        \PYG{n+nx}{summary}\PYG{o}{:} \PYG{l+s+s1}{\PYGZsq{}Post an Upload\PYGZsq{}}\PYG{p}{,}
+        \PYG{n+nx}{tags}\PYG{o}{:} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Upload \PYGZhy{} POST\PYGZsq{}}\PYG{p}{],}
+        \PYG{n+nx}{parameters}\PYG{o}{:} \PYG{p}{[}
+            \PYG{k}{new} \PYG{n+nx}{OA\PYGZbs{}Parameter}\PYG{p}{(}
+                \PYG{n+nx}{name}\PYG{o}{:} \PYG{l+s+s1}{\PYGZsq{}category\PYGZsq{}}\PYG{p}{,}
+                \PYG{n+nx}{description}\PYG{o}{:} \PYG{l+s+s1}{\PYGZsq{}Upload category parameter\PYGZsq{}}\PYG{p}{,}
+                \PYG{n+nx}{in}\PYG{o}{:} \PYG{l+s+s1}{\PYGZsq{}path\PYGZsq{}}\PYG{p}{,}
+                \PYG{n+nx}{required}\PYG{o}{:} \PYG{k}{true}\PYG{p}{,}
+                \PYG{n+nx}{schema}\PYG{o}{:} \PYG{k}{new} \PYG{n+nx}{OA\PYGZbs{}Schema}\PYG{p}{(}
+                    \PYG{n+nx}{type}\PYG{o}{:} \PYG{l+s+s1}{\PYGZsq{}string\PYGZsq{}}\PYG{p}{,}
+                \PYG{p}{)}
+            \PYG{p}{),}
+            \PYG{n+nd}{new} \PYG{n+nd}{OA\PYGZbs{}Parameter}\PYG{p}{(}
+                \PYG{n+nx}{name}\PYG{o}{:} \PYG{l+s+s1}{\PYGZsq{}type\PYGZsq{}}\PYG{p}{,}
+                \PYG{n+nx}{description}\PYG{o}{:} \PYG{l+s+s1}{\PYGZsq{}Upload type parameter\PYGZsq{}}\PYG{p}{,}
+                \PYG{n+nx}{in}\PYG{o}{:} \PYG{l+s+s1}{\PYGZsq{}path\PYGZsq{}}\PYG{p}{,}
+                \PYG{n+nx}{required}\PYG{o}{:} \PYG{k}{true}\PYG{p}{,}
+                \PYG{n+nx}{schema}\PYG{o}{:} \PYG{k}{new} \PYG{n+nx}{OA\PYGZbs{}Schema}\PYG{p}{(}
+                    \PYG{n+nx}{type}\PYG{o}{:} \PYG{l+s+s1}{\PYGZsq{}string\PYGZsq{}}\PYG{p}{,}
+                \PYG{p}{)}
+            \PYG{p}{),}
+            \PYG{n+nd}{new} \PYG{n+nd}{OA\PYGZbs{}RequestBody}\PYG{p}{(}
+                \PYG{n+nx}{required}\PYG{o}{:} \PYG{k}{true}\PYG{p}{,}
+                \PYG{n+nx}{content}\PYG{o}{:} \PYG{k}{new} \PYG{n+nx}{OA\PYGZbs{}MediaType}\PYG{p}{(}
+                    \PYG{n+nx}{mediaType}\PYG{o}{:} \PYG{l+s+s1}{\PYGZsq{}application/json\PYGZsq{}}\PYG{p}{,}
+                    \PYG{n+nx}{schema}\PYG{o}{:} \PYG{k}{new} \PYG{n+nx}{OA\PYGZbs{}Schema}\PYG{p}{(}
+                        \PYG{n+nx}{required}\PYG{o}{:} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}client\PYGZus{}app\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}files\PYGZsq{}}\PYG{p}{],}
+                        \PYG{n+nx}{properties}\PYG{o}{:} \PYG{p}{[}
+                            \PYG{l+s+s1}{\PYGZsq{}client\PYGZus{}app\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{k}{new} \PYG{n+nx}{OA\PYGZbs{}Property}\PYG{p}{(}
+                                \PYG{n+nx}{property}\PYG{o}{:} \PYG{l+s+s1}{\PYGZsq{}client\PYGZus{}app\PYGZsq{}}\PYG{p}{,}
+                                \PYG{n+nx}{type}\PYG{o}{:} \PYG{l+s+s1}{\PYGZsq{}integer\PYGZsq{}}\PYG{p}{,}
+                                \PYG{n+nx}{format}\PYG{o}{:} \PYG{l+s+s1}{\PYGZsq{}int32\PYGZsq{}}\PYG{p}{,}
+                                \PYG{n+nx}{minimum}\PYG{o}{:} \PYG{l+m+mi}{0}\PYG{p}{,}
+                                \PYG{n+nx}{enum}\PYG{o}{:} \PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{23}\PYG{p}{,} \PYG{l+m+mi}{25}\PYG{p}{]}
+                            \PYG{p}{),}
+                            \PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nd}{new} \PYG{n+nd}{OA\PYGZbs{}Property}\PYG{p}{(}
+                                \PYG{n+nx}{property}\PYG{o}{:} \PYG{l+s+s1}{\PYGZsq{}parameters\PYGZsq{}}\PYG{p}{,}
+                                \PYG{n+nx}{required}\PYG{o}{:} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}client\PYGZus{}id\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}user\PYGZus{}id\PYGZsq{}}\PYG{p}{],}
+                                \PYG{n+nx}{properties}\PYG{o}{:} \PYG{p}{[}
+                                    \PYG{l+s+s1}{\PYGZsq{}client\PYGZus{}id\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{k}{new} \PYG{n+nx}{OA\PYGZbs{}Property}\PYG{p}{(}
+                                        \PYG{n+nx}{property}\PYG{o}{:} \PYG{l+s+s1}{\PYGZsq{}client\PYGZus{}id\PYGZsq{}}\PYG{p}{,}
+                                        \PYG{n+nx}{type}\PYG{o}{:} \PYG{l+s+s1}{\PYGZsq{}integer\PYGZsq{}}\PYG{p}{,}
+                                        \PYG{n+nx}{format}\PYG{o}{:} \PYG{l+s+s1}{\PYGZsq{}int64\PYGZsq{}}\PYG{p}{,}
+                                        \PYG{n+nx}{minimum}\PYG{o}{:} \PYG{l+m+mi}{0}
+                                    \PYG{p}{),}
+                                    \PYG{l+s+s1}{\PYGZsq{}user\PYGZus{}id\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nd}{new} \PYG{n+nd}{OA\PYGZbs{}Property}\PYG{p}{(}
+                                        \PYG{n+nx}{property}\PYG{o}{:} \PYG{l+s+s1}{\PYGZsq{}user\PYGZus{}id\PYGZsq{}}\PYG{p}{,}
+                                        \PYG{n+nx}{type}\PYG{o}{:} \PYG{l+s+s1}{\PYGZsq{}integer\PYGZsq{}}\PYG{p}{,}
+                                        \PYG{n+nx}{format}\PYG{o}{:} \PYG{l+s+s1}{\PYGZsq{}int64\PYGZsq{}}\PYG{p}{,}
+                                        \PYG{n+nx}{minimum}\PYG{o}{:} \PYG{l+m+mi}{0}
+                                    \PYG{p}{)}
+                                \PYG{p}{],}
+                                \PYG{n+nx}{type}\PYG{o}{:} \PYG{l+s+s1}{\PYGZsq{}object\PYGZsq{}}
+                            \PYG{p}{),}
+                            \PYG{l+s+s1}{\PYGZsq{}files\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{k}{new} \PYG{n+nx}{OA\PYGZbs{}Property}\PYG{p}{(}
+                                \PYG{n+nx}{property}\PYG{o}{:} \PYG{l+s+s1}{\PYGZsq{}files\PYGZsq{}}\PYG{p}{,}
+                                \PYG{n+nx}{type}\PYG{o}{:} \PYG{l+s+s1}{\PYGZsq{}array\PYGZsq{}}\PYG{p}{,}
+                                \PYG{n+nx}{items}\PYG{o}{:} \PYG{k}{new} \PYG{n+nx}{OA\PYGZbs{}Items}\PYG{p}{(}
+                                    \PYG{n+nx}{required}\PYG{o}{:} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}content\PYGZsq{}}\PYG{p}{],}
+                                    \PYG{n+nx}{properties}\PYG{o}{:} \PYG{p}{[}
+                                        \PYG{l+s+s1}{\PYGZsq{}content\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{k}{new} \PYG{n+nx}{OA\PYGZbs{}Property}\PYG{p}{(}
+                                            \PYG{n+nx}{property}\PYG{o}{:} \PYG{l+s+s1}{\PYGZsq{}content\PYGZsq{}}\PYG{p}{,}
+                                            \PYG{n+nx}{type}\PYG{o}{:} \PYG{l+s+s1}{\PYGZsq{}string\PYGZsq{}}\PYG{p}{,}
+                                            \PYG{n+nx}{minLength}\PYG{o}{:} \PYG{l+m+mi}{27}\PYG{p}{,}
+                                            \PYG{n+nx}{pattern}\PYG{o}{:} \PYG{l+s+s1}{\PYGZsq{}\PYGZca{}data:text/plain;base64,\PYGZsq{}}
+                                        \PYG{p}{)}
+                                    \PYG{p}{],}
+                                    \PYG{n+nx}{type}\PYG{o}{:} \PYG{l+s+s1}{\PYGZsq{}object\PYGZsq{}}
+                                \PYG{p}{),}
+                                \PYG{n+nx}{minItems}\PYG{o}{:} \PYG{l+m+mi}{1}
+                            \PYG{p}{)}
+                        \PYG{p}{],}
+                        \PYG{n+nx}{type}\PYG{o}{:} \PYG{l+s+s1}{\PYGZsq{}object\PYGZsq{}}
+                    \PYG{p}{)}
+                \PYG{p}{)}
+            \PYG{p}{)}
+        \PYG{p}{],}
+        \PYG{n+nx}{responses}\PYG{o}{:} \PYG{p}{[}
+            \PYG{k}{new} \PYG{n+nx}{OA\PYGZbs{}Response}\PYG{p}{(}\PYG{n+nx}{response}\PYG{o}{:} \PYG{l+m+mi}{201}\PYG{p}{,} \PYG{n+nx}{description}\PYG{o}{:} \PYG{l+s+s1}{\PYGZsq{}Success\PYGZsq{}}\PYG{p}{),}
+            \PYG{k}{new} \PYG{n+nx}{OA\PYGZbs{}Response}\PYG{p}{(}\PYG{n+nx}{response}\PYG{o}{:} \PYG{l+m+mi}{422}\PYG{p}{,} \PYG{n+nx}{description}\PYG{o}{:} \PYG{l+s+s1}{\PYGZsq{}Validation error\PYGZsq{}}\PYG{p}{),}
+        \PYG{p}{]}
+    \PYG{p}{)]}
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{upload}\PYG{p}{(}\PYG{n+nx}{UploadStoreRequest} \PYG{n+nv}{\PYGZdl{}request}\PYG{p}{,} \PYG{n+nx}{string} \PYG{n+nv}{\PYGZdl{}category}\PYG{p}{,} \PYG{n+nx}{string} \PYG{n+nv}{\PYGZdl{}type}\PYG{p}{)}\PYG{o}{:} \PYG{n+nx}{JsonResponse}
+    \PYG{p}{\PYGZob{}}
+        \PYG{n+nx}{Artisan}\PYG{o}{::}\PYG{n+na}{call}\PYG{p}{(}
+            \PYG{l+s+s1}{\PYGZsq{}upload\PYGZhy{}\PYGZsq{}} \PYG{o}{.} \PYG{n+nv}{\PYGZdl{}category} \PYG{o}{.} \PYG{l+s+s1}{\PYGZsq{}:\PYGZsq{}} \PYG{o}{.} \PYG{n+nv}{\PYGZdl{}type}\PYG{p}{,}
+            \PYG{p}{[}
+                \PYG{l+s+s1}{\PYGZsq{}token\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nx}{request}\PYG{p}{()}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{header}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Authorization\PYGZsq{}}\PYG{p}{),}
+                \PYG{l+s+s1}{\PYGZsq{}input\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nv}{\PYGZdl{}request}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{validated}\PYG{p}{(),}
+                \PYG{l+s+s1}{\PYGZsq{}category\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nv}{\PYGZdl{}category}\PYG{p}{,}
+                \PYG{l+s+s1}{\PYGZsq{}type\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{n+nv}{\PYGZdl{}type}
+            \PYG{p}{]}
+        \PYG{p}{);}
+
+        \PYG{n+nv}{\PYGZdl{}o} \PYG{o}{=} \PYG{n+nx}{Artisan}\PYG{o}{::}\PYG{n+na}{output}\PYG{p}{();}
+        \PYG{n+nv}{\PYGZdl{}o} \PYG{o}{=} \PYG{n+nb}{json\PYGZus{}decode}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}o}\PYG{p}{,} \PYG{k}{true}\PYG{p}{);}
+
+        \PYG{k}{return} \PYG{k}{new} \PYG{n+nx}{JsonResponse}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}o}\PYG{p}{,} \PYG{l+m+mi}{201}\PYG{p}{);}
+    \PYG{p}{\PYGZcb{}}
+\end{Verbatim}

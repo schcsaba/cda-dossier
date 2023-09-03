@@ -86,7 +86,6 @@
     public function upload(UploadStoreRequest $request, string $category, string $type): JsonResponse
     {
         Artisan::call(
-        //'upload-trigger:' . $type,
             'upload-' . $category . ':' . $type,
             [
                 'token' => request()->header('Authorization'),
@@ -99,6 +98,5 @@
         $o = Artisan::output();
         $o = json_decode($o, true);
 
-        //TODO Manage response http code ??
         return new JsonResponse($o, 201);
     }

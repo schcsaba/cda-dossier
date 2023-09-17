@@ -50,7 +50,7 @@
 \PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}3306:3306\PYGZdq{}}
 \PYG{+w}{    }\PYG{n+nt}{environment}\PYG{p}{:}
 \PYG{+w}{      }\PYG{n+nt}{MYSQL\PYGZus{}DATABASE}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{appdb}
-\PYG{+w}{      }\PYG{n+nt}{MYSQL\PYGZus{}ROOT\PYGZus{}PASSWORD}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{123456}
+\PYG{+w}{      }\PYG{n+nt}{MYSQL\PYGZus{}ROOT\PYGZus{}PASSWORD}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{xxxxxxxxxxxxx}
 \PYG{+w}{      }\PYG{n+nt}{SERVICE\PYGZus{}TAGS}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{dev}
 \PYG{+w}{      }\PYG{n+nt}{SERVICE\PYGZus{}NAME}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{mysql}
 \PYG{+w}{    }\PYG{n+nt}{networks}\PYG{p}{:}

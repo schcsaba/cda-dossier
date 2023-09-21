@@ -1,0 +1,41 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZlt{}?php}
+
+\PYG{k}{namespace} \PYG{n+nx}{Tests\PYGZbs{}Unit\PYGZbs{}UploadSteps}\PYG{p}{;}
+
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}Events\PYGZbs{}StepErrorEvent}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}UploadSteps\PYGZbs{}CheckEmail}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{App\PYGZbs{}UploadSteps\PYGZbs{}Utils\PYGZbs{}ShortErrorMessage}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{Exception}\PYG{p}{;}
+\PYG{k}{use} \PYG{n+nx}{Illuminate\PYGZbs{}Support\PYGZbs{}Facades\PYGZbs{}Event}\PYG{p}{;}
+
+\PYG{k}{class} \PYG{n+nc}{CheckEmailTest} \PYG{k}{extends} \PYG{n+nx}{StepTest}
+\PYG{p}{\PYGZob{}}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{setUp}\PYG{p}{()}\PYG{o}{:} \PYG{n+nx}{void}
+    \PYG{p}{\PYGZob{}}
+        \PYG{k}{parent}\PYG{o}{::}\PYG{n+na}{setUp}\PYG{p}{();}
+
+        \PYG{n+nv}{\PYGZdl{}dummyDataWithWrongEmail} \PYG{o}{=} \PYG{p}{[}
+            \PYG{l+s+s2}{\PYGZdq{}Civilit\PYGZbs{}u00e9*,Nom*,Pr\PYGZbs{}u00e9nom*,Pr\PYGZbs{}u00e9nom Nom,e\PYGZhy{}mail*,Adresse postale,Code Postal,Ville,N\PYGZbs{}u00b0 Permis,Autoriser l\PYGZsq{}application SuiviConducteur,Consulter les POI,G\PYGZbs{}u00e9rer les POI,Consulter les stations services,Consulter le rapport journalier,Consulter les statistiques OptiDriving,Utilisation du mode Quick Privacy,Identification SuiviConducteur\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}M,HUGO,Victor,Victor HUGO,victor.hugo@gmail.com,178 Avenue Maginot,37100,TOURS,21AE99866,TRUE,TRUE,FALSE,TRUE,TRUE,TRUE,FALSE,TRUE\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}M,CAMUS,Albert,Albert CAMUS,albert.camus@gmail,178 Avenue Maginot,37100,TOURS,,TRUE,TRUE,FALSE,TRUE,TRUE,TRUE,FALSE,TRUE\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}M,VERNE,Jules,Jules VERNE,jules.verne@gmail.com,178 Avenue Maginot,37100,TOURS,15AC95054,TRUE,TRUE,FALSE,TRUE,TRUE,TRUE,FALSE,TRUE\PYGZdq{}}
+        \PYG{p}{];}
+        \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{createInputFile}\PYG{p}{(}\PYG{n+nb}{json\PYGZus{}encode}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}dummyDataWithWrongEmail}\PYG{p}{));}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{public} \PYG{k}{function} \PYG{n+nf}{testCheckEmailWithWrongEmail}\PYG{p}{()}
+    \PYG{p}{\PYGZob{}}
+        \PYG{n+nv}{\PYGZdl{}params} \PYG{o}{=} \PYG{p}{[}
+            \PYG{l+s+s1}{\PYGZsq{}separator\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{},\PYGZsq{}}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}email\PYGZus{}field\PYGZsq{}} \PYG{o}{=\PYGZgt{}} \PYG{l+s+s1}{\PYGZsq{}e\PYGZhy{}mail*\PYGZsq{}}
+        \PYG{p}{];}
+        \PYG{n+nv}{\PYGZdl{}step} \PYG{o}{=} \PYG{k}{new} \PYG{n+nx}{CheckEmail}\PYG{p}{(}\PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{getUpload}\PYG{p}{()}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{id}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}onboarding.drivers\PYGZsq{}}\PYG{p}{,} \PYG{n+nv}{\PYGZdl{}params}\PYG{p}{,} \PYG{p}{[],} \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{getInputFileName}\PYG{p}{());}
+
+        \PYG{n+nv}{\PYGZdl{}this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{assertThrows}\PYG{p}{(}\PYG{k}{function} \PYG{p}{()} \PYG{k}{use} \PYG{p}{(}\PYG{n+nv}{\PYGZdl{}step}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+            \PYG{n+nv}{\PYGZdl{}step}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+na}{process}\PYG{p}{();}
+        \PYG{p}{\PYGZcb{},} \PYG{n+nx}{Exception}\PYG{o}{::}\PYG{n+na}{class}\PYG{p}{,} \PYG{n+nx}{ShortErrorMessage}\PYG{o}{::}\PYG{n+na}{FILE\PYGZus{}CONTENT\PYGZus{}ERROR} \PYG{o}{.} \PYG{n+nx}{ShortErrorMessage}\PYG{o}{::}\PYG{n+na}{GLUE} \PYG{o}{.} \PYG{l+s+s1}{\PYGZsq{}Invalid email: albert.camus@gmail\PYGZsq{}}\PYG{p}{);}
+    \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}
